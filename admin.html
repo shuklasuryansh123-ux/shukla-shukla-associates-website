@@ -609,16 +609,21 @@
     }
 
     @keyframes float {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(100vh) rotate(0deg);
         opacity: 0;
       }
+
       10% {
         opacity: 1;
       }
+
       90% {
         opacity: 1;
       }
+
       100% {
         transform: translateY(-100px) rotate(360deg);
         opacity: 0;
@@ -630,7 +635,7 @@
       backdrop-filter: blur(20px);
       padding: 3.5rem;
       border-radius: 24px;
-      box-shadow: 
+      box-shadow:
         0 25px 50px -12px rgba(0, 0, 0, 0.25),
         0 0 0 1px rgba(255, 255, 255, 0.2);
       width: 100%;
@@ -870,6 +875,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -885,7 +891,7 @@
         margin: 1rem;
         padding: 2rem;
       }
-      
+
       .login-title {
         font-size: 1.75rem;
       }
@@ -992,6 +998,11 @@
         <button class="btn-test" onclick="testLogin()">
           <i class="bx bx-test-tube"></i>
           Quick Test Login
+        </button>
+        
+        <button class="btn-test" onclick="forceShowAdmin()" style="margin-top: 0.5rem; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
+          <i class="bx bx-bug"></i>
+          Force Show Admin (Debug)
         </button>
       </div>
 
@@ -1371,6 +1382,38 @@
       login();
     }
 
+    // Force show admin panel for debugging
+    function forceShowAdmin() {
+      console.log('=== FORCE SHOW ADMIN PANEL ===');
+      const loginSection = document.getElementById('loginSection');
+      const adminPanel = document.getElementById('adminPanel');
+      
+      if (loginSection && adminPanel) {
+        loginSection.classList.add('hidden');
+        adminPanel.classList.remove('hidden');
+        console.log('Admin panel forced to show');
+        
+        // Set up functions
+        if (typeof setupAdminPanelListeners === 'function') {
+          setupAdminPanelListeners();
+        }
+        if (typeof loadContent === 'function') {
+          loadContent();
+        }
+        if (typeof loadBlogPosts === 'function') {
+          loadBlogPosts();
+        }
+        if (typeof loadGallery === 'function') {
+          loadGallery();
+        }
+        if (typeof loadContactMessages === 'function') {
+          loadContactMessages();
+        }
+      } else {
+        console.error('Elements not found for force show');
+      }
+    }
+
     // Login function
     function login() {
       console.log('Login function called');
@@ -1401,19 +1444,57 @@
           if (response.ok) {
             // Hide login form and show admin panel
             console.log('Authentication successful, showing admin panel...');
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('adminPanel').classList.remove('hidden');
+            
+            const loginSection = document.getElementById('loginSection');
+            const adminPanel = document.getElementById('adminPanel');
+            
+            console.log('Elements found:', {
+              loginSection: !!loginSection,
+              adminPanel: !!adminPanel
+            });
+            
+            if (loginSection && adminPanel) {
+              loginSection.classList.add('hidden');
+              adminPanel.classList.remove('hidden');
+              console.log('Classes updated successfully');
+              
+              // Set up admin panel event listeners
+              console.log('Setting up admin panel...');
+              if (typeof setupAdminPanelListeners === 'function') {
+                setupAdminPanelListeners();
+              } else {
+                console.error('setupAdminPanelListeners function not found');
+              }
 
-            // Set up admin panel event listeners
-            console.log('Setting up admin panel...');
-            setupAdminPanelListeners();
-
-            // Load content
-            console.log('Loading admin content...');
-            loadContent();
-            loadBlogPosts();
-            loadGallery();
-            loadContactMessages();
+              // Load content
+              console.log('Loading admin content...');
+              if (typeof loadContent === 'function') {
+                loadContent();
+              } else {
+                console.error('loadContent function not found');
+              }
+              
+              if (typeof loadBlogPosts === 'function') {
+                loadBlogPosts();
+              } else {
+                console.error('loadBlogPosts function not found');
+              }
+              
+              if (typeof loadGallery === 'function') {
+                loadGallery();
+              } else {
+                console.error('loadGallery function not found');
+              }
+              
+              if (typeof loadContactMessages === 'function') {
+                loadContactMessages();
+              } else {
+                console.error('loadContactMessages function not found');
+              }
+            } else {
+              console.error('Required elements not found');
+              alert('Error: Could not find required page elements');
+            }
           } else {
             // Show error message and keep login form visible
             alert('Invalid credentials. Please check your username and password.');
