@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Page Not Found - Shukla & Shukla Associates</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .wrap { min-height: 70vh; display: grid; place-items: center; }
+    .box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,.06); width: min(92%, 720px); }
+    h1 { margin: 0 0 10px; font-size: clamp(1.6rem, 2.2vw, 2rem); }
+    p { color: var(--grey-mid); margin: 0 0 14px; }
+    .actions { display: inline-flex; gap: 10px; }
+    .btn { display:inline-block; background:#1f2937; color:#fff; font-weight:700; padding:10px 12px; border-radius:10px; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header class="page-header" style="padding: 18px 0; border-bottom: 1px solid var(--border); background: var(--surface);">
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
+      <div class="brand" style="font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: .3px; font-size: 1.1rem;"><a href="/" style="color: var(--slate); text-decoration: none;">Shukla &amp; Shukla Associates</a></div>
+      <a class="back-link" href="/" style="color: var(--grey-mid); text-decoration: none; font-weight: 600; border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px;">Home</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="box">
+      <h1>404 — Page Not Found</h1>
+      <p>The page you’re looking for doesn’t exist or may have moved.</p>
+      <div class="actions">
+        <a class="btn" href="/">Back to Home</a>
+        <a class="btn" href="/blogs.html">See Blogs</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

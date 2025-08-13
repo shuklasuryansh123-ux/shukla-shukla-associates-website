@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: shukla-shukla-associates
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: RENDER
+        value: true
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        sync: false
+      - key: GITHUB_BRANCH
+        value: main
+      - key: GOOGLE_ANALYTICS_ID
+        value: G-VF1BQC45ZR

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reset Admin Password - Shukla & Shukla Associates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0b0c;--fg:#eaeaea;--muted:#9aa0a6;--line:#22252a;--card:#111317;--accent:#1f2937;--ok:#10b981;--err:#ef4444}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+    .wrap{max-width:560px;margin:40px auto;padding:0 16px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    h1{font-size:1.4rem;margin:0 0 12px} p{color:var(--muted);margin:8px 0 16px}
+    label{display:block;margin:10px 0 6px;color:#d7d7d7}
+    input{width:100%;padding:12px 12px;border-radius:10px;background:#0f1115;border:1px solid #262a2f;color:#eaeaea}
+    input:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.2)}
+    button{width:100%;padding:12px 14px;border:0;border-radius:10px;background:#1f2937;color:#fff;font-weight:700;margin-top:12px;cursor:pointer}
+    button:hover{background:#111827}
+    .status{margin-top:12px;padding:10px;border-radius:10px;text-align:center;border:1px dashed rgba(255,255,255,.12)}
+    .ok{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+    .err{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25)}
+    .muted{color:var(--muted);font-size:.95rem;margin-top:10px;text-align:center}
+    a{color:#9cd3ff;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Reset Admin Password</h1>
+      <p>Enter your new password. The reset link is valid for 1 hour.</p>
+      <label for="password">New Password</label>
+      <input type="password" id="password" placeholder="Enter new password">
+      <label for="confirm">Confirm Password</label>
+      <input type="password" id="confirm" placeholder="Re-enter new password">
+      <button id="submitBtn">Update Password</button>
+      <div id="status" class="status" style="display:none"></div>
+      <p class="muted"><a href="/admin.html">← Back to Admin</a></p>
+    </div>
+  </div>
+  <script>
+    (function(){
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const status = document.getElementById('status');
+      const btn = document.getElementById('submitBtn');
+      function setStatus(msg, ok){
+        status.style.display='block';
+        status.textContent = msg;
+        status.className = 'status ' + (ok ? 'ok' : 'err');
+      }
+      if(!token){ setStatus('Invalid or missing token. Please use the link from your email.', false); }
+      btn.addEventListener('click', function(){
+        const p1 = document.getElementById('password').value;
+        const p2 = document.getElementById('confirm').value;
+        if(!p1 || !p2){ setStatus('Please fill both password fields.', false); return; }
+        if(p1 !== p2){ setStatus('Passwords do not match.', false); return; }
+        if(p1.length < 8){ setStatus('Password must be at least 8 characters.', false); return; }
+        setStatus('Updating password...', true);
+        fetch('/api/reset-password', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ token: token, newPassword: p1 })
+        })
+        .then(r=>r.json())
+        .then(data=>{
+          if(data && data.success){
+            setStatus('Password has been reset successfully. You can now log in.', true);
+          }else{
+            setStatus('Error: ' + (data && data.message ? data.message : 'Unknown error'), false);
+          }
+        })
+        .catch(err=> setStatus('Request failed: ' + (err.message||'Unknown error'), false));
+      });
+    })();
+  </script>
+</body>
+</html>

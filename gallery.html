@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery - Shukla & Shukla Associates</title>
+  <meta name="description" content="Browse photos from Shukla & Shukla Associates." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+  <style>
+    body { background: #0b0b0c; color: #eaeaea; }
+    .gallery-header { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.08); background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)); }
+    .gallery-header .container { display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: .3px; font-size: 1.1rem; }
+    .brand a { color: #fff; text-decoration: none; }
+    .back-link { color: #c7c7c7; text-decoration: none; font-weight: 600; border: 1px solid rgba(255,255,255,.15); padding: 8px 12px; border-radius: 10px; transition:.2s; }
+    .back-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+    h1 { font-size: clamp(1.6rem, 2vw, 2rem); margin: 24px 0 12px; font-weight: 800; }
+    .sub { color: #9aa0a6; margin-bottom: 12px; }
+
+    .status { padding: 10px; margin: 10px 0 18px; border-radius: 10px; text-align:center; background: rgba(255,255,255,.05); border: 1px dashed rgba(255,255,255,.12); color: #c7c7c7; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin: 18px 0 40px; }
+    .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 22px rgba(0,0,0,.25); }
+    .img-wrap { aspect-ratio: 4/3; background: #111; display: grid; place-items: center; }
+    .img-wrap img { width: 100%; height: 100%; object-fit: cover; display:block; }
+    .caption { padding: 10px 12px; font-size: .95rem; color: #e2e2e2; border-top: 1px solid rgba(255,255,255,.08); }
+    .empty { text-align: center; color: #a1a1a1; padding: 20px 0 40px; }
+
+    footer { padding: 24px 0 32px; border-top: 1px solid rgba(255,255,255,.08); color: #9aa0a6; text-align:center; }
+  </style>
+</head>
+<body>
+  <header class="gallery-header">
+    <div class="container">
+      <div class="brand"><a href="/">Shukla &amp; Shukla Associates</a></div>
+      <a class="back-link" href="/">← Back to Home</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="container">
+      <h1>Gallery</h1>
+      <p class="sub">A curated selection of our photos and moments.</p>
+      <div id="status" class="status">Loading gallery...</div>
+      <div id="grid" class="grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script async src="/ga.js"></script>
+  
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-row">
+        <div class="footer-left">
+          <div class="footer-brand">Shukla & Shukla Associates</div>
+          <button id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode" class="theme-toggle-btn"></button>
+        </div>
+        <ul class="footer-social">
+          <li><a href="https://wa.me/917389994519?text=Hello+Advocate+Suryansh+Shukla,+I+would+like+to+discuss+a+legal+matter+with+you." aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a></li>
+          <li><a href="https://www.instagram.com/suryansh_shukla/" aria-label="Instagram"><i class="bx bxl-instagram"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/suryansh-shukla-a31aaa165" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a></li>
+          <li><a href="https://share.google/4CtU2gY6sh0qbarkG" aria-label="Google Business"><i class="bx bxl-google"></i></a></li>
+          <li><a href="mailto:shukla.suryansh123@gmail.com" aria-label="Gmail"><i class="bx bxl-gmail"></i></a></li>
+        </ul>
+      </div>
+      <p class="footer-bottom"><a href="admin.html" style="color: #eee; text-decoration: none;">© 2025. All Rights Reserved.</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (function loadGallery(){
+      const status = document.getElementById('status');
+      const grid = document.getElementById('grid');
+      fetch('/api/gallery')
+        .then(r => r.json())
+        .then(items => {
+          grid.innerHTML = '';
+          if (!items || items.length === 0) {
+            status.textContent = 'No photos available yet.';
+            grid.insertAdjacentHTML('beforeend', '<div class="empty" style="grid-column:1 / -1;">No photos to display.</div>');
+            return;
+          }
+          status.textContent = `Showing ${items.length} photo${items.length>1?'s':''}`;
+          // Newest first
+          const ordered = items.slice().sort((a,b) => new Date(b.timestamp||0) - new Date(a.timestamp||0));
+          ordered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <div class="img-wrap">
+                ${item.photo ? `<img loading="lazy" src="${item.photo}" alt="Gallery Image">` : '<span>No image</span>'}
+              </div>
+              ${item.caption ? `<div class="caption">${escapeHtml(item.caption)}</div>` : ''}
+            `;
+            grid.appendChild(card);
+          });
+        })
+        .catch(err => {
+          console.error('Gallery load error:', err);
+          status.textContent = 'Error loading gallery. Please try again later.';
+        });
+
+      function escapeHtml(str){
+        return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s]));
+      }
+    })();
+  </script>
+</body>
+</html>

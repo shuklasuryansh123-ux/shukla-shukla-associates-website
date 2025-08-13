@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Practice Areas - Shukla & Shukla Associates</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Practice Areas - Shukla & Shukla Associates">
+  <meta property="og:description" content="Explore our core practice areas: Corporate, Civil, Criminal, Family, Real Estate, Labour & Employment, and Trade Mark & IPR.">
+  <meta property="og:url" content="/practice.html">
+  <meta property="og:image" content="/api/content/firmLogo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Practice Areas - Shukla & Shukla Associates">
+  <meta name="twitter:description" content="Explore our core practice areas: Corporate, Civil, Criminal, Family, Real Estate, Labour & Employment, and Trade Mark & IPR.">
+  <meta name="twitter:image" content="/api/content/firmLogo">
+  <meta name="description" content="Explore our core practice areas: Corporate, Civil, Criminal, Family, Real Estate, Labour & Employment, and Trade Mark & IPR." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+  <style>
+    .page-header { padding: 18px 0; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .page-header .container { display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: .3px; font-size: 1.1rem; }
+    .brand a { color: var(--slate); text-decoration: none; }
+    .back-link { color: var(--grey-mid); text-decoration: none; font-weight: 600; border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px; transition:.2s; }
+    .back-link:hover { color: var(--slate); background: var(--surface-strong); }
+
+    .container { width: 90%; max-width: 1150px; margin: 0 auto; }
+    .page-hero { padding: 26px 0 8px; }
+    .page-hero h1 { font-size: clamp(1.8rem, 2.6vw, 2.4rem); margin: 0 0 8px; font-weight: 900; }
+    .page-hero p { color: var(--grey-mid); margin: 0 0 14px; }
+
+    .anchor-pills { display:flex; flex-wrap:wrap; gap:8px; margin: 6px 0 18px; }
+    .anchor-pills a { display:inline-block; padding:8px 12px; border: 1px solid var(--border); border-radius: 999px; color: var(--slate); font-weight: 700; background: var(--surface-weak); transition: all 0.3s ease; }
+    .anchor-pills a:hover { background: var(--surface-strong); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+    .practice-section { padding: 12px 0 44px; }
+    .practice-note { color: var(--grey-mid); text-align:center; margin: 14px 0 4px; }
+
+    .area-card ul { text-align:left; margin: .5rem 0 0 0; padding-left: 1.1rem; }
+    .area-card ul li { margin:.25rem 0; color: var(--grey-mid); }
+
+    .cta-line { text-align:center; margin-top: 18px; }
+
+    /* Enhanced responsive design */
+    @media (max-width: 768px) {
+      .page-hero h1 { font-size: 2rem; }
+      .page-hero p { font-size: 1rem; }
+      .anchor-pills { justify-content: center; }
+      .anchor-pills a { font-size: 0.9rem; padding: 6px 10px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-header .container { flex-direction: column; gap: 10px; }
+      .back-link { align-self: flex-start; }
+    }
+
+    /* Smooth scroll behavior */
+    html { scroll-behavior: smooth; }
+
+    /* Loading states */
+    .loading-skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Enhanced service card hover effects */
+    .service-card {
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    /* Mobile optimizations */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-visuals">
+      <div class="loader-circle"></div>
+      <h1 class="loader-logo">Shukla & Shukla Associates</h1>
+    </div>
+  </div>
+
+  <header class="page-header">
+    <div class="container">
+      <div class="brand"><a href="/">Shukla &amp; Shukla Associates</a></div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a class="back-link" href="/">← Back to Home</a>
+        <a class="back-link" href="/admin.html" style="font-size: 0.9em; opacity: 0.8;">Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container page-hero">
+      <h1>Practice Areas</h1>
+      <p>Focused expertise across pivotal domains of law. Choose a practice area to explore details.</p>
+      <div class="anchor-pills">
+        <a href="#corporate-law">Corporate</a>
+        <a href="#civil-litigation">Civil Litigation</a>
+        <a href="#criminal-defense">Criminal Defense</a>
+        <a href="#family-law">Family Law</a>
+        <a href="#real-estate-law">Real Estate</a>
+        <a href="#labour-employment">Labour & Employment</a>
+        <a href="#service-matters">Service Matters</a>
+        <a href="#trademark-ipr">Trade Mark & IPR</a>
+      </div>
+    </section>
+
+    <section class="container practice-section reveal">
+      <div class="services-grid">
+        <div id="corporate-law" class="service-card fadeup area-card">
+          <span class="service-icon">⚖️</span>
+          <h3>Corporate Law</h3>
+          <p>Strategic corporate advisory for formation, growth, and governance.</p>
+          <ul>
+            <li>Company incorporation, LLP agreements, founders' arrangements</li>
+            <li>Joint ventures, mergers & acquisitions, due diligence</li>
+            <li>Contract drafting, negotiation, and risk allocation</li>
+            <li>Compliance, corporate governance, board advisory</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Request consultation</a></div>
+        </div>
+
+        <div id="civil-litigation" class="service-card fadeup area-card">
+          <span class="service-icon">🗂️</span>
+          <h3>Civil Litigation</h3>
+          <p>Outcome‑oriented representation for complex civil disputes.</p>
+          <ul>
+            <li>Property disputes, partitions, and title suits</li>
+            <li>Contract enforcement, recovery, and injunctions</li>
+            <li>Arbitration & mediation pathways to early resolution</li>
+            <li>Appellate strategy and post‑decree execution</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Discuss your matter</a></div>
+        </div>
+
+        <div id="criminal-defense" class="service-card fadeup area-card">
+          <span class="service-icon">🔐</span>
+          <h3>Criminal Defense</h3>
+          <p>Discreet, thorough defense from investigation to appeal.</p>
+          <ul>
+            <li>Anticipatory/regular bail and quashing petitions</li>
+            <li>Case‑building, cross‑examination, and trial strategy</li>
+            <li>Appeals and revisions before appellate forums</li>
+            <li>White‑collar and special statute offenses</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Speak with defense team</a></div>
+        </div>
+
+        <div id="family-law" class="service-card fadeup area-card">
+          <span class="service-icon">👨‍👩‍👧</span>
+          <h3>Family Law</h3>
+          <p>Resolution with dignity in personal and matrimonial matters.</p>
+          <ul>
+            <li>Divorce, annulment, maintenance, and alimony</li>
+            <li>Child custody, visitation, guardianship</li>
+            <li>Domestic violence and protection orders</li>
+            <li>Family settlements and mediation</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Connect with us</a></div>
+        </div>
+
+        <div id="real-estate-law" class="service-card fadeup area-card">
+          <span class="service-icon">📜</span>
+          <h3>Real Estate Law</h3>
+          <p>From title to transfer—full‑cycle property support.</p>
+          <ul>
+            <li>Title search, legal opinions, and encumbrance checks</li>
+            <li>Sale, lease, and development agreements</li>
+            <li>Registrations, stamp duty, and regulatory compliance</li>
+            <li>RERA, municipal, and tribunal procedures</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Consult real estate team</a></div>
+        </div>
+
+        <div id="labour-employment" class="service-card fadeup area-card">
+          <span class="service-icon">💼</span>
+          <h3>Labour & Employment</h3>
+          <p>Balanced advisory for employers and employees.</p>
+          <ul>
+            <li>Employment contracts, HR policies, POSH compliance</li>
+            <li>Disciplinary actions, settlements, and severance</li>
+            <li>Industrial disputes and labour court matters</li>
+            <li>Advisory for startups and SMEs</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Get advice</a></div>
+        </div>
+
+        <div id="service-matters" class="service-card fadeup area-card">
+          <span class="service-icon">📝</span>
+          <h3>Service Matters</h3>
+          <p>Specialized representation in government and public sector service matters.</p>
+          <ul>
+            <li>Promotions, transfers, and service benefits disputes</li>
+            <li>Disciplinary actions and departmental inquiries</li>
+            <li>Service rule violations and administrative appeals</li>
+            <li>Pension, gratuity, and retirement benefits</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Consult for service matter solutions</a></div>
+        </div>
+
+        <div id="trademark-ipr" class="service-card fadeup area-card">
+          <span class="service-icon">®</span>
+          <h3>Trade Mark & IPR Law</h3>
+          <p>Protect and scale your brand and creative assets.</p>
+          <ul>
+            <li>Trademark search, filing, prosecution, and oppositions</li>
+            <li>Copyrights, designs, patents—registration and advisory</li>
+            <li>Licensing, assignments, and portfolio management</li>
+            <li>Infringement actions and enforcement strategy</li>
+          </ul>
+          <div class="cta-line"><a class="btn-primary" href="/#contact">Secure your IP</a></div>
+        </div>
+      </div>
+      <p class="practice-note">Need help deciding where your matter fits? <a href="/#contact">Contact us</a> and we’ll guide you.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-row">
+        <div class="footer-left">
+          <div class="footer-brand">Shukla & Shukla Associates</div>
+          <button id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode" class="theme-toggle-btn"></button>
+        </div>
+        <ul class="footer-social">
+          <li><a href="https://wa.me/917389994519?text=Hello+Advocate+Suryansh+Shukla,+I+would+like+to+discuss+a+legal+matter+with+you." aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a></li>
+          <li><a href="https://www.instagram.com/suryansh_shukla/" aria-label="Instagram"><i class="bx bxl-instagram"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/suryansh-shukla-a31aaa165" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a></li>
+          <li><a href="https://share.google/4CtU2gY6sh0qbarkG" aria-label="Google Business"><i class="bx bxl-google"></i></a></li>
+          <li><a href="mailto:shukla.suryansh123@gmail.com" aria-label="Gmail"><i class="bx bxl-gmail"></i></a></li>
+        </ul>
+      </div>
+      <p class="footer-bottom"><a href="admin.html" style="color: #eee; text-decoration: none;">© 2025. All Rights Reserved.</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+  <script async src="/ga.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
