@@ -93,7 +93,11 @@
     <div class="nav-bar">
       <div class="logo-brand"><a href="#top" aria-label="Home">Shukla<span>&</span>Shukla</a></div>
       <nav class="nav-container" aria-label="Main menu">
-        <button class="menu-toggle" aria-label="Navigation menu" aria-expanded="false">&#9776;</button>
+        <button class="menu-toggle" aria-label="Navigation menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
         <ul class="nav-list">
           <li><a href="#home" class="nav-link" data-nav-link>Home</a></li>
           <li class="dropdown">
@@ -108,7 +112,6 @@
           <li><a href="https://erp.mphc.gov.in/login" class="nav-link">Files</a></li>
           <li><a href="#contact" class="nav-link" data-nav-link>Contact</a></li>
           <li><a href="#about" class="nav-link" data-nav-link>About</a></li>
-          <li><a href="/admin.html" class="nav-link" style="font-size: 0.9em; opacity: 0.8;">Admin</a></li>
           <li class="dropdown">
             <span class="nav-link nav-trigger">More</span>
             <ul class="submenu">
@@ -118,11 +121,71 @@
             </ul>
           </li>
         </ul>
-        <button class="mobile-menu-close" aria-label="Close menu">×</button>
       </nav>
+
     </div>
     <div class="mobile-menu-overlay"></div>
   </header>
+
+  <!-- Mobile Modal -->
+  <div class="mobile-modal-overlay"></div>
+  <div class="mobile-modal">
+    <div class="mobile-modal-header">
+      <div class="logo-brand"><a href="#top" aria-label="Home">Shukla<span>&</span>Shukla</a></div>
+      <button class="mobile-modal-close" aria-label="Close menu">×</button>
+    </div>
+    <div class="mobile-modal-content">
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item">
+          <a href="#home" class="mobile-nav-link">Home</a>
+        </li>
+        <li class="mobile-nav-item">
+          <div class="mobile-dropdown">
+            <div class="mobile-dropdown-trigger">Case Status</div>
+            <div class="mobile-dropdown-menu">
+              <div class="mobile-dropdown-item">
+                <a href="https://www.sci.gov.in/case-status-case-no/" class="mobile-dropdown-link">Supreme Court</a>
+              </div>
+              <div class="mobile-dropdown-item">
+                <a href="https://mphc.gov.in/case-status" class="mobile-dropdown-link">High Court</a>
+              </div>
+              <div class="mobile-dropdown-item">
+                <a href="https://district.mphc.gov.in/en/case-status" class="mobile-dropdown-link">District Court</a>
+              </div>
+              <div class="mobile-dropdown-item">
+                <a href="https://familycourts.mphc.gov.in" class="mobile-dropdown-link">Family Court</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="https://erp.mphc.gov.in/login" class="mobile-nav-link">Files</a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#contact" class="mobile-nav-link">Contact</a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#about" class="mobile-nav-link">About</a>
+        </li>
+        <li class="mobile-nav-item">
+          <div class="mobile-dropdown">
+            <div class="mobile-dropdown-trigger">More</div>
+            <div class="mobile-dropdown-menu">
+              <div class="mobile-dropdown-item">
+                <a href="#faq" class="mobile-dropdown-link">FAQs</a>
+              </div>
+              <div class="mobile-dropdown-item">
+                <a href="#gallery" class="mobile-dropdown-link">Gallery</a>
+              </div>
+              <div class="mobile-dropdown-item">
+                <a href="#services" class="mobile-dropdown-link">Practice Areas</a>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
   <!-- Animated hero with morphing blob, mask, and staggered text -->
   <main>

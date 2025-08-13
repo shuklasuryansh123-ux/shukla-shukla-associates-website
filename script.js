@@ -605,8 +605,8 @@ class MainSiteNavigation {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM Content Loaded - Starting optimized website initialization...');
 
-  // Initialize navigation
-  new MainSiteNavigation();
+  // Initialize navigation (disabled - using enhancements.js instead)
+  // new MainSiteNavigation();
 
   // Mark preloading state to avoid abrupt reveal
   document.body.classList.add('is-loading');

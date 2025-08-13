@@ -22,31 +22,31 @@ function enhanceBlogSection() {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    
+
     .blog-section .blog-slider {
       min-height: 200px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
     }
-    
+
     .blog-card {
       position: relative;
       background: var(--surface-weak);
       border: 1px solid var(--border);
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
+
     .blog-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 16px 40px rgba(0,0,0,0.12);
       border-color: var(--accent);
     }
-    
+
     .blog-card .blog-content {
       padding: 16px;
     }
-    
+
     .blog-card h3 {
       margin: 0 0 8px 0;
       font-size: 1.1rem;
@@ -54,23 +54,23 @@ function enhanceBlogSection() {
       color: var(--slate);
       line-height: 1.4;
     }
-    
+
     .blog-card .blog-excerpt {
       color: var(--grey-mid);
       font-size: 0.95rem;
       line-height: 1.6;
       margin: 8px 0 16px 0;
     }
-    
+
     .blog-nav-btn {
       transition: all 0.2s ease;
     }
-    
+
     .blog-nav-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-    
+
     .blog-nav-btn:active {
       transform: scale(0.95);
     }
@@ -80,7 +80,7 @@ function enhanceBlogSection() {
       .blog-card {
         min-width: 85vw !important;
       }
-      
+
       .blog-nav-btn {
         padding: 8px 12px !important;
         font-size: 1.1rem !important;
@@ -95,11 +95,11 @@ function addPerformanceOptimizations() {
   // Lazy loading images
   const images = document.querySelectorAll('img[loading="lazy"]');
   images.forEach(img => {
-    img.addEventListener('load', function() {
+    img.addEventListener('load', function () {
       this.style.transition = 'opacity 0.3s ease';
       this.style.opacity = '1';
     });
-    img.addEventListener('error', function() {
+    img.addEventListener('error', function () {
       this.style.display = 'none';
       const fallback = document.createElement('div');
       fallback.style.cssText = 'background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--grey-mid); font-size: 0.9rem; width: 100%; height: 100%;';
@@ -136,11 +136,11 @@ function enhanceFormValidation() {
   // Add real-time validation
   const inputs = contactForm.querySelectorAll('input, textarea');
   inputs.forEach(input => {
-    input.addEventListener('blur', function() {
+    input.addEventListener('blur', function () {
       validateField(this);
     });
-    
-    input.addEventListener('input', function() {
+
+    input.addEventListener('input', function () {
       // Clear error state on input
       const errorDiv = document.getElementById(this.id + '-error');
       if (errorDiv) {
@@ -197,7 +197,7 @@ function enhanceAccessibility() {
   document.querySelectorAll('.dropdown').forEach(dropdown => {
     const trigger = dropdown.querySelector('.nav-trigger');
     const submenu = dropdown.querySelector('.submenu');
-    
+
     if (trigger && submenu) {
       trigger.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -219,19 +219,19 @@ function enhanceAccessibility() {
       border-color: #dc3545 !important;
       background-color: rgba(220, 53, 69, 0.1) !important;
     }
-    
+
     *:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
-    
+
     .btn-primary:focus-visible,
     .service-card:focus-visible,
     .review-card:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 4px;
     }
-    
+
     .no-scroll {
       overflow: hidden;
     }
@@ -239,92 +239,366 @@ function enhanceAccessibility() {
   document.head.appendChild(style);
 }
 
-// Enhanced Navigation System
+// Optimized Mobile Modal System
+function initMobileModal() {
+  const mobileModal = document.querySelector('.mobile-modal');
+  const mobileModalOverlay = document.querySelector('.mobile-modal-overlay');
+  const mobileModalClose = document.querySelector('.mobile-modal-close');
+  const menuToggle = document.querySelector('.menu-toggle');
+
+  if (!mobileModal || !mobileModalOverlay || !mobileModalClose || !menuToggle) {
+    console.warn('Mobile modal elements not found');
+    return;
+  }
+
+  // Open mobile modal
+  function openMobileModal() {
+    mobileModal.classList.add('active');
+    mobileModalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
+  // Close mobile modal
+  function closeMobileModal() {
+    mobileModal.classList.remove('active');
+    mobileModalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    menuToggle.setAttribute('aria-expanded', 'false');
+
+    // Close all mobile dropdowns
+    document.querySelectorAll('.mobile-dropdown.active').forEach(dropdown => {
+      dropdown.classList.remove('active');
+    });
+  }
+
+  // Event listeners
+  menuToggle.addEventListener('click', openMobileModal);
+  mobileModalClose.addEventListener('click', closeMobileModal);
+  mobileModalOverlay.addEventListener('click', closeMobileModal);
+
+  // ESC key to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileModal.classList.contains('active')) {
+      closeMobileModal();
+    }
+  });
+
+  // Enhanced Mobile dropdown functionality with direct DOM manipulation
+  function setupMobileDropdowns() {
+    const mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
+    
+    mobileDropdowns.forEach((dropdown, index) => {
+      const trigger = dropdown.querySelector('.mobile-dropdown-trigger');
+      const menu = dropdown.querySelector('.mobile-dropdown-menu');
+      
+      if (trigger && menu) {
+        // Remove any existing event listeners
+        const newTrigger = trigger.cloneNode(true);
+        trigger.parentNode.replaceChild(newTrigger, trigger);
+        
+        newTrigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const isActive = dropdown.classList.contains('active');
+          
+          // Close other dropdowns first
+          mobileDropdowns.forEach(d => {
+            if (d !== dropdown) {
+              d.classList.remove('active');
+              const otherMenu = d.querySelector('.mobile-dropdown-menu');
+              if (otherMenu) {
+                otherMenu.style.maxHeight = '0px';
+                otherMenu.style.opacity = '0';
+              }
+            }
+          });
+          
+          // Toggle current dropdown
+          if (isActive) {
+            dropdown.classList.remove('active');
+            menu.style.maxHeight = '0px';
+            menu.style.opacity = '0';
+          } else {
+            dropdown.classList.add('active');
+            menu.style.maxHeight = '500px';
+            menu.style.opacity = '1';
+          }
+        });
+        
+        // Initialize menu state
+        menu.style.maxHeight = '0px';
+        menu.style.opacity = '0';
+        menu.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
+      }
+    });
+  }
+
+  // Setup dropdowns when modal opens
+  menuToggle.addEventListener('click', () => {
+    setTimeout(setupMobileDropdowns, 100); // Small delay to ensure modal is rendered
+  });
+
+  // Close modal when clicking on links
+  const mobileLinks = mobileModal.querySelectorAll('a');
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMobileModal();
+    });
+  });
+}
+
+// Optimized Animation System
+function optimizeAnimations() {
+  // Reduce motion for users who prefer it
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.style.setProperty('--animation-duration', '0.1s');
+    document.documentElement.style.setProperty('--transition-duration', '0.1s');
+  }
+
+  // Optimize scroll animations with throttling
+  let ticking = false;
+  function updateScrollAnimations() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrolledElements = document.querySelectorAll('.reveal, .fadeup');
+        scrolledElements.forEach(element => {
+          const rect = element.getBoundingClientRect();
+          const isVisible = rect.top < window.innerHeight * 0.8;
+
+          if (isVisible && !element.classList.contains('active')) {
+            element.classList.add('active');
+          }
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  // Throttled scroll listener
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) return;
+    scrollTimeout = setTimeout(() => {
+      updateScrollAnimations();
+      scrollTimeout = null;
+    }, 16); // ~60fps
+  });
+
+  // Initial check
+  updateScrollAnimations();
+}
+
+// Optimized Reviews Section (Fix crashes)
+function optimizeReviewsSection() {
+  const reviewsSection = document.querySelector('.reviews-section');
+  if (!reviewsSection) return;
+
+  // Disable complex animations on mobile to prevent crashes
+  if (window.innerWidth <= 768) {
+    const marqueeTracks = reviewsSection.querySelectorAll('.marquee-track');
+    marqueeTracks.forEach(track => {
+      track.style.animation = 'none';
+      track.style.transform = 'none';
+    });
+  }
+
+  // Use Intersection Observer for better performance
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Only animate when visible
+        const marqueeTrack = entry.target.querySelector('.marquee-track');
+        if (marqueeTrack && window.innerWidth > 768) {
+          marqueeTrack.style.animation = 'marquee-left 32s linear infinite';
+        }
+      } else {
+        entry.target.classList.remove('visible');
+        // Pause animation when not visible
+        const marqueeTrack = entry.target.querySelector('.marquee-track');
+        if (marqueeTrack) {
+          marqueeTrack.style.animationPlayState = 'paused';
+        }
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '50px'
+  });
+
+  observer.observe(reviewsSection);
+}
+
+// Enhanced Navigation System with Mobile-Friendly Dropdowns
 function enhanceNavigation() {
-  const header = document.querySelector('.header');
+  const header = document.querySelector('.main-site-nav');
   const menuToggle = document.querySelector('.menu-toggle');
   const navList = document.querySelector('.nav-list');
+  const overlay = document.querySelector('.mobile-menu-overlay');
 
-  if (!header || !menuToggle || !navList) return;
+  if (!header || !menuToggle || !navList) {
+    console.warn('Navigation elements not found');
+    return;
+  }
 
-  // Scroll-based header styling (fixed visibility)
+  console.log('Setting up enhanced navigation...');
+
+  // Scroll-based header styling with enhanced effects
+  let lastScrollY = window.scrollY;
+  let scrollTimeout;
+
   window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 50);
-    // Header always stays visible
-    header.style.transform = 'translateY(0)';
+    if (scrollTimeout) return;
+
+    scrollTimeout = setTimeout(() => {
+      const currentScrollY = window.scrollY;
+
+      // Add scrolled class for enhanced styling
+      header.classList.toggle('scrolled', currentScrollY > 50);
+
+      // Smooth header hide/show on scroll (optional)
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down - hide header slightly
+        header.style.transform = 'translateY(-100%)';
+      } else {
+        // Scrolling up - show header
+        header.style.transform = 'translateY(0)';
+      }
+
+      lastScrollY = currentScrollY;
+      scrollTimeout = null;
+    }, 16); // Throttle to ~60fps
   });
 
-  // Mobile menu toggle
+  // Enhanced Mobile menu toggle (now opens modal instead)
   menuToggle.addEventListener('click', () => {
-    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', !isExpanded);
-    navList.classList.toggle('show');
-    document.body.classList.toggle('no-scroll');
+    // This will be handled by the mobile modal system
+    console.log('Mobile menu toggle clicked');
   });
 
-  // Advanced dropdown behavior
+  // Enhanced dropdown behavior for desktop only
   document.querySelectorAll('.dropdown').forEach(dropdown => {
     const trigger = dropdown.querySelector('.nav-trigger');
-    trigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      dropdown.classList.toggle('open');
+    const submenu = dropdown.querySelector('.submenu');
+
+    if (!trigger || !submenu) {
+      console.warn('Dropdown missing trigger or submenu:', dropdown);
+      return;
+    }
+
+    console.log('Setting up desktop dropdown:', trigger.textContent);
+
+    // Desktop hover behavior only
+    dropdown.addEventListener('mouseenter', () => {
+      if (window.innerWidth > 900) {
+        // Close other dropdowns first
+        document.querySelectorAll('.dropdown.open').forEach(d => {
+          if (d !== dropdown) d.classList.remove('open');
+        });
+        dropdown.classList.add('open');
+      }
     });
-    
-    dropdown.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') dropdown.classList.remove('open');
+
+    dropdown.addEventListener('mouseleave', () => {
+      if (window.innerWidth > 900) {
+        dropdown.classList.remove('open');
+      }
     });
   });
 
+  // Close dropdowns when clicking outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.dropdown')) {
       document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
     }
   });
 
-  // Smooth scrolling and active section highlighting
+  // Enhanced smooth scrolling and active section highlighting
   const navLinks = document.querySelectorAll('.nav-link[data-nav-link]');
-  const sections = Array.from(navLinks).map(link => document.getElementById(link.getAttribute('href').substring(1)));
+  const sections = Array.from(navLinks).map(link => {
+    const href = link.getAttribute('href');
+    return href.startsWith('#') ? document.getElementById(href.substring(1)) : null;
+  }).filter(Boolean);
 
   function updateActiveLink() {
     let current = '';
+    const scrollPosition = window.scrollY + 100;
+
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
-      if (pageYOffset >= sectionTop - 60) {
+      const sectionHeight = section.offsetHeight;
+
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
         current = section.getAttribute('id');
       }
     });
 
     navLinks.forEach(link => {
       link.classList.remove('active');
-      if (link.getAttribute('href').substring(1) === current) {
+      const href = link.getAttribute('href');
+      if (href && href.substring(1) === current) {
         link.classList.add('active');
       }
     });
   }
 
-  window.addEventListener('scroll', updateActiveLink);
+  // Throttled scroll listener for active links
+  let activeLinkTimeout;
+  window.addEventListener('scroll', () => {
+    if (activeLinkTimeout) return;
+    activeLinkTimeout = setTimeout(() => {
+      updateActiveLink();
+      activeLinkTimeout = null;
+    }, 100);
+  });
   updateActiveLink(); // Initial check
 
-  // Progress indicator
+  // Enhanced progress indicator
   const progressIndicator = document.createElement('div');
   progressIndicator.style.cssText = `
     position: fixed;
     top: 0;
     left: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent), var(--slate));
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), #3b82f6, var(--accent));
     width: 0%;
     z-index: 1021;
     transition: width 0.1s ease;
+    border-radius: 0 2px 2px 0;
   `;
   document.body.appendChild(progressIndicator);
 
+  let progressTimeout;
   window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    progressIndicator.style.width = scrollPercent + '%';
+    if (progressTimeout) return;
+    progressTimeout = setTimeout(() => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      progressIndicator.style.width = scrollPercent + '%';
+      progressTimeout = null;
+    }, 16);
   });
+
+  // Handle window resize for responsive behavior
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    if (resizeTimeout) return;
+    resizeTimeout = setTimeout(() => {
+      if (window.innerWidth > 900) {
+        // Reset dropdown behavior for desktop
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+          dropdown.classList.remove('open');
+        });
+      }
+      resizeTimeout = null;
+    }, 250);
+  });
+
+  console.log('Enhanced navigation system initialized successfully');
 }
 
 // SEO enhancements
@@ -387,7 +661,10 @@ function runEnhancements() {
     enhanceNavigation(); // Add navigation enhancements
     enhanceAccessibility();
     enhanceSEO();
-    
+    initMobileModal(); // Add mobile modal enhancements
+    optimizeAnimations(); // Add animation optimizations
+    optimizeReviewsSection(); // Add reviews optimizations
+
     console.log('✅ UX enhancements loaded successfully');
   } catch (error) {
     console.warn('⚠️ Some enhancements failed to load:', error);
@@ -404,5 +681,20 @@ window.ShuklaEnhancements = {
   addPerformanceOptimizations,
   enhanceFormValidation,
   enhanceAccessibility,
-  enhanceSEO
+  enhanceSEO,
+  initMobileModal,
+  optimizeAnimations,
+  optimizeReviewsSection
 };
+
+// Initialize all enhancements when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('Initializing enhanced navigation system...');
+  enhanceNavigation();
+  initMobileModal();
+  optimizeAnimations();
+  optimizeReviewsSection();
+  enhanceSEO();
+  enhanceAccessibility();
+  enhancePerformance();
+});
