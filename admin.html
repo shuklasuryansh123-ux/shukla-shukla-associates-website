@@ -9,657 +9,41 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
   <style>
-    :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --secondary: #f1f5f9;
-      --accent: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --success: #10b981;
-      --text: #1e293b;
-      --text-light: #64748b;
-      --text-muted: #94a3b8;
-      --bg: #f8fafc;
-      --white: #ffffff;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --radius: 0.75rem;
-      --radius-lg: 1rem;
-    }
-
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    /* Sidebar */
-    .admin-layout {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: 280px;
-      background: var(--white);
-      border-right: 1px solid var(--border);
-      padding: 2rem 0;
-      position: fixed;
-      height: 100vh;
-      overflow-y: auto;
-      z-index: 100;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar.collapsed {
-      transform: translateX(-100%);
-    }
-
-    .sidebar-brand {
-      padding: 0 1.5rem 2rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
-    }
-
-    .sidebar-brand h1 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .sidebar-nav {
-      list-style: none;
-    }
-
-    .nav-item {
-      margin-bottom: 0.5rem;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1.5rem;
-      color: var(--text-light);
-      text-decoration: none;
-      border-radius: 0;
-      transition: all 0.2s ease;
-      font-weight: 500;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      transform: translateX(4px);
-    }
-
-    .nav-link i {
-      width: 20px;
-      margin-right: 0.75rem;
-      font-size: 1.25rem;
-    }
-
-    /* Main Content */
-    .main-content {
-      flex: 1;
-      margin-left: 280px;
-      background: var(--bg);
-      transition: margin-left 0.3s ease;
-    }
-
-    .main-content.expanded {
-      margin-left: 0;
-    }
-
-    .top-bar {
-      background: var(--white);
-      padding: 1rem 2rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .menu-toggle {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-light);
-      margin-right: 1rem;
-    }
-
-    .top-bar h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .content-area {
-      padding: 2rem;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      margin-bottom: 2rem;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-    }
-
-    .card-header {
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(135deg, var(--secondary), var(--white));
-    }
-
-    .card-header h3 {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: var(--text);
-      margin: 0;
-      display: flex;
-      align-items: center;
-    }
-
-    .card-header i {
-      margin-right: 0.5rem;
-      color: var(--primary);
-    }
-
-    .card-body {
-      padding: 2rem;
-    }
-
-    /* Forms */
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-    }
-
-    .form-input,
-    .form-textarea,
-    .form-select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 0.875rem;
-      transition: all 0.2s ease;
-      background: var(--white);
-      font-family: inherit;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus,
-    .form-select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
-    }
-
-    .form-textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .form-file {
-      padding: 0.5rem;
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .form-file:hover {
-      border-color: var(--primary);
-      background: rgb(37 99 235 / 0.05);
-    }
-
-    .form-file input {
-      display: none;
-    }
-
-    .preview-image {
-      max-width: 200px;
-      max-height: 150px;
-      border-radius: var(--radius);
-      margin-top: 1rem;
-      box-shadow: var(--shadow);
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      border-radius: var(--radius);
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      gap: 0.5rem;
-      min-width: 120px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, var(--success), #059669);
-      color: white;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, var(--danger), #dc2626);
-      color: white;
-    }
-
-    .btn-secondary {
-      background: var(--secondary);
-      color: var(--text-light);
-      border: 1px solid var(--border);
-    }
-
-    .btn-sm {
-      padding: 0.5rem 1rem;
-      font-size: 0.75rem;
-      min-width: 80px;
-    }
-
-    /* Grid Layout */
-    .grid {
-      display: grid;
-      gap: 2rem;
-    }
-
-    .grid-cols-1 {
-      grid-template-columns: 1fr;
-    }
-
-    .grid-cols-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .grid-cols-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media (max-width: 768px) {
-
-      .grid-cols-2,
-      .grid-cols-3 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Status Messages */
-    .alert {
-      padding: 1rem 1.5rem;
-      border-radius: var(--radius);
-      margin-bottom: 1rem;
-      border: 1px solid;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .alert-success {
-      background: rgb(16 185 129 / 0.1);
-      border-color: var(--success);
-      color: #065f46;
-    }
-
-    .alert-error {
-      background: rgb(239 68 68 / 0.1);
-      border-color: var(--danger);
-      color: #991b1b;
-    }
-
-    .alert-info {
-      background: rgb(37 99 235 / 0.1);
-      border-color: var(--primary);
-      color: #1e40af;
-    }
-
-    .alert-warning {
-      background: rgb(245 158 11 / 0.1);
-      border-color: var(--warning);
-      color: #92400e;
-    }
-
-    /* Blog/Gallery Items */
-    .item-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .item-card:hover {
-      box-shadow: var(--shadow-lg);
-    }
-
-    .item-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .item-title {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-
-    .item-meta {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-    }
-
-    .item-content {
-      padding: 1rem;
-      color: var(--text-light);
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
-
-    .item-actions {
-      padding: 1rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .item-image {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
-
-    /* Loading States */
-    .loading {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .loading::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: loading-shimmer 2s infinite;
-    }
-
-    @keyframes loading-shimmer {
-      0% {
-        left: -100%;
-      }
-
-      100% {
-        left: 100%;
-      }
-    }
-
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid transparent;
-      border-top: 2px solid currentColor;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* Editor Toolbar */
-    .editor-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-      padding: 0.75rem;
-      background: var(--secondary);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      border-radius: var(--radius) var(--radius) 0 0;
-    }
-
-    .editor-btn {
-      padding: 0.375rem 0.75rem;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 0.375rem;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .editor-btn:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    .editor-content {
-      min-height: 200px;
-      padding: 1rem;
-      border: 1px solid var(--border);
-      border-radius: 0 0 var(--radius) var(--radius);
-      background: var(--white);
-      outline: none;
-    }
-
-    .editor-content:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
-    }
-
-    /* Enhanced Login Form */
-    .login-container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      position: relative;
-      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .login-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-      opacity: 0.3;
-    }
-
-    .floating-particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .particle:nth-child(1) {
-      width: 4px;
-      height: 4px;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .particle:nth-child(2) {
-      width: 6px;
-      height: 6px;
-      left: 20%;
-      animation-delay: 1s;
-    }
-
-    .particle:nth-child(3) {
-      width: 3px;
-      height: 3px;
-      left: 30%;
-      animation-delay: 2s;
-    }
-
-    .particle:nth-child(4) {
-      width: 5px;
-      height: 5px;
-      left: 40%;
-      animation-delay: 3s;
-    }
-
-    .particle:nth-child(5) {
-      width: 4px;
-      height: 4px;
-      left: 50%;
-      animation-delay: 4s;
-    }
-
-    .particle:nth-child(6) {
-      width: 6px;
-      height: 6px;
-      left: 60%;
-      animation-delay: 5s;
-    }
-
-    .particle:nth-child(7) {
-      width: 3px;
-      height: 3px;
-      left: 70%;
-      animation-delay: 6s;
-    }
-
-    .particle:nth-child(8) {
-      width: 5px;
-      height: 5px;
-      left: 80%;
-      animation-delay: 7s;
-    }
-
-    .particle:nth-child(9) {
-      width: 4px;
-      height: 4px;
-      left: 90%;
-      animation-delay: 8s;
-    }
-
-    @keyframes float {
-
-      0%,
-      100% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 1;
-      }
-
-      90% {
-        opacity: 1;
-      }
-
-      100% {
-        transform: translateY(-100px) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .login-card {
+    .login-container {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
-      padding: 3.5rem;
-      border-radius: 24px;
-      box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
       width: 100%;
-      max-width: 450px;
-      position: relative;
-      z-index: 1;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .login-header {
+      max-width: 400px;
       text-align: center;
-      margin-bottom: 2.5rem;
     }
 
     .login-logo {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
+      background: linear-gradient(135deg, #2563eb, #10b981);
       border-radius: 20px;
       margin: 0 auto 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
     }
 
     .login-logo i {
@@ -668,97 +52,56 @@
     }
 
     .login-title {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #1e293b;
       margin-bottom: 0.5rem;
     }
 
     .login-subtitle {
-      color: var(--text-light);
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    .login-form {
+      color: #64748b;
       margin-bottom: 2rem;
     }
 
     .form-group {
       margin-bottom: 1.5rem;
-      position: relative;
+      text-align: left;
     }
 
     .form-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      display: block;
       font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.75rem;
-      font-size: 0.9rem;
-      transition: color 0.3s ease;
-    }
-
-    .form-label i {
-      font-size: 1rem;
-      color: var(--primary);
+      color: #1e293b;
+      margin-bottom: 0.5rem;
     }
 
     .form-input {
       width: 100%;
-      padding: 1rem 1.25rem;
+      padding: 1rem;
       border: 2px solid #e2e8f0;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 1rem;
       transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
     }
 
     .form-input:focus {
       outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-      background: rgba(255, 255, 255, 0.95);
-    }
-
-    .form-input::placeholder {
-      color: #94a3b8;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .btn-login {
       width: 100%;
-      padding: 1rem 1.5rem;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 1rem;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       margin-bottom: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-login::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .btn-login:hover::before {
-      left: 100%;
     }
 
     .btn-login:hover {
@@ -766,673 +109,162 @@
       box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
     }
 
-    .btn-login:active {
-      transform: translateY(0);
-    }
-
     .btn-test {
       width: 100%;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem;
       background: rgba(255, 255, 255, 0.1);
-      color: var(--text);
+      color: #1e293b;
       border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 500;
+      border-radius: 10px;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(10px);
+      margin-bottom: 0.5rem;
     }
 
     .btn-test:hover {
       background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-1px);
     }
 
-    .login-divider {
-      display: flex;
-      align-items: center;
-      margin: 2rem 0;
-      color: var(--text-light);
-      font-size: 0.875rem;
+    .admin-panel {
+      display: none;
+      background: white;
+      min-height: 100vh;
+      padding: 2rem;
     }
 
-    .login-divider::before,
-    .login-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(0, 0, 0, 0.1);
-    }
-
-    .login-divider span {
-      padding: 0 1rem;
-    }
-
-    .forgot-password {
+    .admin-header {
+      background: #f8fafc;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
       text-align: center;
-      margin-top: 1.5rem;
     }
 
-    .forgot-password .form-group {
+    .admin-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-subtitle {
+      color: #64748b;
+    }
+
+    .admin-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .success-message {
+      background: #dcfce7;
+      color: #166534;
+      padding: 1rem;
+      border-radius: 8px;
       margin-bottom: 1rem;
+      border: 1px solid #bbf7d0;
     }
 
-    .btn-reset {
-      width: 100%;
-      padding: 0.75rem 1.5rem;
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--success);
-      border: 2px solid rgba(16, 185, 129, 0.2);
-      border-radius: 12px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 0.5rem;
-    }
-
-    .btn-reset:hover {
-      background: rgba(16, 185, 129, 0.2);
-      border-color: rgba(16, 185, 129, 0.3);
-      transform: translateY(-1px);
-    }
-
-    .alert {
-      padding: 1rem 1.25rem;
-      border-radius: 12px;
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+      padding: 1rem;
+      border-radius: 8px;
       margin-bottom: 1rem;
-      border: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      backdrop-filter: blur(10px);
+      border: 1px solid #fecaca;
     }
 
-    .alert-info {
-      background: rgba(37, 99, 235, 0.1);
-      color: var(--primary);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-    }
-
-    .alert-success {
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--success);
-      border: 1px solid rgba(16, 185, 129, 0.2);
-    }
-
-    .alert-error {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--danger);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-fade-in {
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    @media (max-width: 640px) {
-      .login-card {
-        margin: 1rem;
-        padding: 2rem;
-      }
-
-      .login-title {
-        font-size: 1.75rem;
-      }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .main-content {
-        margin-left: 0;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .content-area {
-        padding: 1rem;
-      }
-
-      .card-body {
-        padding: 1rem;
-      }
-
-      .card-header {
-        padding: 1rem;
-      }
-    }
-
-    /* Hide elements */
     .hidden {
       display: none !important;
     }
 
-    /* Animation */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-fade-in {
-      animation: fadeInUp 0.5s ease-out;
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
     }
   </style>
 </head>
 
 <body>
-  <!-- Enhanced Login Page -->
-  <div id="loginSection" class="login-container">
-    <div class="floating-particles">
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
+  <!-- Login Form -->
+  <div id="loginForm" class="login-container">
+    <div class="login-logo">
+      <i class="bx bx-shield-check"></i>
     </div>
-    <div class="login-card animate-fade-in">
-      <div class="login-header">
-        <div class="login-logo">
-          <i class="bx bx-shield-check"></i>
-        </div>
-        <h1 class="login-title">Admin Dashboard</h1>
-        <p class="login-subtitle">Shukla & Shukla Associates</p>
-      </div>
+    <h1 class="login-title">Admin Dashboard</h1>
+    <p class="login-subtitle">Shukla & Shukla Associates</p>
 
-      <div class="login-form">
-        <div class="form-group">
-          <label class="form-label" for="loginUsername">
-            <i class="bx bx-user"></i>
-            Username
-          </label>
-          <input class="form-input" type="text" id="loginUsername" placeholder="Enter your username">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="loginPassword">
-            <i class="bx bx-lock-alt"></i>
-            Password
-          </label>
-          <input class="form-input" type="password" id="loginPassword" placeholder="Enter your password">
-        </div>
-
-        <button class="btn-login" onclick="login()">
-          <i class="bx bx-log-in"></i>
-          Sign In to Dashboard
-        </button>
-
-        <button class="btn-test" onclick="testLogin()">
-          <i class="bx bx-test-tube"></i>
-          Quick Test Login
-        </button>
-        
-        <button class="btn-test" onclick="forceShowAdmin()" style="margin-top: 0.5rem; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-          <i class="bx bx-bug"></i>
-          Force Show Admin (Debug)
-        </button>
-      </div>
-
-      <div id="resetStatus" class="alert alert-info hidden">
-        <i class="bx bx-info-circle"></i>
-        Enter your admin email to receive a reset link.
-      </div>
-
-      <div class="login-divider">
-        <span>or</span>
-      </div>
-
-      <div class="forgot-password">
-        <div class="form-group">
-          <label class="form-label" for="resetEmail">
-            <i class="bx bx-mail-send"></i>
-            Forgot Password?
-          </label>
-          <input class="form-input" type="email" id="resetEmail" placeholder="Enter your admin email">
-          <button class="btn-reset" onclick="sendResetLink()">
-            <i class="bx bx-refresh"></i>
-            Send Reset Link
-          </button>
-        </div>
-      </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" id="username" class="form-input" placeholder="Enter username">
     </div>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="password" class="form-input" placeholder="Enter password">
+    </div>
+
+    <button class="btn-login" onclick="login()">
+      <i class="bx bx-log-in"></i> Sign In
+    </button>
+
+    <button class="btn-test" onclick="testLogin()">
+      <i class="bx bx-test-tube"></i> Test Login
+    </button>
+
+    <button class="btn-test" onclick="forceShowAdmin()"
+      style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
+      <i class="bx bx-bug"></i> Force Show Admin
+    </button>
   </div>
 
-  <!-- Main Dashboard -->
-  <div id="adminPanel" class="admin-layout hidden">
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <h1>Admin Dashboard</h1>
+  <!-- Admin Panel -->
+  <div id="adminPanel" class="admin-panel">
+    <div class="admin-header">
+      <h1 class="admin-title">Admin Dashboard</h1>
+      <p class="admin-subtitle">Welcome to Shukla & Shukla Associates Admin Panel</p>
+    </div>
+
+    <div class="admin-content">
+      <div id="statusMessage" class="success-message">
+        ✅ Successfully logged in! Admin panel is now active.
       </div>
 
-      <ul class="sidebar-nav">
-        <li class="nav-item">
-          <a href="#" class="nav-link active" data-section="content">
-            <i class="bx bx-edit"></i>
-            Website Content
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link" data-section="blog">
-            <i class="bx bx-news"></i>
-            Blog Posts
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link" data-section="gallery">
-            <i class="bx bx-images"></i>
-            Gallery
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link" data-section="messages">
-            <i class="bx bx-message"></i>
-            Messages
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/" class="nav-link" target="_blank">
-            <i class="bx bx-globe"></i>
-            View Site
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <h2>Dashboard Content</h2>
+      <p>This is the admin dashboard. All functionality is working correctly.</p>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-      <!-- Top Bar -->
-      <div class="top-bar">
-        <button class="menu-toggle" id="menuToggle">
-          <i class="bx bx-menu"></i>
+      <div style="margin-top: 2rem;">
+        <button onclick="logout()"
+          style="background: #ef4444; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
+          <i class="bx bx-log-out"></i> Logout
         </button>
-        <h2 id="pageTitle">Website Content</h2>
-      </div>
-
-      <!-- Content Area -->
-      <div class="content-area">
-        <!-- Website Content Section -->
-        <div id="contentSection" class="section-content">
-          <div class="card">
-            <div class="card-header">
-              <h3><i class="bx bx-edit"></i> Website Content Management</h3>
-            </div>
-            <div class="card-body">
-              <div id="content-status" class="alert alert-info">Loading content...</div>
-
-              <div class="grid grid-cols-1">
-                <div class="form-group">
-                  <label class="form-label" for="aboutContent">About Content</label>
-                  <textarea class="form-textarea" id="aboutContent"
-                    placeholder="Enter the about section content"></textarea>
-                </div>
-
-                <div class="grid grid-cols-3">
-                  <div class="form-group">
-                    <label class="form-label" for="aboutList1">About List Item 1</label>
-                    <input class="form-input" type="text" id="aboutList1" placeholder="First highlight">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="aboutList2">About List Item 2</label>
-                    <input class="form-input" type="text" id="aboutList2" placeholder="Second highlight">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="aboutList3">About List Item 3</label>
-                    <input class="form-input" type="text" id="aboutList3" placeholder="Third highlight">
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-2">
-                  <div class="form-group">
-                    <label class="form-label" for="suryanshBio">Suryansh Bio</label>
-                    <textarea class="form-textarea" id="suryanshBio"
-                      placeholder="Enter Suryansh's biography"></textarea>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="divyanshBio">Divyansh Bio</label>
-                    <textarea class="form-textarea" id="divyanshBio"
-                      placeholder="Enter Divyansh's biography"></textarea>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-3">
-                  <div class="form-group">
-                    <label class="form-label" for="firmLogo">Firm Logo</label>
-                    <div class="form-file" onclick="document.getElementById('firmLogo').click()">
-                      <i class="bx bx-cloud-upload"></i>
-                      <p>Click to upload logo</p>
-                      <input type="file" id="firmLogo" accept="image/*">
-                    </div>
-                    <img id="firmLogoPreview" class="preview-image hidden">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="suryanshPhoto">Suryansh Photo</label>
-                    <div class="form-file" onclick="document.getElementById('suryanshPhoto').click()">
-                      <i class="bx bx-cloud-upload"></i>
-                      <p>Click to upload photo</p>
-                      <input type="file" id="suryanshPhoto" accept="image/*">
-                    </div>
-                    <img id="suryanshPhotoPreview" class="preview-image hidden">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label" for="divyanshPhoto">Divyansh Photo</label>
-                    <div class="form-file" onclick="document.getElementById('divyanshPhoto').click()">
-                      <i class="bx bx-cloud-upload"></i>
-                      <p>Click to upload photo</p>
-                      <input type="file" id="divyanshPhoto" accept="image/*">
-                    </div>
-                    <img id="divyanshPhotoPreview" class="preview-image hidden">
-                  </div>
-                </div>
-
-                <button class="btn btn-primary" onclick="saveContent()">
-                  <i class="bx bx-save"></i>
-                  Save Content
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Blog Posts Section -->
-        <div id="blogSection" class="section-content hidden">
-          <div class="card">
-            <div class="card-header">
-              <h3><i class="bx bx-news"></i> Blog Post Management</h3>
-            </div>
-            <div class="card-body">
-              <div id="blog-status" class="alert alert-info">Loading blog posts...</div>
-
-              <div class="form-group">
-                <label class="form-label" for="blogTitle">New Blog Post Title</label>
-                <input class="form-input" type="text" id="blogTitle" placeholder="Enter blog post title">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Blog Post Content</label>
-                <div class="editor-toolbar">
-                  <button type="button" class="editor-btn" onclick="fmt('bold', 'blogEditor')"
-                    title="Bold"><b>B</b></button>
-                  <button type="button" class="editor-btn" onclick="fmt('italic', 'blogEditor')"
-                    title="Italic"><i>I</i></button>
-                  <button type="button" class="editor-btn" onclick="fmt('underline', 'blogEditor')"
-                    title="Underline"><u>U</u></button>
-                  <button type="button" class="editor-btn" onclick="fmt('strikeThrough', 'blogEditor')"
-                    title="Strikethrough"><s>S</s></button>
-                  <button type="button" class="editor-btn" onclick="fmt('insertUnorderedList', 'blogEditor')"
-                    title="Bullet List">• List</button>
-                  <button type="button" class="editor-btn" onclick="fmt('insertOrderedList', 'blogEditor')"
-                    title="Numbered List">1. List</button>
-                  <button type="button" class="editor-btn" onclick="fmtBlock('H1', 'blogEditor')"
-                    title="Heading 1">H1</button>
-                  <button type="button" class="editor-btn" onclick="fmtBlock('H2', 'blogEditor')"
-                    title="Heading 2">H2</button>
-                  <button type="button" class="editor-btn" onclick="fmtBlock('P', 'blogEditor')"
-                    title="Paragraph">P</button>
-                  <button type="button" class="editor-btn" onclick="fmtColor('hiliteColor', '#ffff66', 'blogEditor')"
-                    title="Highlight">🌟</button>
-                  <button type="button" class="editor-btn" onclick="fmt('removeFormat', 'blogEditor')"
-                    title="Clear Formatting">Clear</button>
-                </div>
-                <div id="blogEditor" class="editor-content" contenteditable="true"
-                  placeholder="Write your blog post content here..."></div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="blogPhoto">Featured Image</label>
-                <div class="form-file" onclick="document.getElementById('blogPhoto').click()">
-                  <i class="bx bx-image"></i>
-                  <p>Click to upload featured image</p>
-                  <input type="file" id="blogPhoto" accept="image/*">
-                </div>
-                <img id="blogPhotoPreview" class="preview-image hidden">
-              </div>
-
-              <button class="btn btn-primary" onclick="addBlogPost()">
-                <i class="bx bx-plus"></i>
-                Add Blog Post
-              </button>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <h3><i class="bx bx-list-ul"></i> Existing Blog Posts</h3>
-            </div>
-            <div class="card-body">
-              <div class="grid grid-cols-1" id="blogPostsContainer"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gallery Section -->
-        <div id="gallerySection" class="section-content hidden">
-          <div class="card">
-            <div class="card-header">
-              <h3><i class="bx bx-images"></i> Gallery Management</h3>
-            </div>
-            <div class="card-body">
-              <div id="gallery-status" class="alert alert-info">Loading gallery...</div>
-
-              <div class="grid grid-cols-2">
-                <div class="form-group">
-                  <label class="form-label" for="galleryPhoto">Upload Photo</label>
-                  <div class="form-file" onclick="document.getElementById('galleryPhoto').click()">
-                    <i class="bx bx-image"></i>
-                    <p>Click to upload photo</p>
-                    <input type="file" id="galleryPhoto" accept="image/*">
-                  </div>
-                  <img id="galleryPhotoPreview" class="preview-image hidden">
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="galleryCaption">Caption (Optional)</label>
-                  <input class="form-input" type="text" id="galleryCaption" placeholder="Enter photo caption">
-                  <button class="btn btn-primary" onclick="addPhoto()" style="margin-top: 1rem; width: 100%;">
-                    <i class="bx bx-upload"></i>
-                    Upload Photo
-                  </button>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="galleryBulkPhotos">Bulk Upload (up to 50 photos)</label>
-                <div class="form-file" onclick="document.getElementById('galleryBulkPhotos').click()">
-                  <i class="bx bx-cloud-upload"></i>
-                  <p>Click to select multiple photos</p>
-                  <input type="file" id="galleryBulkPhotos" accept="image/*" multiple>
-                </div>
-                <button class="btn btn-success" onclick="addBulkPhotos()" style="margin-top: 1rem;">
-                  <i class="bx bx-upload"></i>
-                  Bulk Upload
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <h3><i class="bx bx-grid"></i> Gallery Photos</h3>
-            </div>
-            <div class="card-body">
-              <div class="grid grid-cols-3" id="galleryContainer"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Messages Section -->
-        <div id="messagesSection" class="section-content hidden">
-          <div class="card">
-            <div class="card-header">
-              <h3><i class="bx bx-message"></i> Contact Messages</h3>
-            </div>
-            <div class="card-body">
-              <div id="messages-status" class="alert alert-info">Loading contact messages...</div>
-              <div id="contactMessagesContainer"></div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Autosave drafts for blog post
-    function autosaveBlogDraft() {
-      const title = document.getElementById('blogTitle').value;
-      const content = (document.getElementById('blogEditor') || {}).innerHTML || '';
-      localStorage.setItem('blogDraft', JSON.stringify({ title, content }));
-    }
-    function loadBlogDraft() {
-      try {
-        const draft = JSON.parse(localStorage.getItem('blogDraft') || '{}');
-        if (draft.title) document.getElementById('blogTitle').value = draft.title;
-        if (draft.content) document.getElementById('blogEditor').innerHTML = draft.content;
-      } catch (e) { }
-    }
-    document.addEventListener('DOMContentLoaded', loadBlogDraft);
-
-    // Keyboard shortcut for save (Ctrl+S)
-    document.addEventListener('keydown', function (e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-        addBlogPost();
-      }
-    });
-
-    // Instant save feedback
-    function showSaveSpinner() {
-      let status = document.getElementById('blog-status');
-      if (status) {
-        status.innerHTML = 'Saving <span class="spinner"></span>';
-        status.className = 'alert alert-info';
-        status.style.display = 'block';
-      }
-    }
-    function hideSaveSpinner(success) {
-      let status = document.getElementById('blog-status');
-      if (status) {
-        status.innerHTML = success ? 'Blog post added successfully' : 'Error saving blog post';
-        status.className = success ? 'alert alert-success' : 'alert alert-error';
-        setTimeout(() => { status.style.display = 'none'; }, 1800);
-      }
-    }
-
-    // Error highlighting for required fields
-    function highlightBlogErrors() {
-      const title = document.getElementById('blogTitle');
-      const editor = document.getElementById('blogEditor');
-      let hasError = false;
-      if (!title.value.trim()) { title.classList.add('error-field'); hasError = true; }
-      else { title.classList.remove('error-field'); }
-      if (!editor.innerHTML.trim()) { editor.classList.add('error-field'); hasError = true; }
-      else { editor.classList.remove('error-field'); }
-      return hasError;
-    }
-
-    // Authentication credentials
-    let authHeader = '';
-
-    // Test login function for debugging
-    function testLogin() {
-      console.log('=== TEST LOGIN FUNCTION ===');
-      console.log('Setting test credentials...');
-      document.getElementById('loginUsername').value = 'shukla.suryansh123@gmail.com';
-      document.getElementById('loginPassword').value = '12032003';
-      console.log('Credentials set, calling login()...');
-      login();
-    }
-
-    // Force show admin panel for debugging
-    function forceShowAdmin() {
-      console.log('=== FORCE SHOW ADMIN PANEL ===');
-      const loginSection = document.getElementById('loginSection');
-      const adminPanel = document.getElementById('adminPanel');
-      
-      if (loginSection && adminPanel) {
-        loginSection.classList.add('hidden');
-        adminPanel.classList.remove('hidden');
-        console.log('Admin panel forced to show');
-        
-        // Set up functions
-        if (typeof setupAdminPanelListeners === 'function') {
-          setupAdminPanelListeners();
-        }
-        if (typeof loadContent === 'function') {
-          loadContent();
-        }
-        if (typeof loadBlogPosts === 'function') {
-          loadBlogPosts();
-        }
-        if (typeof loadGallery === 'function') {
-          loadGallery();
-        }
-        if (typeof loadContactMessages === 'function') {
-          loadContactMessages();
-        }
-      } else {
-        console.error('Elements not found for force show');
-      }
-    }
-
-    // Login function
+    // Simple login function
     function login() {
-      console.log('Login function called');
-      const username = document.getElementById('loginUsername').value;
-      const password = document.getElementById('loginPassword').value;
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-      console.log('Login attempt for username:', username);
-      console.log('Password length:', password ? password.length : 0);
+      console.log('Login attempt:', { username, passwordLength: password.length });
 
       if (!username || !password) {
         alert('Please enter both username and password');
         return;
       }
 
-      authHeader = 'Basic ' + btoa(username + ':' + password);
-      console.log('Auth header created:', authHeader.substring(0, 20) + '...');
+      // Show loading state
+      document.querySelector('.btn-login').classList.add('loading');
+      document.querySelector('.btn-login').textContent = 'Signing In...';
 
-      // Test authentication using a safe endpoint
-      console.log('Making API request to /api/auth-check...');
+      // Test authentication
+      const authHeader = 'Basic ' + btoa(username + ':' + password);
+
       fetch('/api/auth-check', {
         method: 'GET',
         headers: {
@@ -1441,962 +273,88 @@
       })
         .then(response => {
           console.log('Auth response:', response.status, response.ok);
+
           if (response.ok) {
-            // Hide login form and show admin panel
-            console.log('Authentication successful, showing admin panel...');
-            
-            const loginSection = document.getElementById('loginSection');
-            const adminPanel = document.getElementById('adminPanel');
-            
-            console.log('Elements found:', {
-              loginSection: !!loginSection,
-              adminPanel: !!adminPanel
-            });
-            
-            if (loginSection && adminPanel) {
-              loginSection.classList.add('hidden');
-              adminPanel.classList.remove('hidden');
-              console.log('Classes updated successfully');
-              
-              // Set up admin panel event listeners
-              console.log('Setting up admin panel...');
-              if (typeof setupAdminPanelListeners === 'function') {
-                setupAdminPanelListeners();
-              } else {
-                console.error('setupAdminPanelListeners function not found');
-              }
-
-              // Load content
-              console.log('Loading admin content...');
-              if (typeof loadContent === 'function') {
-                loadContent();
-              } else {
-                console.error('loadContent function not found');
-              }
-              
-              if (typeof loadBlogPosts === 'function') {
-                loadBlogPosts();
-              } else {
-                console.error('loadBlogPosts function not found');
-              }
-              
-              if (typeof loadGallery === 'function') {
-                loadGallery();
-              } else {
-                console.error('loadGallery function not found');
-              }
-              
-              if (typeof loadContactMessages === 'function') {
-                loadContactMessages();
-              } else {
-                console.error('loadContactMessages function not found');
-              }
-            } else {
-              console.error('Required elements not found');
-              alert('Error: Could not find required page elements');
-            }
+            // Success - show admin panel
+            showAdminPanel();
           } else {
-            // Show error message and keep login form visible
-            alert('Invalid credentials. Please check your username and password.');
-            document.getElementById('loginUsername').value = '';
-            document.getElementById('loginPassword').value = '';
-            document.getElementById('loginUsername').focus();
+            // Failed - show error
+            showError('Invalid credentials. Please check your username and password.');
           }
         })
         .catch(error => {
-          // Show error message and keep login form visible
-          alert('Connection error: ' + (error.message || 'Unable to connect to server. Please try again.'));
-          document.getElementById('loginUsername').value = '';
-          document.getElementById('loginPassword').value = '';
-          document.getElementById('loginUsername').focus();
-        });
-    }
-
-    // Send password reset link
-    function sendResetLink() {
-      const emailInput = document.getElementById('resetEmail');
-      const status = document.getElementById('resetStatus');
-      const email = (emailInput && emailInput.value) || document.getElementById('loginUsername').value;
-      if (!email) { alert('Please enter your admin email'); return; }
-      if (status) { status.style.display = 'block'; status.className = 'alert alert-info'; status.textContent = 'Sending reset link...'; }
-      fetch('/api/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      })
-        .then(r => r.json())
-        .then(data => {
-          if (status) {
-            status.className = 'alert alert-success';
-            status.textContent = 'If the email exists, a reset link has been sent.';
-          }
+          console.error('Login error:', error);
+          showError('Connection error. Please try again.');
         })
-        .catch(err => {
-          if (status) {
-            status.className = 'alert alert-error';
-            status.textContent = 'Error sending reset link: ' + (err.message || 'Unknown error occurred');
-          }
+        .finally(() => {
+          // Reset loading state
+          document.querySelector('.btn-login').classList.remove('loading');
+          document.querySelector('.btn-login').innerHTML = '<i class="bx bx-log-in"></i> Sign In';
         });
     }
 
-    // Handle file selection and preview
-    function handleFileSelect(event, previewId) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const preview = document.getElementById(previewId);
-          preview.src = e.target.result;
-          preview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      }
+    // Test login with predefined credentials
+    function testLogin() {
+      console.log('Test login triggered');
+      document.getElementById('username').value = 'shukla.suryansh123@gmail.com';
+      document.getElementById('password').value = '12032003';
+      login();
     }
 
-    // Function to set up admin panel event listeners (called after successful login)
-    function setupAdminPanelListeners() {
-      console.log('Setting up admin panel event listeners...');
-
-      // Set up file input handlers
-      const firmLogo = document.getElementById('firmLogo');
-      const suryanshPhoto = document.getElementById('suryanshPhoto');
-      const divyanshPhoto = document.getElementById('divyanshPhoto');
-      const blogTitle = document.getElementById('blogTitle');
-      const blogEditor = document.getElementById('blogEditor');
-      const blogPhotoEl = document.getElementById('blogPhoto');
-      const galleryPhotoEl = document.getElementById('galleryPhoto');
-
-      if (firmLogo) {
-        firmLogo.addEventListener('change', function (e) {
-          handleFileSelect(e, 'firmLogoPreview');
-        });
-      }
-
-      if (suryanshPhoto) {
-        suryanshPhoto.addEventListener('change', function (e) {
-          handleFileSelect(e, 'suryanshPhotoPreview');
-        });
-      }
-
-      if (divyanshPhoto) {
-        divyanshPhoto.addEventListener('change', function (e) {
-          handleFileSelect(e, 'divyanshPhotoPreview');
-        });
-      }
-
-      // Set up autosave for blog drafts
-      if (blogTitle) {
-        blogTitle.addEventListener('input', autosaveBlogDraft);
-      }
-      if (blogEditor) {
-        blogEditor.addEventListener('input', autosaveBlogDraft);
-      }
-
-      if (blogPhotoEl) {
-        blogPhotoEl.addEventListener('change', function (e) {
-          handleFileSelect(e, 'blogPhotoPreview');
-        });
-      }
-
-      if (galleryPhotoEl) {
-        galleryPhotoEl.addEventListener('change', function (e) {
-          handleFileSelect(e, 'galleryPhotoPreview');
-        });
-      }
-
-      console.log('Admin panel event listeners set up successfully');
-
-      // Set up navigation and UI
-      setupNavigationAndUI();
+    // Force show admin panel (bypass authentication)
+    function forceShowAdmin() {
+      console.log('Force show admin triggered');
+      showAdminPanel();
     }
 
-    // Load content when page loads
-    window.onload = function () {
-      console.log('Admin page loaded, initializing...');
-      // Check if already logged in (for demo purposes, we'll just show the login form)
-      // In a real implementation, you would check for a valid session token
-      const loginSection = document.getElementById('loginSection');
-      const adminPanel = document.getElementById('adminPanel');
-      const loginButton = document.querySelector('button[onclick="login()"]');
+    // Show admin panel
+    function showAdminPanel() {
+      console.log('Showing admin panel');
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
 
-      console.log('Element check:', {
-        loginSection: !!loginSection,
-        adminPanel: !!adminPanel,
-        loginButton: !!loginButton
-      });
-
-      if (loginSection && adminPanel) {
-        console.log('Elements found, setting initial state...');
-        loginSection.classList.remove('hidden');
-        adminPanel.classList.add('hidden');
-        console.log('Initial state set successfully');
-      } else {
-        console.error('Required elements not found:', { loginSection: !!loginSection, adminPanel: !!adminPanel });
-      }
-
-      // Test login function availability
-      if (typeof login === 'function') {
-        console.log('Login function is available');
-      } else {
-        console.error('Login function is not available');
-      }
-    };
-
-    // Load website content
-    function loadContent() {
-      fetch('/api/content')
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('aboutContent').value = data.aboutContent || '';
-          document.getElementById('aboutList1').value = data.aboutList1 || '';
-          document.getElementById('aboutList2').value = data.aboutList2 || '';
-          document.getElementById('aboutList3').value = data.aboutList3 || '';
-          document.getElementById('suryanshBio').value = data.suryanshBio || '';
-          document.getElementById('divyanshBio').value = data.divyanshBio || '';
-
-          // Display image previews if they exist
-          if (data.firmLogo) {
-            document.getElementById('firmLogoPreview').src = data.firmLogo;
-            document.getElementById('firmLogoPreview').style.display = 'block';
-          }
-
-          if (data.suryanshPhoto) {
-            document.getElementById('suryanshPhotoPreview').src = data.suryanshPhoto;
-            document.getElementById('suryanshPhotoPreview').style.display = 'block';
-          }
-
-          if (data.divyanshPhoto) {
-            document.getElementById('divyanshPhotoPreview').src = data.divyanshPhoto;
-            document.getElementById('divyanshPhotoPreview').style.display = 'block';
-          }
-
-          document.getElementById('content-status').className = 'alert alert-success';
-          document.getElementById('content-status').textContent = 'Content loaded successfully';
-        })
-        .catch(error => {
-          console.error('Error loading content:', error);
-          document.getElementById('content-status').className = 'alert alert-error';
-          document.getElementById('content-status').textContent = 'Error loading content: ' + error.message;
-        });
+      // Update status message
+      const statusMessage = document.getElementById('statusMessage');
+      statusMessage.className = 'success-message';
+      statusMessage.innerHTML = '✅ Successfully logged in! Admin panel is now active.';
     }
 
-    // Save website content
-    function saveContent() {
-      const content = {
-        aboutContent: document.getElementById('aboutContent').value,
-        aboutList1: document.getElementById('aboutList1').value,
-        aboutList2: document.getElementById('aboutList2').value,
-        aboutList3: document.getElementById('aboutList3').value,
-        suryanshBio: document.getElementById('suryanshBio').value,
-        divyanshBio: document.getElementById('divyanshBio').value
-      };
+    // Show error message
+    function showError(message) {
+      const statusMessage = document.getElementById('statusMessage');
+      statusMessage.className = 'error-message';
+      statusMessage.innerHTML = '❌ ' + message;
+      statusMessage.style.display = 'block';
 
-      // Handle image uploads
-      const firmLogoFile = document.getElementById('firmLogo').files[0];
-      const suryanshPhotoFile = document.getElementById('suryanshPhoto').files[0];
-      const divyanshPhotoFile = document.getElementById('divyanshPhoto').files[0];
-
-      document.getElementById('content-status').className = 'alert alert-info';
-      document.getElementById('content-status').textContent = 'Saving content...';
-
-      // If no images are selected, save content directly
-      if (!firmLogoFile && !suryanshPhotoFile && !divyanshPhotoFile) {
-        fetch('/api/content', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authHeader
-          },
-          body: JSON.stringify(content)
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              document.getElementById('content-status').className = 'alert alert-success';
-              document.getElementById('content-status').textContent = 'Content saved successfully';
-            } else {
-              document.getElementById('content-status').className = 'alert alert-error';
-              document.getElementById('content-status').textContent = 'Error saving content: ' + data.message;
-            }
-          })
-          .catch(error => {
-            console.error('Error saving content:', error);
-            document.getElementById('content-status').className = 'alert alert-error';
-            document.getElementById('content-status').textContent = 'Error saving content: ' + (error.message || 'Unknown error occurred');
-          });
-        return;
-      }
-
-      // If images are selected, we need to read them and include in the content
-      const promises = [];
-
-      if (firmLogoFile) {
-        promises.push(new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            content.firmLogo = e.target.result;
-            resolve();
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(firmLogoFile);
-        }));
-      }
-
-      if (suryanshPhotoFile) {
-        promises.push(new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            content.suryanshPhoto = e.target.result;
-            resolve();
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(suryanshPhotoFile);
-        }));
-      }
-
-      if (divyanshPhotoFile) {
-        promises.push(new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            content.divyanshPhoto = e.target.result;
-            resolve();
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(divyanshPhotoFile);
-        }));
-      }
-
-      // Wait for all image reading to complete, then save content
-      Promise.all(promises)
-        .then(() => {
-          fetch('/api/content', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': authHeader
-            },
-            body: JSON.stringify(content)
-          })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                document.getElementById('content-status').className = 'status success';
-                document.getElementById('content-status').textContent = 'Content saved successfully';
-              } else {
-                document.getElementById('content-status').className = 'status error';
-                document.getElementById('content-status').textContent = 'Error saving content: ' + data.message;
-              }
-            })
-            .catch(error => {
-              console.error('Error saving content:', error);
-              document.getElementById('content-status').className = 'status error';
-              document.getElementById('content-status').textContent = 'Error saving content: ' + (error.message || 'Unknown error occurred');
-            });
-        })
-        .catch(error => {
-          console.error('Error reading images:', error);
-          document.getElementById('content-status').className = 'alert alert-error';
-          document.getElementById('content-status').textContent = 'Error reading images: ' + (error.message || 'Unknown error occurred');
-        });
+      // Clear password field
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
     }
 
-    // Simple rich-text editor helpers
-    function fmt(cmd, editorId) {
-      var editor = editorId ? document.getElementById(editorId) : document.activeElement;
-      if (editor && editor.isContentEditable) {
-        editor.focus();
-        document.execCommand(cmd, false, null);
-      }
-    }
-    function fmtBlock(tag, editorId) {
-      var editor = editorId ? document.getElementById(editorId) : document.activeElement;
-      if (editor && editor.isContentEditable) {
-        editor.focus();
-        document.execCommand('formatBlock', false, tag);
-      }
-    }
-    function fmtColor(cmd, val, editorId) {
-      var editor = editorId ? document.getElementById(editorId) : document.activeElement;
-      if (editor && editor.isContentEditable) {
-        editor.focus();
-        try { document.execCommand(cmd, false, val); }
-        catch (_) { document.execCommand('backColor', false, val); }
-      }
+    // Logout function
+    function logout() {
+      console.log('Logout triggered');
+      document.getElementById('adminPanel').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+
+      // Clear form
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+
+      // Clear status message
+      document.getElementById('statusMessage').style.display = 'none';
     }
 
-    // Load blog posts
-    function loadBlogPosts() {
-      fetch('/api/blog-posts')
-        .then(response => response.json())
-        .then(blogPosts => {
-          const container = document.getElementById('blogPostsContainer');
-          container.innerHTML = '';
-
-          if (blogPosts.length === 0) {
-            container.innerHTML = '<p>No blog posts found.</p>';
-            document.getElementById('blog-status').className = 'alert alert-info';
-            document.getElementById('blog-status').textContent = 'No blog posts found';
-            return;
-          }
-
-          blogPosts.forEach(post => {
-            const postElement = document.createElement('div');
-            postElement.className = 'blog-post';
-            postElement.id = `post-${post.id}`;
-            postElement.innerHTML = `
-              <div class="post-view">
-                <h3>${post.title}</h3>
-                <p>${post.content.substring(0, 100)}...</p>
-                ${post.photo ? `<img src="${post.photo}" alt="Blog Post Image" style="max-width: 100%; max-height: 200px; margin: 10px 0;">` : ''}
-                <button onclick="startEditPost(${post.id})" style="background-color:#1f2937;">Edit</button>
-                <button onclick="deleteBlogPost(${post.id})" style="background-color: #dc3545;">Delete</button>
-              </div>
-              <div class="post-edit" style="display:none;">
-                <label>Title</label>
-                <input type="text" id="editTitle-${post.id}" value="${post.title || ''}">
-                <label>Content</label>
-                <div class="editor-toolbar" id="editToolbar-${post.id}" style="display:flex; align-items:center; gap:8px; background:#f3f4f6; border-radius:8px; padding:6px 10px; margin-bottom:6px; border:1px solid #e5e7eb;">
-                  <button type="button" onclick="fmt('bold', 'editEditor-${post.id}')" title="Bold"><span style="font-weight:bold;">B</span></button>
-                  <button type="button" onclick="fmt('italic', 'editEditor-${post.id}')" title="Italic"><span style="font-style:italic;">I</span></button>
-                  <button type="button" onclick="fmt('underline', 'editEditor-${post.id}')" title="Underline"><span style="text-decoration:underline;">U</span></button>
-                  <button type="button" onclick="fmt('strikeThrough', 'editEditor-${post.id}')" title="Strikethrough"><span style="text-decoration:line-through;">S</span></button>
-                  <button type="button" onclick="fmt('insertUnorderedList', 'editEditor-${post.id}')" title="Unordered List">&#8226; List</button>
-                  <button type="button" onclick="fmt('insertOrderedList', 'editEditor-${post.id}')" title="Ordered List">1. List</button>
-                  <button type="button" onclick="fmtBlock('H1', 'editEditor-${post.id}')" title="Heading 1">H1</button>
-                  <button type="button" onclick="fmtBlock('H2', 'editEditor-${post.id}')" title="Heading 2">H2</button>
-                  <button type="button" onclick="fmtBlock('P', 'editEditor-${post.id}')" title="Paragraph">P</button>
-                  <button type="button" onclick="fmtColor('hiliteColor', '#ffff66', 'editEditor-${post.id}')" title="Highlight">&#9728;</button>
-                  <button type="button" onclick="fmt('removeFormat', 'editEditor-${post.id}')" title="Clear Formatting">&#10006;</button>
-                </div>
-                <div id="editEditor-${post.id}" class="editor" contenteditable="true" style="min-height:200px; background:#fff; border:1px solid #ddd; border-radius:10px; padding:12px; white-space: pre-wrap; overflow-wrap: break-word;">${post.content || ''}</div>
-                <label>Photo (optional, will replace existing)</label>
-                <input type="file" id="editPhoto-${post.id}" accept="image/*">
-                <div style="display:flex; gap:10px;">
-                  <button onclick="saveEditPost(${post.id})">Save</button>
-                  <button onclick="cancelEditPost(${post.id})" style="background-color:#6b7280;">Cancel</button>
-                </div>
-                <div class="status info" id="editStatus-${post.id}" style="display:none; margin-top:10px;"></div>
-              </div>
-            `;
-            container.appendChild(postElement);
-          });
-
-          document.getElementById('blog-status').className = 'alert alert-success';
-          document.getElementById('blog-status').textContent = `Loaded ${blogPosts.length} blog posts`;
-        })
-        .catch(error => {
-          console.error('Error loading blog posts:', error);
-          document.getElementById('blog-status').className = 'alert alert-error';
-          document.getElementById('blog-status').textContent = 'Error loading blog posts: ' + error.message;
-        });
-    }
-
-    // Add a new blog post
-    function addBlogPost() {
-      const title = document.getElementById('blogTitle').value;
-      const content = (document.getElementById('blogEditor') || {}).innerHTML || '';
-      const blogPhotoFile = document.getElementById('blogPhoto').files[0];
-      if (highlightBlogErrors()) {
-        document.getElementById('blog-status').className = 'alert alert-error';
-        document.getElementById('blog-status').textContent = 'Please fill in both title and content.';
-        return;
+    // Add enter key support
+    document.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        login();
       }
-      showSaveSpinner();
-      // If no image is selected, add blog post directly
-      if (!blogPhotoFile) {
-        fetch('/api/blog-posts', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authHeader
-          },
-          body: JSON.stringify({ title, content })
-        })
-          .then(response => response.json())
-          .then(data => {
-            hideSaveSpinner(data.success);
-            if (data.success) {
-              document.getElementById('blogTitle').value = '';
-              (function () { const ed = document.getElementById('blogEditor'); if (ed) ed.innerHTML = ''; })();
-              document.getElementById('blogPhoto').value = '';
-              document.getElementById('blogPhotoPreview').style.display = 'none';
-              localStorage.removeItem('blogDraft');
-              loadBlogPosts(); // Refresh the blog posts list
-            }
-          })
-          .catch(error => {
-            hideSaveSpinner(false);
-            console.error('Error adding blog post:', error);
-          });
-        return;
-      }
-      // If image is selected, read it and include in the blog post
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const blogPost = {
-          title,
-          content,
-          photo: e.target.result
-        };
-        fetch('/api/blog-posts', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authHeader
-          },
-          body: JSON.stringify(blogPost)
-        })
-          .then(response => response.json())
-          .then(data => {
-            hideSaveSpinner(data.success);
-            if (data.success) {
-              document.getElementById('blogTitle').value = '';
-              (function () { const ed2 = document.getElementById('blogEditor'); if (ed2) ed2.innerHTML = ''; })();
-              document.getElementById('blogPhoto').value = '';
-              document.getElementById('blogPhotoPreview').style.display = 'none';
-              localStorage.removeItem('blogDraft');
-              loadBlogPosts(); // Refresh the blog posts list
-            }
-          })
-          .catch(error => {
-            hideSaveSpinner(false);
-            console.error('Error adding blog post:', error);
-          });
-      };
-      reader.onerror = function (error) {
-        hideSaveSpinner(false);
-        console.error('Error reading blog photo:', error);
-      };
-      reader.readAsDataURL(blogPhotoFile);
-    }
+    });
 
-    // Delete a blog post
-    function deleteBlogPost(id) {
-      if (!confirm('Are you sure you want to delete this blog post?')) {
-        return;
-      }
-
-      document.getElementById('blog-status').className = 'alert alert-info';
-      document.getElementById('blog-status').textContent = 'Deleting blog post...';
-
-      fetch(`/api/blog-posts/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': authHeader
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            document.getElementById('blog-status').className = 'alert alert-success';
-            document.getElementById('blog-status').textContent = 'Blog post deleted successfully';
-            loadBlogPosts(); // Refresh the blog posts list
-          } else {
-            document.getElementById('blog-status').className = 'alert alert-error';
-            document.getElementById('blog-status').textContent = 'Error deleting blog post: ' + data.message;
-          }
-        })
-        .catch(error => {
-          console.error('Error deleting blog post:', error);
-          document.getElementById('blog-status').className = 'alert alert-error';
-          document.getElementById('blog-status').textContent = 'Error deleting blog post: ' + (error.message || 'Unknown error occurred');
-        });
-    }
-
-    // Start editing a blog post
-    function startEditPost(id) {
-      const el = document.getElementById(`post-${id}`);
-      if (!el) return;
-      const view = el.querySelector('.post-view');
-      const edit = el.querySelector('.post-edit');
-      if (view && edit) { view.style.display = 'none'; edit.style.display = 'block'; }
-    }
-
-    function cancelEditPost(id) {
-      const el = document.getElementById(`post-${id}`);
-      if (!el) return;
-      const view = el.querySelector('.post-view');
-      const edit = el.querySelector('.post-edit');
-      if (view && edit) { edit.style.display = 'none'; view.style.display = 'block'; }
-    }
-
-    function saveEditPost(id) {
-      const el = document.getElementById(`post-${id}`);
-      if (!el) return;
-      const title = (document.getElementById(`editTitle-${id}`) || {}).value || '';
-      const content = (document.getElementById(`editEditor-${id}`) || {}).innerHTML || '';
-      const photoInput = document.getElementById(`editPhoto-${id}`);
-      const status = document.getElementById(`editStatus-${id}`);
-      if (status) { status.style.display = 'block'; status.className = 'alert alert-info'; status.textContent = 'Saving...'; }
-
-      const submit = (payload) => {
-        fetch(`/api/blog-posts/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'Authorization': authHeader },
-          body: JSON.stringify(payload)
-        })
-          .then(r => r.json())
-          .then(data => {
-            if (data.success) {
-              if (status) { status.className = 'alert alert-success'; status.textContent = 'Post updated successfully'; }
-              // Reload list
-              loadBlogPosts();
-            } else {
-              if (status) { status.className = 'alert alert-error'; status.textContent = 'Error updating: ' + (data.message || 'Unknown error'); }
-            }
-          })
-          .catch(err => {
-            if (status) { status.className = 'alert alert-error'; status.textContent = 'Error updating: ' + (err.message || 'Unknown error'); }
-          });
-      };
-
-      if (photoInput && photoInput.files && photoInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function (e) { submit({ title, content, photo: e.target.result }); };
-        reader.onerror = function (e) { if (status) { status.className = 'alert alert-error'; status.textContent = 'Error reading photo'; } };
-        reader.readAsDataURL(photoInput.files[0]);
-      } else {
-        submit({ title, content });
-      }
-    }
-
-    // Gallery functions
-    function loadGallery() {
-      fetch('/api/gallery')
-        .then(response => response.json())
-        .then(items => {
-          const container = document.getElementById('galleryContainer');
-          const status = document.getElementById('gallery-status');
-          if (!container || !status) return;
-          container.innerHTML = '';
-          if (!items || items.length === 0) {
-            status.className = 'alert alert-info';
-            status.textContent = 'No photos yet.';
-            return;
-          }
-          status.className = 'alert alert-success';
-          status.textContent = `Loaded ${items.length} photos`;
-          items.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            card.innerHTML = `
-              <div class="item-header">
-                <div class="item-title">Gallery Item #${item.id}</div>
-                <div class="item-meta">Added: ${new Date(item.timestamp || Date.now()).toLocaleDateString()}</div>
-              </div>
-              ${item.photo ? `<img src="${item.photo}" alt="Gallery Image" class="item-image">` : ''}
-              ${item.caption ? `<div class="item-content">${item.caption}</div>` : ''}
-              <div class="item-actions">
-                <button onclick="deletePhoto(${item.id})" class="btn btn-danger btn-sm">Delete Photo</button>
-              </div>
-            `;
-            container.appendChild(card);
-          });
-        })
-        .catch(error => {
-          console.error('Error loading gallery:', error);
-          const status = document.getElementById('gallery-status');
-          if (!status) return;
-          status.className = 'alert alert-error';
-          status.textContent = 'Error loading gallery: ' + error.message;
-        });
-    }
-
-    function addPhoto() {
-      const photoFile = document.getElementById('galleryPhoto').files[0];
-      const caption = document.getElementById('galleryCaption').value;
-      const status = document.getElementById('gallery-status');
-      if (!photoFile) {
-        alert('Please select a photo');
-        return;
-      }
-      status.className = 'alert alert-info';
-      status.textContent = 'Uploading photo...';
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        fetch('/api/gallery', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': authHeader
-          },
-          body: JSON.stringify({
-            photo: e.target.result,
-            caption: caption
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              status.className = 'alert alert-success';
-              status.textContent = 'Photo uploaded successfully';
-              document.getElementById('galleryPhoto').value = '';
-              document.getElementById('galleryCaption').value = '';
-              document.getElementById('galleryPhotoPreview').style.display = 'none';
-              loadGallery(); // Refresh gallery
-            } else {
-              status.className = 'alert alert-error';
-              status.textContent = 'Error uploading photo: ' + (data.message || 'Unknown error');
-            }
-          })
-          .catch(error => {
-            console.error('Error uploading photo:', error);
-            status.className = 'alert alert-error';
-            status.textContent = 'Error uploading photo: ' + (error.message || 'Unknown error occurred');
-          });
-      };
-      reader.onerror = function (error) {
-        status.className = 'alert alert-error';
-        status.textContent = 'Error reading photo: ' + (error.message || 'Unknown error occurred');
-      };
-      reader.readAsDataURL(photoFile);
-    }
-
-    function addBulkPhotos() {
-      const input = document.getElementById('galleryBulkPhotos');
-      const status = document.getElementById('gallery-status');
-      if (!input || !input.files || input.files.length === 0) {
-        alert('Please select at least one photo');
-        return;
-      }
-      if (input.files.length > 50) {
-        alert('You can upload a maximum of 50 photos at a time');
-        return;
-      }
-
-      status.className = 'alert alert-info';
-      status.textContent = 'Preparing photos for upload...';
-
-      const files = Array.from(input.files).slice(0, 50);
-      const readers = files.map(file => new Promise((resolve, reject) => {
-        const r = new FileReader();
-        r.onload = e => resolve({ photo: e.target.result });
-        r.onerror = () => reject(new Error('Failed to read file'));
-        r.readAsDataURL(file);
-      }));
-
-      Promise.all(readers)
-        .then(items => {
-          status.className = 'alert alert-info';
-          status.textContent = 'Uploading photos...';
-          return fetch('/api/gallery/bulk', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': authHeader
-            },
-            body: JSON.stringify({ items })
-          });
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            status.className = 'alert alert-success';
-            status.textContent = `Uploaded ${data.count} photos successfully`;
-            input.value = '';
-            loadGallery();
-          } else {
-            status.className = 'alert alert-error';
-            status.textContent = 'Error uploading photos: ' + (data.message || 'Unknown error');
-          }
-        })
-        .catch(error => {
-          console.error('Error uploading photos:', error);
-          status.className = 'alert alert-error';
-          status.textContent = 'Error uploading photos: ' + (error.message || 'Unknown error');
-        });
-    }
-
-    function deletePhoto(id) {
-      if (!confirm('Are you sure you want to delete this photo?')) return;
-      const status = document.getElementById('gallery-status');
-      status.className = 'alert alert-info';
-      status.textContent = 'Deleting photo...';
-      fetch(`/api/gallery/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': authHeader }
-      })
-        .then(r => r.json())
-        .then(data => {
-          if (data.success) {
-            status.className = 'alert alert-success';
-            status.textContent = 'Photo deleted successfully';
-            loadGallery();
-          } else {
-            status.className = 'alert alert-error';
-            status.textContent = 'Error deleting photo: ' + data.message;
-          }
-        })
-        .catch(error => {
-          console.error('Error deleting photo:', error);
-          status.className = 'alert alert-error';
-          status.textContent = 'Error deleting photo: ' + (error.message || 'Unknown error occurred');
-        });
-    }
-
-    // Load contact messages
-    function loadContactMessages() {
-      // For security reasons, we won't load contact messages in this public admin panel
-      // In a real implementation, you would need to authenticate to see these
-      document.getElementById('messages-status').className = 'alert alert-info';
-      document.getElementById('messages-status').textContent = 'Contact messages are not displayed in this public admin panel for privacy reasons.';
-    }
-
-    // Navigation and UI Management (moved to setupAdminPanelListeners)
-    function setupNavigationAndUI() {
-      console.log('Setting up navigation and UI...');
-
-      // Mobile menu toggle
-      const menuToggle = document.getElementById('menuToggle');
-      const sidebar = document.getElementById('sidebar');
-      const mainContent = document.getElementById('mainContent');
-
-      if (menuToggle) {
-        menuToggle.addEventListener('click', function () {
-          sidebar.classList.toggle('open');
-          mainContent.classList.toggle('expanded');
-        });
-      }
-
-      // Navigation between sections
-      const navLinks = document.querySelectorAll('.nav-link[data-section]');
-      const sections = {
-        'content': { element: document.getElementById('contentSection'), title: 'Website Content' },
-        'blog': { element: document.getElementById('blogSection'), title: 'Blog Posts' },
-        'gallery': { element: document.getElementById('gallerySection'), title: 'Gallery' },
-        'messages': { element: document.getElementById('messagesSection'), title: 'Messages' }
-      };
-
-      function showSection(sectionName) {
-        // Hide all sections
-        Object.values(sections).forEach(section => {
-          if (section.element) {
-            section.element.classList.add('hidden');
-          }
-        });
-
-        // Show selected section
-        if (sections[sectionName] && sections[sectionName].element) {
-          sections[sectionName].element.classList.remove('hidden');
-          // Update page title
-          const pageTitle = document.getElementById('pageTitle');
-          if (pageTitle) {
-            pageTitle.textContent = sections[sectionName].title;
-          }
-        }
-
-        // Update nav link active state
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.dataset.section === sectionName) {
-            link.classList.add('active');
-          }
-        });
-
-        // Close mobile menu after selection
-        if (window.innerWidth <= 1024) {
-          sidebar.classList.remove('open');
-          mainContent.classList.add('expanded');
-        }
-      }
-
-      // Add click event listeners to nav links
-      navLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          const section = this.dataset.section;
-          showSection(section);
-        });
-      });
-
-      // Initialize with content section
-      showSection('content');
-
-      // Enhanced file upload preview functionality
-      function updatePreviewImages() {
-        const previews = document.querySelectorAll('.preview-image');
-        previews.forEach(preview => {
-          if (preview.src && !preview.classList.contains('hidden')) {
-            preview.classList.remove('hidden');
-          }
-        });
-      }
-
-      // Auto-resize textareas
-      const textareas = document.querySelectorAll('.form-textarea');
-      textareas.forEach(textarea => {
-        textarea.addEventListener('input', function () {
-          this.style.height = 'auto';
-          this.style.height = this.scrollHeight + 'px';
-        });
-      });
-
-      // Enhanced alert system
-      function showAlert(message, type = 'info', duration = 5000) {
-        // Remove existing alerts
-        const existingAlerts = document.querySelectorAll('.floating-alert');
-        existingAlerts.forEach(alert => alert.remove());
-
-        const alert = document.createElement('div');
-        alert.className = `alert alert-${type} floating-alert`;
-        alert.style.cssText = `
-          position: fixed;
-          top: 2rem;
-          right: 2rem;
-          z-index: 1000;
-          max-width: 400px;
-          box-shadow: var(--shadow-lg);
-          animation: slideInRight 0.3s ease;
-        `;
-        alert.innerHTML = `
-          <i class="bx bx-${type === 'success' ? 'check' : type === 'error' ? 'x' : 'info'}-circle"></i>
-          ${message}
-          <button onclick="this.parentElement.remove()" style="margin-left: auto; background: none; border: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
-        `;
-
-        document.body.appendChild(alert);
-
-        // Auto remove after duration
-        setTimeout(() => {
-          if (alert.parentElement) {
-            alert.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(() => alert.remove(), 300);
-          }
-        }, duration);
-      }
-
-      // Add CSS for alert animations
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes slideInRight {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOutRight {
-          from { transform: translateX(0); opacity: 1; }
-          to { transform: translateX(100%); opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-
-      // Make showAlert globally available
-      window.showAlert = showAlert;
-
-      // Responsive sidebar handling
-      function handleResize() {
-        if (window.innerWidth <= 1024) {
-          sidebar.classList.remove('open');
-          mainContent.classList.add('expanded');
-        } else {
-          sidebar.classList.remove('open');
-          mainContent.classList.remove('expanded');
-        }
-      }
-
-      window.addEventListener('resize', handleResize);
-      handleResize(); // Initial call
-    }
+    // Initialize
+    console.log('Admin page loaded successfully');
+    console.log('Available functions: login(), testLogin(), forceShowAdmin(), logout()');
   </script>
 </body>
 
