@@ -443,7 +443,7 @@
 </head>
 
 <body>
-      <div class="admin-container logged-in">
+  <div class="admin-container logged-in">
     <div class="sidebar">
       <div class="logo-section">
         <div class="logo-title">Admin Dashboard</div>
@@ -722,13 +722,13 @@
     }
 
     // Login form handler
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      
+
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const errorDiv = document.getElementById('loginError');
-      
+
       try {
         const response = await fetch('/api/login', {
           method: 'POST',
@@ -737,7 +737,7 @@
           },
           body: JSON.stringify({ username, password })
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem('authToken', data.token);
