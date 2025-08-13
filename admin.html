@@ -942,6 +942,8 @@
       const username = document.getElementById('loginUsername').value;
       const password = document.getElementById('loginPassword').value;
       
+      console.log('Login attempt for username:', username);
+      
       if (!username || !password) {
         alert('Please enter both username and password');
         return;
@@ -967,21 +969,19 @@
           loadGallery();
           loadContactMessages();
         } else {
-          document.getElementById('loginSection').classList.add('hidden');
-          document.getElementById('adminPanel').classList.remove('hidden');
-          var mainContent = document.getElementById('mainContent');
-          if(mainContent){
-            mainContent.innerHTML = '<div style="padding:2rem;text-align:center;"><h2>Unable to load admin data</h2><p>There was a problem with authentication or server connection.<br>Please check your credentials or try again later.</p></div>';
-          }
+          // Show error message and keep login form visible
+          alert('Invalid credentials. Please check your username and password.');
+          document.getElementById('loginUsername').value = '';
+          document.getElementById('loginPassword').value = '';
+          document.getElementById('loginUsername').focus();
         }
       })
       .catch(error => {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('adminPanel').classList.remove('hidden');
-        var mainContent = document.getElementById('mainContent');
-        if(mainContent){
-          mainContent.innerHTML = '<div style="padding:2rem;text-align:center;"><h2>Unable to load admin data</h2><p>' + (error.message || 'Unknown error occurred') + '<br>Please check your credentials or try again later.</p></div>';
-        }
+        // Show error message and keep login form visible
+        alert('Connection error: ' + (error.message || 'Unable to connect to server. Please try again.'));
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginUsername').focus();
       });
     }
 
