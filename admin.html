@@ -959,11 +959,14 @@
         }
       })
       .then(response => {
+        console.log('Auth response:', response.status, response.ok);
         if (response.ok) {
           // Hide login form and show admin panel
+          console.log('Authentication successful, showing admin panel...');
           document.getElementById('loginSection').classList.add('hidden');
           document.getElementById('adminPanel').classList.remove('hidden');
           // Load content
+          console.log('Loading admin content...');
           loadContent();
           loadBlogPosts();
           loadGallery();
@@ -1080,10 +1083,19 @@
     
     // Load content when page loads
     window.onload = function() {
+      console.log('Admin page loaded, initializing...');
       // Check if already logged in (for demo purposes, we'll just show the login form)
       // In a real implementation, you would check for a valid session token
-      document.getElementById('loginSection').style.display = 'block';
-      document.getElementById('adminPanel').style.display = 'none';
+      const loginSection = document.getElementById('loginSection');
+      const adminPanel = document.getElementById('adminPanel');
+      
+      if (loginSection && adminPanel) {
+        console.log('Elements found, setting initial state...');
+        loginSection.classList.remove('hidden');
+        adminPanel.classList.add('hidden');
+      } else {
+        console.error('Required elements not found:', { loginSection: !!loginSection, adminPanel: !!adminPanel });
+      }
     };
     
     // Load website content
