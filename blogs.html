@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,80 +15,82 @@
   <meta name="twitter:description" content="Insights and updates from our practice.">
   <meta name="twitter:image" content="/api/content/firmLogo">
   <meta name="description" content="Read articles and updates from Shukla & Shukla Associates." />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
   <style>
-    body { 
-      background: linear-gradient(135deg, var(--bg) 0%, var(--grey-lightest) 100%); 
+    body {
+      background: linear-gradient(135deg, var(--bg) 0%, var(--grey-lightest) 100%);
       min-height: 100vh;
     }
-    
-    .page-header { 
-      padding: 24px 0; 
-      border-bottom: 1px solid var(--border); 
-      background: rgba(255, 255, 255, 0.95); 
+
+    .page-header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
-    
-    .page-header .container { 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
+
+    .page-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    
-    .brand { 
-      font-family: 'Playfair Display', serif; 
-      font-weight: 900; 
-      letter-spacing: .3px; 
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      letter-spacing: .3px;
       font-size: 1.3rem;
       background: linear-gradient(135deg, var(--slate), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    
-    .brand a { 
+
+    .brand a {
       color: inherit;
-      text-decoration: none; 
+      text-decoration: none;
     }
-    
-    .back-link { 
-      color: var(--slate); 
-      text-decoration: none; 
-      font-weight: 600; 
+
+    .back-link {
+      color: var(--slate);
+      text-decoration: none;
+      font-weight: 600;
       background: var(--white);
-      border: 1px solid var(--border); 
-      padding: 12px 20px; 
-      border-radius: 50px; 
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 50px;
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
-    
-    .back-link:hover { 
+
+    .back-link:hover {
       transform: translateX(-3px);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       background: var(--slate);
       color: white;
     }
 
-    .container { 
-      width: 90%; 
-      max-width: 1200px; 
-      margin: 0 auto; 
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    
+
     main {
       padding: 4rem 0;
     }
-    
-    h1 { 
-      font-size: clamp(2.2rem, 4vw, 3.5rem); 
-      margin: 0 0 1rem; 
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      margin: 0 0 1rem;
       font-weight: 900;
       text-align: center;
       background: linear-gradient(135deg, var(--slate), var(--grey-mid));
@@ -95,9 +98,9 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    
-    .sub { 
-      color: var(--grey-mid); 
+
+    .sub {
+      color: var(--grey-mid);
       margin-bottom: 3rem;
       text-align: center;
       font-size: 1.2rem;
@@ -108,25 +111,25 @@
       margin-bottom: 3rem;
     }
 
-    .list { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-      gap: 2rem; 
-      margin: 2rem 0 4rem; 
+    .list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 4rem;
     }
-    
-    .card { 
-      background: var(--white); 
-      border: 1px solid var(--border); 
-      border-radius: 20px; 
-      overflow: hidden; 
-      box-shadow: 0 8px 30px rgba(0,0,0,.08); 
-      display: flex; 
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
+      display: flex;
       flex-direction: column;
       transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       position: relative;
     }
-    
+
     .card::before {
       content: '';
       position: absolute;
@@ -138,25 +141,25 @@
       transform: scaleX(0);
       transition: transform 0.3s ease;
     }
-    
+
     .card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0,0,0,.15);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .15);
     }
-    
+
     .card:hover::before {
       transform: scaleX(1);
     }
-    
-    .thumb { 
-      aspect-ratio: 16/9; 
-      background: var(--grey-lite); 
-      display: grid; 
+
+    .thumb {
+      aspect-ratio: 16/9;
+      background: var(--grey-lite);
+      display: grid;
       place-items: center;
       position: relative;
       overflow: hidden;
     }
-    
+
     .thumb::after {
       content: '';
       position: absolute;
@@ -164,35 +167,35 @@
       left: 0;
       right: 0;
       height: 80px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.1));
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    
+
     .card:hover .thumb::after {
       opacity: 1;
     }
-    
-    .thumb img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
       transition: transform 0.4s ease;
     }
-    
+
     .card:hover .thumb img {
       transform: scale(1.05);
     }
-    
-    .content { 
-      padding: 2rem 1.8rem; 
-      display: flex; 
-      flex-direction: column; 
+
+    .content {
+      padding: 2rem 1.8rem;
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
       flex-grow: 1;
     }
-    
+
     .meta {
       display: flex;
       align-items: center;
@@ -201,28 +204,28 @@
       color: var(--grey-mid);
       margin-bottom: 0.5rem;
     }
-    
+
     .meta::before {
       content: '📅';
       font-size: 0.8rem;
     }
-    
-    .title { 
-      font-weight: 800; 
-      font-size: 1.4rem; 
-      color: var(--slate); 
+
+    .title {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--slate);
       margin: 0;
       line-height: 1.3;
       transition: color 0.3s ease;
     }
-    
+
     .card:hover .title {
       color: var(--accent);
     }
-    
-    .excerpt { 
-      color: var(--grey-mid); 
-      font-size: 1rem; 
+
+    .excerpt {
+      color: var(--grey-mid);
+      font-size: 1rem;
       line-height: 1.7;
       flex-grow: 1;
       display: -webkit-box;
@@ -231,13 +234,13 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    
-    .actions { 
+
+    .actions {
       margin-top: auto;
       padding-top: 1rem;
     }
-    
-    .btn { 
+
+    .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -252,7 +255,7 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .btn::before {
       content: '';
       position: absolute;
@@ -260,46 +263,46 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transition: left 0.5s ease;
     }
-    
+
     .btn:hover::before {
       left: 100%;
     }
-    
+
     .btn:hover {
       transform: translateX(3px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
-    
+
     .btn::after {
       content: '→';
       transition: transform 0.3s ease;
     }
-    
+
     .btn:hover::after {
       transform: translateX(3px);
     }
 
-    .status { 
-      padding: 1.5rem; 
-      margin: 2rem 0; 
-      border-radius: 15px; 
-      text-align: center; 
-      background: var(--white); 
-      border: 2px dashed var(--border); 
+    .status {
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 15px;
+      text-align: center;
+      background: var(--white);
+      border: 2px dashed var(--border);
       color: var(--grey-mid);
       font-size: 1.1rem;
       font-weight: 500;
     }
-    
+
     /* Loading animation */
     .status.loading {
       position: relative;
       overflow: hidden;
     }
-    
+
     .status.loading::after {
       content: '';
       position: absolute;
@@ -307,32 +310,38 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
       animation: loading-shimmer 2s infinite;
     }
-    
+
     @keyframes loading-shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
     }
-    
+
     /* Responsive design */
     @media (max-width: 768px) {
       .list {
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-      
+
       .content {
         padding: 1.5rem;
       }
-      
+
       main {
         padding: 2rem 0;
       }
     }
   </style>
 </head>
+
 <body>
   <div id="loader">
     <div class="loader-visuals">
@@ -368,14 +377,20 @@
           <button id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode" class="theme-toggle-btn"></button>
         </div>
         <ul class="footer-social">
-          <li><a href="https://wa.me/917389994519?text=Hello+Advocate+Suryansh+Shukla,+I+would+like+to+discuss+a+legal+matter+with+you." aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a></li>
-          <li><a href="https://www.instagram.com/suryansh_shukla/" aria-label="Instagram"><i class="bx bxl-instagram"></i></a></li>
-          <li><a href="https://www.linkedin.com/in/suryansh-shukla-a31aaa165" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a></li>
-          <li><a href="https://share.google/4CtU2gY6sh0qbarkG" aria-label="Google Business"><i class="bx bxl-google"></i></a></li>
+          <li><a
+              href="https://wa.me/917389994519?text=Hello+Advocate+Suryansh+Shukla,+I+would+like+to+discuss+a+legal+matter+with+you."
+              aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a></li>
+          <li><a href="https://www.instagram.com/suryansh_shukla/" aria-label="Instagram"><i
+                class="bx bxl-instagram"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/suryansh-shukla-a31aaa165" aria-label="LinkedIn"><i
+                class="bx bxl-linkedin"></i></a></li>
+          <li><a href="https://share.google/4CtU2gY6sh0qbarkG" aria-label="Google Business"><i
+                class="bx bxl-google"></i></a></li>
           <li><a href="mailto:shukla.suryansh123@gmail.com" aria-label="Gmail"><i class="bx bxl-gmail"></i></a></li>
         </ul>
       </div>
-      <p class="footer-bottom"><a href="admin.html" style="color: #eee; text-decoration: none;">© 2025. All Rights Reserved.</a></p>
+      <p class="footer-bottom"><a href="admin.html" style="color: #eee; text-decoration: none;">© 2025. All Rights
+          Reserved.</a></p>
     </div>
   </footer>
 
@@ -383,6 +398,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
   <script async src="/ga.js"></script>
   <script src="script.js"></script>
+  <script src="rich-text-renderer.js"></script>
   <script>
     // Enhanced blog post loading function with modal
     function loadBlogPost(postId) {
@@ -405,10 +421,10 @@
                     <h2>${post.title}</h2>
                     <div class="blog-modal-meta">
                       <span class="blog-modal-date">${new Date(post.timestamp || Date.now()).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}</span>
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}</span>
                     </div>
                   </div>
                   <div class="blog-modal-actions">
@@ -422,7 +438,7 @@
                 </div>
               </div>
             `;
-            
+
             // Add enhanced styles
             const style = document.createElement('style');
             style.textContent = `
@@ -442,7 +458,7 @@
                 opacity: 0;
                 animation: modalFadeIn 0.3s ease forwards;
               }
-              
+
               .blog-modal {
                 background: var(--white);
                 border-radius: 20px;
@@ -455,7 +471,7 @@
                 animation: modalSlideIn 0.3s ease forwards;
                 position: relative;
               }
-              
+
               .blog-modal-header {
                 display: flex;
                 align-items: flex-start;
@@ -464,7 +480,7 @@
                 border-bottom: 1px solid var(--border);
                 gap: 1rem;
               }
-              
+
               .blog-modal-title-section h2 {
                 margin: 0 0 0.5rem 0;
                 font-size: 1.8rem;
@@ -472,18 +488,18 @@
                 color: var(--slate);
                 line-height: 1.3;
               }
-              
+
               .blog-modal-meta {
                 color: var(--grey-mid);
                 font-size: 0.9rem;
               }
-              
+
               .blog-modal-actions {
                 display: flex;
                 gap: 0.5rem;
                 align-items: center;
               }
-              
+
               .blog-modal-close {
                 background: none;
                 border: none;
@@ -495,96 +511,96 @@
                 transition: all 0.2s ease;
                 line-height: 1;
               }
-              
+
               .blog-modal-close:hover {
                 background: var(--grey-lightest);
                 color: var(--slate);
               }
-              
+
               .blog-modal-image {
                 padding: 0 2rem;
                 margin-bottom: 1rem;
               }
-              
+
               .blog-modal-image img {
                 width: 100%;
                 height: 300px;
                 object-fit: cover;
                 border-radius: 12px;
               }
-              
+
               .blog-modal-content {
                 padding: 0 2rem 2rem;
                 line-height: 1.8;
                 color: var(--text);
               }
-              
+
               .blog-modal-content p {
                 margin-bottom: 1.5rem;
               }
-              
+
               .blog-modal-content a {
                 color: var(--accent);
                 text-decoration: none;
                 border-bottom: 1px solid transparent;
                 transition: border-color 0.2s ease;
               }
-              
+
               .blog-modal-content a:hover {
                 border-bottom-color: var(--accent);
               }
-              
+
               @keyframes modalFadeIn {
                 to { opacity: 1; }
               }
-              
+
               @keyframes modalSlideIn {
-                to { 
+                to {
                   transform: scale(1) translateY(0);
                 }
               }
-              
+
               @media (max-width: 768px) {
                 .blog-modal {
                   margin: 10px;
                   max-height: calc(100vh - 20px);
                 }
-                
+
                 .blog-modal-header {
                   padding: 1.5rem 1.5rem 1rem;
                   flex-direction: column;
                   align-items: stretch;
                 }
-                
+
                 .blog-modal-title-section h2 {
                   font-size: 1.4rem;
                 }
-                
+
                 .blog-modal-actions {
                   justify-content: space-between;
                 }
-                
+
                 .blog-modal-image,
                 .blog-modal-content {
                   padding-left: 1.5rem;
                   padding-right: 1.5rem;
                 }
-                
+
                 .blog-modal-image img {
                   height: 200px;
                 }
               }
             `;
             document.head.appendChild(style);
-            
+
             document.body.appendChild(overlay);
-            
+
             // Enhanced close functionality with animations
-            const closeModal = function() {
+            const closeModal = function () {
               overlay.style.animation = 'modalFadeOut 0.3s ease forwards';
               const modal = overlay.querySelector('.blog-modal');
               modal.style.animation = 'modalSlideOut 0.3s ease forwards';
-              
+
               setTimeout(() => {
                 if (overlay.parentNode) {
                   document.body.removeChild(overlay);
@@ -595,38 +611,38 @@
                 }
               }, 300);
             };
-            
+
             // Add close animations
             const closeStyle = document.createElement('style');
             closeStyle.textContent = `
               @keyframes modalFadeOut {
                 to { opacity: 0; }
               }
-              
+
               @keyframes modalSlideOut {
-                to { 
+                to {
                   transform: scale(0.9) translateY(20px);
                 }
               }
             `;
             document.head.appendChild(closeStyle);
-            
+
             overlay.querySelector('.blog-modal-close').addEventListener('click', closeModal);
             const contactBtn = overlay.querySelector('.blog-modal-contact');
             if (contactBtn) {
-              contactBtn.addEventListener('click', function(){
+              contactBtn.addEventListener('click', function () {
                 closeModal();
                 window.location.href = '/#contact';
               });
             }
-            
+
             // Close when clicking outside the modal
-            overlay.addEventListener('click', function(e) {
+            overlay.addEventListener('click', function (e) {
               if (e.target === overlay) {
                 closeModal();
               }
             });
-            
+
             // Close with Escape key
             document.addEventListener('keydown', function escClose(e) {
               if (e.key === 'Escape' && overlay) {
@@ -648,21 +664,21 @@
       // Convert line breaks to paragraphs
       const paragraphs = content.split('\n\n');
       let formattedContent = '';
-      
+
       paragraphs.forEach(paragraph => {
         if (paragraph.trim() !== '') {
           // Detect URLs and convert them to links
           const urlRegex = /(https?:\/\/[^\s]+)/g;
           const linkedParagraph = paragraph.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
-          
+
           formattedContent += `<p>${linkedParagraph}</p>`;
         }
       });
-      
+
       return formattedContent;
     }
 
-    (function loadBlogs(){
+    (function loadBlogs() {
       const status = document.getElementById('status');
       const list = document.getElementById('list');
       fetch('/api/blog-posts')
@@ -673,12 +689,12 @@
             status.textContent = 'No blog posts available yet.';
             return;
           }
-          status.textContent = `Showing ${items.length} post${items.length>1?'s':''}`;
+          status.textContent = `Showing ${items.length} post${items.length > 1 ? 's' : ''}`;
           // Newest first already from API; just render
           // Helper to escape HTML
           function escapeHtml(str) {
-            return String(str).replace(/[&<>"']/g, function(tag) {
-              const chars = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
+            return String(str).replace(/[&<>"']/g, function (tag) {
+              const chars = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
               return chars[tag] || tag;
             });
           }
@@ -687,7 +703,7 @@
             card.className = 'card blog-list-card';
             // Clean excerpt, show 3-4 lines, not cut mid-word, escape HTML
             let rawContent = typeof p.content === 'string' ? p.content : '';
-            let excerpt = rawContent.replace(/<[^>]*>/g,'');
+            let excerpt = rawContent.replace(/<[^>]*>/g, '');
             excerpt = excerpt.length > 320 ? excerpt.substring(0, 300).replace(/\s\S*$/, '') + '...' : excerpt;
             excerpt = escapeHtml(excerpt);
             // Escape title
@@ -700,14 +716,14 @@
               <div class=\"thumb\">${imgHtml}</div>
               <div class=\"content\">
                 <h2 class=\"title\"></h2>
-                <div class=\"meta\">${new Date(p.timestamp||Date.now()).toLocaleDateString()}</div>
+                <div class=\"meta\">${new Date(p.timestamp || Date.now()).toLocaleDateString()}</div>
                 <p class=\"excerpt\"></p>
               </div>`;
-            
+
             // Make entire card clickable
             card.style.cursor = 'pointer';
             card.setAttribute('data-post-id', safeId);
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
               loadBlogPost(p.id);
             });
             // Set textContent for title and excerpt
@@ -723,4 +739,5 @@
     })();
   </script>
 </body>
+
 </html>

@@ -201,7 +201,7 @@ function loadBlogPosts() {
                   <span class="blog-date">${formattedDate}</span>
                 </div>
                 <h3>${post.title}</h3>
-                <p class="blog-excerpt">${excerpt}</p>
+                <div class="blog-excerpt rich-text-content">${excerpt}</div>
               </div>
             `;
 
@@ -213,6 +213,11 @@ function loadBlogPosts() {
             });
             blogContainer.appendChild(blogCard);
           });
+
+          // Render rich text content for blog posts
+          if (window.richTextRenderer) {
+            window.richTextRenderer.renderByClass('blog-excerpt');
+          }
 
           // Add left/right nav buttons
           (function addNav(container) {
@@ -1235,6 +1240,16 @@ function showFullBlogPost(postId) {
 
         document.body.appendChild(overlay);
 
+        // Render rich text content in the modal
+        if (window.richTextRenderer) {
+          setTimeout(() => {
+            const modalContent = overlay.querySelector('.blog-modal-content');
+            if (modalContent) {
+              window.richTextRenderer.renderById(modalContent.id || 'blog-modal-content');
+            }
+          }, 100);
+        }
+
         // Add close functionality
         const closeModal = function () {
           // Add fade out animation
@@ -1481,6 +1496,16 @@ function loadBlogPost(postId) {
 
         document.body.appendChild(overlay);
 
+        // Render rich text content in the modal
+        if (window.richTextRenderer) {
+          setTimeout(() => {
+            const modalContent = overlay.querySelector('.blog-modal-content');
+            if (modalContent) {
+              window.richTextRenderer.renderById(modalContent.id || 'blog-modal-content');
+            }
+          }, 100);
+        }
+
         // Enhanced close functionality with animations
         const closeModal = function () {
           overlay.style.animation = 'modalFadeOut 0.3s ease forwards';
@@ -1552,7 +1577,12 @@ function loadBlogPost(postId) {
 
 // Function to format blog content with proper paragraph breaks and link detection
 function formatBlogContent(content) {
-  // Convert line breaks to paragraphs
+  // If content already contains HTML tags, return it as is for rich text
+  if (content.includes('<') && content.includes('>')) {
+    return `<div class="blog-content rich-text-content">${content}</div>`;
+  }
+
+  // Convert line breaks to paragraphs for plain text
   const paragraphs = content.split('\n\n');
   let formattedContent = '';
 
@@ -1566,7 +1596,7 @@ function formatBlogContent(content) {
     }
   });
 
-  return formattedContent;
+  return `<div class="blog-content rich-text-content">${formattedContent}</div>`;
 }
 
 // Enhanced Reviews System with 100+ Madhya Pradesh-based Clients

@@ -19,342 +19,818 @@
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: #333;
     }
 
-    .login-container {
-      background: rgba(255, 255, 255, 0.95);
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(20px);
-      padding: 3rem;
-      border-radius: 20px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 2rem 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
     }
 
-    .login-logo {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, #2563eb, #10b981);
-      border-radius: 20px;
-      margin: 0 auto 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .logo-section {
+      padding: 0 2rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 2rem;
     }
 
-    .login-logo i {
-      font-size: 2rem;
+    .logo-title {
       color: white;
-    }
-
-    .login-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #1e293b;
+      font-size: 1.5rem;
+      font-weight: 700;
       margin-bottom: 0.5rem;
     }
 
-    .login-subtitle {
-      color: #64748b;
+    .logo-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0 1rem;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .nav-link i {
+      margin-right: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .page-title {
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .logout-btn {
+      background: rgba(239, 68, 68, 0.8);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 1);
+    }
+
+    .content-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: #333;
     }
 
     .form-group {
       margin-bottom: 1.5rem;
-      text-align: left;
     }
 
     .form-label {
       display: block;
-      font-weight: 600;
-      color: #1e293b;
       margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #555;
     }
 
-    .form-input {
-      width: 100%;
-      padding: 1rem;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    .btn-login {
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 1rem;
-    }
-
-    .btn-login:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-    }
-
-    .btn-test {
+    .form-input,
+    .form-textarea,
+    .form-select {
       width: 100%;
       padding: 0.75rem;
-      background: rgba(255, 255, 255, 0.1);
-      color: #1e293b;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
     }
 
-    .btn-test:hover {
-      background: rgba(255, 255, 255, 0.2);
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
-    .admin-panel {
-      display: none;
+    .rich-text-editor {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .editor-toolbar {
+      background: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+      padding: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .toolbar-btn {
       background: white;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-
-    .admin-header {
-      background: #f8fafc;
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      margin-bottom: 2rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      min-width: 40px;
       text-align: center;
     }
 
-    .admin-title {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 0.5rem;
+    .toolbar-btn:hover {
+      background: #e9ecef;
+      border-color: #adb5bd;
     }
 
-    .admin-subtitle {
-      color: #64748b;
+    .toolbar-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
     }
 
-    .admin-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .toolbar-separator {
+      width: 1px;
+      background: #ddd;
+      margin: 0 0.25rem;
     }
 
-    .success-message {
-      background: #dcfce7;
-      color: #166534;
+    .editor-content {
+      min-height: 200px;
+      padding: 1rem;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    .editor-content:focus {
+      outline: none;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5a67d8;
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .alert {
       padding: 1rem;
       border-radius: 8px;
       margin-bottom: 1rem;
-      border: 1px solid #bbf7d0;
+      font-weight: 500;
     }
 
-    .error-message {
-      background: #fef2f2;
-      color: #dc2626;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      border: 1px solid #fecaca;
+    .alert-success {
+      background: rgba(16, 185, 129, 0.1);
+      color: #065f46;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #991b1b;
+      border: 1px solid rgba(239, 68, 68, 0.2);
     }
 
     .hidden {
-      display: none !important;
+      display: none;
     }
 
-    .loading {
-      opacity: 0.7;
-      pointer-events: none;
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+
+      .admin-container {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Login Form -->
-  <div id="loginForm" class="login-container">
-    <div class="login-logo">
-      <i class="bx bx-shield-check"></i>
-    </div>
-    <h1 class="login-title">Admin Dashboard</h1>
-    <p class="login-subtitle">Shukla & Shukla Associates</p>
-
-    <div class="form-group">
-      <label class="form-label">Username</label>
-      <input type="text" id="username" class="form-input" placeholder="Enter username">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input type="password" id="password" class="form-input" placeholder="Enter password">
-    </div>
-
-    <button class="btn-login" onclick="login()">
-      <i class="bx bx-log-in"></i> Sign In
-    </button>
-
-    <button class="btn-test" onclick="testLogin()">
-      <i class="bx bx-test-tube"></i> Test Login
-    </button>
-
-    <button class="btn-test" onclick="forceShowAdmin()"
-      style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-      <i class="bx bx-bug"></i> Force Show Admin
-    </button>
-  </div>
-
-  <!-- Admin Panel -->
-  <div id="adminPanel" class="admin-panel">
-    <div class="admin-header">
-      <h1 class="admin-title">Admin Dashboard</h1>
-      <p class="admin-subtitle">Welcome to Shukla & Shukla Associates Admin Panel</p>
-    </div>
-
-    <div class="admin-content">
-      <div id="statusMessage" class="success-message">
-        ✅ Successfully logged in! Admin panel is now active.
+  <div class="admin-container">
+    <div class="sidebar">
+      <div class="logo-section">
+        <div class="logo-title">Admin Dashboard</div>
+        <div class="logo-subtitle">Shukla & Shukla Associates</div>
       </div>
 
-      <h2>Dashboard Content</h2>
-      <p>This is the admin dashboard. All functionality is working correctly.</p>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#dashboard" class="nav-link active" onclick="showSection('dashboard')">
+            <i class='bx bxs-dashboard'></i>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#content" class="nav-link" onclick="showSection('content')">
+            <i class='bx bxs-edit'></i>
+            Content Management
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#blog" class="nav-link" onclick="showSection('blog')">
+            <i class='bx bxs-book-content'></i>
+            Blog Posts
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#gallery" class="nav-link" onclick="showSection('gallery')">
+            <i class='bx bxs-image'></i>
+            Gallery
+          </a>
+        </li>
+      </ul>
+    </div>
 
-      <div style="margin-top: 2rem;">
-        <button onclick="logout()"
-          style="background: #ef4444; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
-          <i class="bx bx-log-out"></i> Logout
+    <div class="main-content">
+      <div class="header">
+        <h1 class="page-title">Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">
+          <i class='bx bx-log-out'></i> Logout
         </button>
+      </div>
+
+      <div id="dashboard" class="content-section">
+        <h2 class="section-title">Welcome to Admin Dashboard</h2>
+        <p>Manage your website content, blog posts, gallery, and more from this centralized admin panel.</p>
+
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;">
+          <div class="content-section" style="margin: 0;">
+            <h3>Content Management</h3>
+            <p>Update website content, about us, and contact information with rich text editing.</p>
+            <button class="btn btn-primary" onclick="showSection('content')">Manage Content</button>
+          </div>
+
+          <div class="content-section" style="margin: 0;">
+            <h3>Blog Posts</h3>
+            <p>Create, edit, and manage blog posts with rich text formatting.</p>
+            <button class="btn btn-primary" onclick="showSection('blog')">Manage Blogs</button>
+          </div>
+
+          <div class="content-section" style="margin: 0;">
+            <h3>Gallery</h3>
+            <p>Upload and manage photos in your gallery.</p>
+            <button class="btn btn-primary" onclick="showSection('gallery')">Manage Gallery</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="content" class="content-section hidden">
+        <h2 class="section-title">Content Management</h2>
+        <div id="contentAlerts"></div>
+
+        <form id="contentForm">
+          <div class="form-group">
+            <label class="form-label">Firm Name</label>
+            <input type="text" id="firmName" class="form-input" placeholder="Enter firm name">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tagline</label>
+            <input type="text" id="tagline" class="form-input" placeholder="Enter tagline">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">About Us Content</label>
+            <div class="rich-text-editor">
+              <div class="editor-toolbar">
+                <button type="button" class="toolbar-btn" onclick="formatText('bold')" title="Bold">
+                  <i class='bx bx-bold'></i>
+                </button>
+                <button type="button" class="toolbar-btn" onclick="formatText('italic')" title="Italic">
+                  <i class='bx bx-italic'></i>
+                </button>
+                <button type="button" class="toolbar-btn" onclick="formatText('underline')" title="Underline">
+                  <i class='bx bx-underline'></i>
+                </button>
+                <div class="toolbar-separator"></div>
+                <button type="button" class="toolbar-btn" onclick="formatText('insertUnorderedList')"
+                  title="Bullet List">
+                  <i class='bx bx-list-ul'></i>
+                </button>
+                <button type="button" class="toolbar-btn" onclick="formatText('insertOrderedList')"
+                  title="Numbered List">
+                  <i class='bx bx-list-ol'></i>
+                </button>
+              </div>
+              <div id="aboutUs" class="editor-content" contenteditable="true" placeholder="Enter about us content">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Contact Information</label>
+            <div class="rich-text-editor">
+              <div class="editor-toolbar">
+                <button type="button" class="toolbar-btn" onclick="formatText('bold')" title="Bold">
+                  <i class='bx bx-bold'></i>
+                </button>
+                <button type="button" class="toolbar-btn" onclick="formatText('italic')" title="Italic">
+                  <i class='bx bx-italic'></i>
+                </button>
+                <button type="button" class="toolbar-btn" onclick="formatText('underline')" title="Underline">
+                  <i class='bx bx-underline'></i>
+                </button>
+              </div>
+              <div id="contactInfo" class="editor-content" contenteditable="true"
+                placeholder="Enter contact information"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Content</button>
+        </form>
+      </div>
+
+      <div id="blog" class="content-section hidden">
+        <h2 class="section-title">Blog Management</h2>
+        <div id="blogAlerts"></div>
+
+        <button class="btn btn-primary" onclick="showAddBlogForm()" style="margin-bottom: 1rem;">
+          <i class='bx bx-plus'></i> Add New Blog Post
+        </button>
+
+        <div id="blogList"></div>
+
+        <div id="addBlogForm" class="content-section hidden">
+          <h3>Add New Blog Post</h3>
+          <form id="blogForm">
+            <div class="form-group">
+              <label class="form-label">Blog Title</label>
+              <input type="text" id="blogTitle" class="form-input" placeholder="Enter blog title">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Blog Content</label>
+              <div class="rich-text-editor">
+                <div class="editor-toolbar">
+                  <button type="button" class="toolbar-btn" onclick="formatText('bold')" title="Bold">
+                    <i class='bx bx-bold'></i>
+                  </button>
+                  <button type="button" class="toolbar-btn" onclick="formatText('italic')" title="Italic">
+                    <i class='bx bx-italic'></i>
+                  </button>
+                  <button type="button" class="toolbar-btn" onclick="formatText('underline')" title="Underline">
+                    <i class='bx bx-underline'></i>
+                  </button>
+                  <div class="toolbar-separator"></div>
+                  <button type="button" class="toolbar-btn" onclick="formatText('insertUnorderedList')"
+                    title="Bullet List">
+                    <i class='bx bx-list-ul'></i>
+                  </button>
+                  <button type="button" class="toolbar-btn" onclick="formatText('insertOrderedList')"
+                    title="Numbered List">
+                    <i class='bx bx-list-ol'></i>
+                  </button>
+                </div>
+                <div id="blogContent" class="editor-content" contenteditable="true" placeholder="Enter blog content">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Author Name</label>
+              <input type="text" id="blogAuthor" class="form-input" placeholder="Enter author name">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Publish Blog Post</button>
+            <button type="button" class="btn btn-danger" onclick="hideAddBlogForm()"
+              style="margin-left: 0.5rem;">Cancel</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="gallery" class="content-section hidden">
+        <h2 class="section-title">Gallery Management</h2>
+        <div id="galleryAlerts"></div>
+
+        <button class="btn btn-primary" onclick="showAddPhotoForm()" style="margin-bottom: 1rem;">
+          <i class='bx bx-plus'></i> Add New Photo
+        </button>
+
+        <div id="galleryList"></div>
+
+        <div id="addPhotoForm" class="content-section hidden">
+          <h3>Add New Photo</h3>
+          <form id="photoForm">
+            <div class="form-group">
+              <label class="form-label">Photo Title</label>
+              <input type="text" id="photoTitle" class="form-input" placeholder="Enter photo title">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Photo Description</label>
+              <div class="rich-text-editor">
+                <div class="editor-toolbar">
+                  <button type="button" class="toolbar-btn" onclick="formatText('bold')" title="Bold">
+                    <i class='bx bx-bold'></i>
+                  </button>
+                  <button type="button" class="toolbar-btn" onclick="formatText('italic')" title="Italic">
+                    <i class='bx bx-italic'></i>
+                  </button>
+                  <button type="button" class="toolbar-btn" onclick="formatText('underline')" title="Underline">
+                    <i class='bx bx-underline'></i>
+                  </button>
+                </div>
+                <div id="photoDescription" class="editor-content" contenteditable="true"
+                  placeholder="Enter photo description"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Photo URL</label>
+              <input type="url" id="photoUrl" class="form-input" placeholder="Enter photo URL">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Photo</button>
+            <button type="button" class="btn btn-danger" onclick="hideAddPhotoForm()"
+              style="margin-left: 0.5rem;">Cancel</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Simple login function
-    function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
+    let currentSection = 'dashboard';
+    let authToken = localStorage.getItem('authToken');
 
-      console.log('Login attempt:', { username, passwordLength: password.length });
+    if (!authToken) {
+      window.location.href = '/';
+    }
 
-      if (!username || !password) {
-        alert('Please enter both username and password');
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      document.getElementById(sectionId).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      const pageTitle = document.querySelector('.page-title');
+      switch (sectionId) {
+        case 'dashboard':
+          pageTitle.textContent = 'Dashboard';
+          break;
+        case 'content':
+          pageTitle.textContent = 'Content Management';
+          loadContent();
+          break;
+        case 'blog':
+          pageTitle.textContent = 'Blog Management';
+          loadBlogPosts();
+          break;
+        case 'gallery':
+          pageTitle.textContent = 'Gallery Management';
+          loadGallery();
+          break;
+      }
+
+      currentSection = sectionId;
+    }
+
+    function formatText(command) {
+      document.execCommand(command, false, null);
+    }
+
+    function showAlert(message, type, section = 'dashboard') {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type}`;
+      alertDiv.textContent = message;
+
+      const alertsContainer = document.getElementById(section + 'Alerts');
+      if (alertsContainer) {
+        alertsContainer.appendChild(alertDiv);
+
+        setTimeout(() => {
+          alertDiv.remove();
+        }, 5000);
+      }
+    }
+
+    async function loadContent() {
+      try {
+        const response = await fetch('/api/content', {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (response.ok) {
+          const content = await response.json();
+
+          document.getElementById('firmName').value = content.firmName || '';
+          document.getElementById('tagline').value = content.tagline || '';
+          document.getElementById('aboutUs').innerHTML = content.aboutContent || '';
+          document.getElementById('contactInfo').innerHTML = content.contactInfo || '';
+        }
+      } catch (error) {
+        console.error('Error loading content:', error);
+        showAlert('Error loading content', 'error', 'content');
+      }
+    }
+
+    async function saveContent(event) {
+      event.preventDefault();
+
+      const content = {
+        firmName: document.getElementById('firmName').value,
+        tagline: document.getElementById('tagline').value,
+        aboutContent: document.getElementById('aboutUs').innerHTML,
+        contactInfo: document.getElementById('contactInfo').innerHTML
+      };
+
+      try {
+        const response = await fetch('/api/content', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(content)
+        });
+
+        if (response.ok) {
+          showAlert('Content saved successfully', 'success', 'content');
+        } else {
+          showAlert('Error saving content', 'error', 'content');
+        }
+      } catch (error) {
+        console.error('Error saving content:', error);
+        showAlert('Error saving content', 'error', 'content');
+      }
+    }
+
+    function showAddBlogForm() {
+      document.getElementById('addBlogForm').classList.remove('hidden');
+    }
+
+    function hideAddBlogForm() {
+      document.getElementById('addBlogForm').classList.add('hidden');
+      document.getElementById('blogForm').reset();
+      document.getElementById('blogContent').innerHTML = '';
+    }
+
+    async function loadBlogPosts() {
+      try {
+        const response = await fetch('/api/blog-posts');
+        const posts = await response.json();
+
+        const blogList = document.getElementById('blogList');
+        blogList.innerHTML = '';
+
+        posts.forEach(post => {
+          const postDiv = document.createElement('div');
+          postDiv.className = 'content-section';
+          postDiv.style.marginBottom = '1rem';
+          postDiv.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3>${post.title}</h3>
+                            <div>
+                                <button class="btn btn-primary" onclick="editBlogPost('${post.id}')" style="margin-right: 0.5rem;">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteBlogPost('${post.id}')">Delete</button>
+                            </div>
+                        </div>
+                        <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6;">${post.content.substring(0, 200)}...</p>
+                        <small style="color: rgba(255, 255, 255, 0.6);">By ${post.author} on ${new Date(post.date).toLocaleDateString()}</small>
+                    `;
+          blogList.appendChild(postDiv);
+        });
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+        showAlert('Error loading blog posts', 'error', 'blog');
+      }
+    }
+
+    async function saveBlogPost(event) {
+      event.preventDefault();
+
+      const post = {
+        title: document.getElementById('blogTitle').value,
+        content: document.getElementById('blogContent').innerHTML,
+        author: document.getElementById('blogAuthor').value
+      };
+
+      if (!post.title || !post.content || !post.author) {
+        showAlert('Please fill all fields', 'error', 'blog');
         return;
       }
 
-      // Show loading state
-      document.querySelector('.btn-login').classList.add('loading');
-      document.querySelector('.btn-login').textContent = 'Signing In...';
-
-      // Test authentication
-      const authHeader = 'Basic ' + btoa(username + ':' + password);
-
-      fetch('/api/auth-check', {
-        method: 'GET',
-        headers: {
-          'Authorization': authHeader
-        }
-      })
-        .then(response => {
-          console.log('Auth response:', response.status, response.ok);
-
-          if (response.ok) {
-            // Success - show admin panel
-            showAdminPanel();
-          } else {
-            // Failed - show error
-            showError('Invalid credentials. Please check your username and password.');
-          }
-        })
-        .catch(error => {
-          console.error('Login error:', error);
-          showError('Connection error. Please try again.');
-        })
-        .finally(() => {
-          // Reset loading state
-          document.querySelector('.btn-login').classList.remove('loading');
-          document.querySelector('.btn-login').innerHTML = '<i class="bx bx-log-in"></i> Sign In';
+      try {
+        const response = await fetch('/api/blog-posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(post)
         });
-    }
 
-    // Test login with predefined credentials
-    function testLogin() {
-      console.log('Test login triggered');
-      document.getElementById('username').value = 'shukla.suryansh123@gmail.com';
-      document.getElementById('password').value = '12032003';
-      login();
-    }
-
-    // Force show admin panel (bypass authentication)
-    function forceShowAdmin() {
-      console.log('Force show admin triggered');
-      showAdminPanel();
-    }
-
-    // Show admin panel
-    function showAdminPanel() {
-      console.log('Showing admin panel');
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-
-      // Update status message
-      const statusMessage = document.getElementById('statusMessage');
-      statusMessage.className = 'success-message';
-      statusMessage.innerHTML = '✅ Successfully logged in! Admin panel is now active.';
-    }
-
-    // Show error message
-    function showError(message) {
-      const statusMessage = document.getElementById('statusMessage');
-      statusMessage.className = 'error-message';
-      statusMessage.innerHTML = '❌ ' + message;
-      statusMessage.style.display = 'block';
-
-      // Clear password field
-      document.getElementById('password').value = '';
-      document.getElementById('password').focus();
-    }
-
-    // Logout function
-    function logout() {
-      console.log('Logout triggered');
-      document.getElementById('adminPanel').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-
-      // Clear form
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-
-      // Clear status message
-      document.getElementById('statusMessage').style.display = 'none';
-    }
-
-    // Add enter key support
-    document.addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-        login();
+        if (response.ok) {
+          showAlert('Blog post published successfully', 'success', 'blog');
+          hideAddBlogForm();
+          loadBlogPosts();
+        } else {
+          showAlert('Error publishing blog post', 'error', 'blog');
+        }
+      } catch (error) {
+        console.error('Error publishing blog post:', error);
+        showAlert('Error publishing blog post', 'error', 'blog');
       }
-    });
+    }
 
-    // Initialize
-    console.log('Admin page loaded successfully');
-    console.log('Available functions: login(), testLogin(), forceShowAdmin(), logout()');
+    function showAddPhotoForm() {
+      document.getElementById('addPhotoForm').classList.remove('hidden');
+    }
+
+    function hideAddPhotoForm() {
+      document.getElementById('addPhotoForm').classList.add('hidden');
+      document.getElementById('photoForm').reset();
+      document.getElementById('photoDescription').innerHTML = '';
+    }
+
+    async function loadGallery() {
+      try {
+        const response = await fetch('/api/gallery');
+        const photos = await response.json();
+
+        const galleryList = document.getElementById('galleryList');
+        galleryList.innerHTML = '';
+
+        photos.forEach(photo => {
+          const photoDiv = document.createElement('div');
+          photoDiv.className = 'content-section';
+          photoDiv.style.marginBottom = '1rem';
+          photoDiv.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3>${photo.title}</h3>
+                            <button class="btn btn-danger" onclick="deletePhoto('${photo.id}')">Delete</button>
+                        </div>
+                        <img src="${photo.url}" alt="${photo.title}" style="max-width: 200px; border-radius: 8px; margin-bottom: 1rem;">
+                        <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6;">${photo.description}</p>
+                    `;
+          galleryList.appendChild(photoDiv);
+        });
+      } catch (error) {
+        console.error('Error loading gallery:', error);
+        showAlert('Error loading gallery', 'error', 'gallery');
+      }
+    }
+
+    async function savePhoto(event) {
+      event.preventDefault();
+
+      const photo = {
+        title: document.getElementById('photoTitle').value,
+        description: document.getElementById('photoDescription').innerHTML,
+        url: document.getElementById('photoUrl').value
+      };
+
+      if (!photo.title || !photo.description || !photo.url) {
+        showAlert('Please fill all fields', 'error', 'gallery');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/gallery', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(photo)
+        });
+
+        if (response.ok) {
+          showAlert('Photo added successfully', 'success', 'gallery');
+          hideAddPhotoForm();
+          loadGallery();
+        } else {
+          showAlert('Error adding photo', 'error', 'gallery');
+        }
+      } catch (error) {
+        console.error('Error adding photo:', error);
+        showAlert('Error adding photo', 'error', 'gallery');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = '/';
+    }
+
+    document.getElementById('contentForm').addEventListener('submit', saveContent);
+    document.getElementById('blogForm').addEventListener('submit', saveBlogPost);
+    document.getElementById('photoForm').addEventListener('submit', savePhoto);
   </script>
 </body>
 
