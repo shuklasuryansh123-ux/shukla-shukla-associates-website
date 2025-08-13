@@ -980,7 +980,6 @@
 
     // Test login function for debugging
     function testLogin() {
-      alert('Test login function called!');
       console.log('=== TEST LOGIN FUNCTION ===');
       console.log('Setting test credentials...');
       document.getElementById('loginUsername').value = 'shukla.suryansh123@gmail.com';
@@ -991,7 +990,6 @@
 
     // Login function
     function login() {
-      alert('Login function called!');
       console.log('Login function called');
       const username = document.getElementById('loginUsername').value;
       const password = document.getElementById('loginPassword').value;
@@ -1022,6 +1020,11 @@
             console.log('Authentication successful, showing admin panel...');
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
+            
+            // Set up admin panel event listeners
+            console.log('Setting up admin panel...');
+            setupAdminPanelListeners();
+            
             // Load content
             console.log('Loading admin content...');
             loadContent();
@@ -1086,14 +1089,18 @@
       }
     }
 
-    // Add event listeners for file inputs
-    document.addEventListener('DOMContentLoaded', function () {
+    // Function to set up admin panel event listeners (called after successful login)
+    function setupAdminPanelListeners() {
+      console.log('Setting up admin panel event listeners...');
+      
       // Set up file input handlers
       const firmLogo = document.getElementById('firmLogo');
       const suryanshPhoto = document.getElementById('suryanshPhoto');
       const divyanshPhoto = document.getElementById('divyanshPhoto');
       const blogTitle = document.getElementById('blogTitle');
       const blogEditor = document.getElementById('blogEditor');
+      const blogPhotoEl = document.getElementById('blogPhoto');
+      const galleryPhotoEl = document.getElementById('galleryPhoto');
 
       if (firmLogo) {
         firmLogo.addEventListener('change', function (e) {
@@ -1120,23 +1127,24 @@
       if (blogEditor) {
         blogEditor.addEventListener('input', autosaveBlogDraft);
       }
-    });
 
-    // Add event listener for blog photo input and gallery photo input
-    document.addEventListener('DOMContentLoaded', function () {
-      const blogPhotoEl = document.getElementById('blogPhoto');
       if (blogPhotoEl) {
         blogPhotoEl.addEventListener('change', function (e) {
           handleFileSelect(e, 'blogPhotoPreview');
         });
       }
-      const galleryPhotoEl = document.getElementById('galleryPhoto');
+      
       if (galleryPhotoEl) {
         galleryPhotoEl.addEventListener('change', function (e) {
           handleFileSelect(e, 'galleryPhotoPreview');
         });
       }
-    });
+      
+      console.log('Admin panel event listeners set up successfully');
+      
+      // Set up navigation and UI
+      setupNavigationAndUI();
+    }
 
     // Load content when page loads
     window.onload = function () {
@@ -1761,8 +1769,10 @@
       document.getElementById('messages-status').textContent = 'Contact messages are not displayed in this public admin panel for privacy reasons.';
     }
 
-    // Navigation and UI Management
-    document.addEventListener('DOMContentLoaded', function () {
+    // Navigation and UI Management (moved to setupAdminPanelListeners)
+    function setupNavigationAndUI() {
+      console.log('Setting up navigation and UI...');
+      
       // Mobile menu toggle
       const menuToggle = document.getElementById('menuToggle');
       const sidebar = document.getElementById('sidebar');
