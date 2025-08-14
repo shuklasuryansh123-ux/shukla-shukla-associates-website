@@ -60,75 +60,14 @@ class ResponsiveNavigation {
   }
 
   setupMobileNavigation() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const mobileMenuClose = document.querySelector('.mobile-menu-close');
-
-    if (!menuToggle || !mobileMenu) return;
-
-    menuToggle.addEventListener('click', () => {
-      this.toggleMobileMenu();
-    });
-
-    if (mobileMenuClose) {
-      mobileMenuClose.addEventListener('click', () => {
-        this.closeMobileMenu();
-      });
-    }
-
-    if (mobileMenuOverlay) {
-      mobileMenuOverlay.addEventListener('click', () => {
-        this.closeMobileMenu();
-      });
-    }
-
-    const mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
-
-    mobileDropdowns.forEach(dropdown => {
-      const trigger = dropdown.querySelector('.mobile-dropdown-trigger');
-      const menu = dropdown.querySelector('.mobile-dropdown-menu');
-
-      if (!trigger || !menu) return;
-
-      trigger.addEventListener('click', () => {
-        mobileDropdowns.forEach(otherDropdown => {
-          if (otherDropdown !== dropdown) {
-            const otherMenu = otherDropdown.querySelector('.mobile-dropdown-menu');
-            const otherTrigger = otherDropdown.querySelector('.mobile-dropdown-trigger');
-            if (otherMenu && otherTrigger) {
-              otherMenu.style.display = 'none';
-              otherTrigger.classList.remove('active');
-            }
-          }
-        });
-
-        const isOpen = menu.style.display === 'block';
-        menu.style.display = isOpen ? 'none' : 'block';
-        trigger.classList.toggle('active', !isOpen);
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.mobile-dropdown')) {
-        mobileDropdowns.forEach(dropdown => {
-          const menu = dropdown.querySelector('.mobile-dropdown-menu');
-          const trigger = dropdown.querySelector('.mobile-dropdown-trigger');
-          if (menu && trigger) {
-            menu.style.display = 'none';
-            trigger.classList.remove('active');
-          }
-        });
-      }
-    });
+    // Mobile navigation is completely disabled - only desktop navigation is used
+    // This ensures consistent layout across all devices
+    return;
   }
 
   setupResponsiveHandling() {
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 900) {
-        this.closeMobileMenu();
-      }
-    });
+    // No responsive handling needed since we use desktop navigation on all devices
+    return;
   }
 
   openDesktopDropdown(dropdown) {
@@ -143,49 +82,6 @@ class ResponsiveNavigation {
     document.querySelectorAll('.desktop-nav .dropdown.open').forEach(dropdown => {
       this.closeDesktopDropdown(dropdown);
     });
-  }
-
-  toggleMobileMenu() {
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-
-    if (!mobileMenu) return;
-
-    const isOpen = mobileMenu.classList.contains('active');
-
-    if (isOpen) {
-      this.closeMobileMenu();
-    } else {
-      this.openMobileMenu();
-    }
-  }
-
-  openMobileMenu() {
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-
-    if (mobileMenu) {
-      mobileMenu.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    if (mobileMenuOverlay) {
-      mobileMenuOverlay.classList.add('show');
-    }
-  }
-
-  closeMobileMenu() {
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-
-    if (mobileMenu) {
-      mobileMenu.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    if (mobileMenuOverlay) {
-      mobileMenuOverlay.classList.remove('show');
-    }
   }
 }
 

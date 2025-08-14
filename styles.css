@@ -264,12 +264,14 @@ body {
   visibility: hidden;
   transition: all 0.3s ease;
   display: none !important;
+  pointer-events: none !important;
 }
 
 .mobile-menu-overlay.show {
   opacity: 1;
   visibility: visible;
   display: block !important;
+  pointer-events: auto !important;
 }
 
 .mobile-menu {
@@ -285,11 +287,13 @@ body {
   overflow-y: auto;
   display: none !important;
   flex-direction: column;
+  pointer-events: none !important;
 }
 
 .mobile-menu.active {
   transform: translateX(0);
   display: flex !important;
+  pointer-events: auto !important;
 }
 
 .mobile-menu.active {
@@ -455,6 +459,28 @@ body {
 
 .menu-toggle {
   display: none !important;
+}
+
+/* Completely hide all mobile menu elements */
+.mobile-menu,
+.mobile-menu-overlay,
+.mobile-menu-header,
+.mobile-menu-content,
+.mobile-nav-list,
+.mobile-nav-item,
+.mobile-nav-link,
+.mobile-dropdown,
+.mobile-dropdown-trigger,
+.mobile-dropdown-menu,
+.mobile-dropdown-item,
+.mobile-dropdown-link {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
 }
 
 /* ===== MAIN CONTENT ===== */
