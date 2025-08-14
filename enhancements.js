@@ -287,22 +287,22 @@ function initMobileModal() {
   // Enhanced Mobile dropdown functionality with direct DOM manipulation
   function setupMobileDropdowns() {
     const mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
-    
+
     mobileDropdowns.forEach((dropdown, index) => {
       const trigger = dropdown.querySelector('.mobile-dropdown-trigger');
       const menu = dropdown.querySelector('.mobile-dropdown-menu');
-      
+
       if (trigger && menu) {
         // Remove any existing event listeners
         const newTrigger = trigger.cloneNode(true);
         trigger.parentNode.replaceChild(newTrigger, trigger);
-        
-        newTrigger.addEventListener('click', function(e) {
+
+        newTrigger.addEventListener('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
-          
+
           const isActive = dropdown.classList.contains('active');
-          
+
           // Close other dropdowns first
           mobileDropdowns.forEach(d => {
             if (d !== dropdown) {
@@ -314,7 +314,7 @@ function initMobileModal() {
               }
             }
           });
-          
+
           // Toggle current dropdown
           if (isActive) {
             dropdown.classList.remove('active');
@@ -326,7 +326,7 @@ function initMobileModal() {
             menu.style.opacity = '1';
           }
         });
-        
+
         // Initialize menu state
         menu.style.maxHeight = '0px';
         menu.style.opacity = '0';
@@ -349,87 +349,256 @@ function initMobileModal() {
   });
 }
 
-// Optimized Animation System
-function optimizeAnimations() {
-  // Reduce motion for users who prefer it
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.style.setProperty('--animation-duration', '0.1s');
-    document.documentElement.style.setProperty('--transition-duration', '0.1s');
+// Unified Animation System - Prevents Conflicts and Crashes
+function createUnifiedAnimationSystem() {
+  console.log('Creating unified animation system...');
+
+  // Animation state management
+  const animationState = {
+    isAnimating: false,
+    activeAnimations: new Set(),
+    scrollThrottle: null,
+    resizeThrottle: null
+  };
+
+  // Throttle function for performance
+  function throttle(func, limit) {
+    let inThrottle;
+    return function () {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    };
   }
 
-  // Optimize scroll animations with throttling
-  let ticking = false;
-  function updateScrollAnimations() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrolledElements = document.querySelectorAll('.reveal, .fadeup');
-        scrolledElements.forEach(element => {
-          const rect = element.getBoundingClientRect();
-          const isVisible = rect.top < window.innerHeight * 0.8;
+  // Safe animation function
+  function safeAnimate(callback) {
+    if (animationState.isAnimating) return;
 
-          if (isVisible && !element.classList.contains('active')) {
-            element.classList.add('active');
-          }
-        });
-        ticking = false;
-      });
-      ticking = true;
+    try {
+      animationState.isAnimating = true;
+      callback();
+    } catch (error) {
+      console.error('Animation error:', error);
+    } finally {
+      animationState.isAnimating = false;
     }
   }
 
-  // Throttled scroll listener
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    if (scrollTimeout) return;
-    scrollTimeout = setTimeout(() => {
-      updateScrollAnimations();
-      scrollTimeout = null;
-    }, 16); // ~60fps
-  });
+  // Unified scroll animation handler
+  function handleScrollAnimations() {
+    if (animationState.scrollThrottle) return;
 
-  // Initial check
-  updateScrollAnimations();
-}
+    animationState.scrollThrottle = requestAnimationFrame(() => {
+      const scrolledElements = document.querySelectorAll('.reveal, .fadeup');
+      const windowHeight = window.innerHeight;
+      const scrollY = window.scrollY;
 
-// Optimized Reviews Section (Fix crashes)
-function optimizeReviewsSection() {
-  const reviewsSection = document.querySelector('.reviews-section');
-  if (!reviewsSection) return;
+      scrolledElements.forEach(element => {
+        if (animationState.activeAnimations.has(element)) return;
 
-  // Disable complex animations on mobile to prevent crashes
-  if (window.innerWidth <= 768) {
-    const marqueeTracks = reviewsSection.querySelectorAll('.marquee-track');
-    marqueeTracks.forEach(track => {
-      track.style.animation = 'none';
-      track.style.transform = 'none';
+        const rect = element.getBoundingClientRect();
+        const isVisible = rect.top < windowHeight * 0.8;
+
+        if (isVisible && !element.classList.contains('active')) {
+          animationState.activeAnimations.add(element);
+          element.classList.add('active');
+
+          // Remove from active set after animation completes
+          setTimeout(() => {
+            animationState.activeAnimations.delete(element);
+          }, 1000);
+        }
+      });
+
+      animationState.scrollThrottle = null;
     });
   }
 
-  // Use Intersection Observer for better performance
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Only animate when visible
-        const marqueeTrack = entry.target.querySelector('.marquee-track');
-        if (marqueeTrack && window.innerWidth > 768) {
-          marqueeTrack.style.animation = 'marquee-left 32s linear infinite';
-        }
-      } else {
-        entry.target.classList.remove('visible');
-        // Pause animation when not visible
-        const marqueeTrack = entry.target.querySelector('.marquee-track');
-        if (marqueeTrack) {
-          marqueeTrack.style.animationPlayState = 'paused';
-        }
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '50px'
-  });
+  // Safe reviews section animation
+  function initReviewsSection() {
+    const reviewsSection = document.querySelector('.reviews-section');
+    if (!reviewsSection) return;
 
-  observer.observe(reviewsSection);
+    console.log('Initializing reviews section safely...');
+
+    // Disable complex animations on mobile
+    if (window.innerWidth <= 768) {
+      const marqueeTracks = reviewsSection.querySelectorAll('.reviews-track');
+      marqueeTracks.forEach(track => {
+        track.style.animation = 'none';
+        track.style.transform = 'none';
+      });
+      return;
+    }
+
+    // Use Intersection Observer for better performance
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          safeAnimate(() => {
+            entry.target.classList.add('visible');
+            const marqueeTrack = entry.target.querySelector('.reviews-track');
+            if (marqueeTrack && window.innerWidth > 768) {
+              marqueeTrack.style.animation = 'marquee-left 32s linear infinite';
+            }
+          });
+        } else {
+          entry.target.classList.remove('visible');
+          const marqueeTrack = entry.target.querySelector('.reviews-track');
+          if (marqueeTrack) {
+            marqueeTrack.style.animationPlayState = 'paused';
+          }
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px'
+    });
+
+    observer.observe(reviewsSection);
+  }
+
+  // Safe hero animations
+  function initHeroAnimations() {
+    const heroSection = document.querySelector('.hero-section');
+    if (!heroSection) return;
+
+    console.log('Initializing hero animations safely...');
+
+    // Activate fadeup animations with delay
+    const fadeupElements = heroSection.querySelectorAll('.fadeup');
+    fadeupElements.forEach((el, index) => {
+      setTimeout(() => {
+        safeAnimate(() => {
+          el.classList.add('active');
+        });
+      }, 300 + (index * 180));
+    });
+  }
+
+  // Safe particle system
+  function initParticleSystem() {
+    const canvas = document.getElementById('heroParticles');
+    if (!canvas) return;
+
+    console.log('Initializing particle system safely...');
+
+    const ctx = canvas.getContext('2d');
+    let animationId = null;
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      initParticles();
+    }
+
+    function initParticles() {
+      particles = [];
+      const num = Math.floor((canvas.width * canvas.height) / 3500);
+      const colors = ['#b6c7e6', '#dbeafe', '#f8fafc', '#e3e6f3'];
+
+      for (let i = 0; i < num; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2.5 + 1.2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          alpha: Math.random() * 0.5 + 0.5
+        });
+      }
+    }
+
+    function animateParticles() {
+      if (window.innerWidth <= 768) {
+        // Disable particles on mobile for performance
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(particle => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+        ctx.globalAlpha = particle.alpha;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = particle.color;
+        ctx.fill();
+      });
+
+      ctx.globalAlpha = 1;
+      animationId = requestAnimationFrame(animateParticles);
+    }
+
+    // Initialize
+    resizeCanvas();
+    animateParticles();
+
+    // Handle resize
+    const throttledResize = throttle(resizeCanvas, 250);
+    window.addEventListener('resize', throttledResize);
+
+    // Cleanup function
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      window.removeEventListener('resize', throttledResize);
+    };
+  }
+
+  // Initialize all animations safely
+  function initAllAnimations() {
+    console.log('Initializing all animations...');
+
+    // Initialize hero animations
+    initHeroAnimations();
+
+    // Initialize particle system
+    const cleanupParticles = initParticleSystem();
+
+    // Initialize reviews section
+    initReviewsSection();
+
+    // Set up scroll animations
+    const throttledScroll = throttle(handleScrollAnimations, 16);
+    window.addEventListener('scroll', throttledScroll);
+
+    // Handle window resize
+    const throttledResize = throttle(() => {
+      initReviewsSection();
+    }, 250);
+    window.addEventListener('resize', throttledResize);
+
+    // Initial scroll check
+    handleScrollAnimations();
+
+    // Return cleanup function
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      window.removeEventListener('resize', throttledResize);
+      if (cleanupParticles) cleanupParticles();
+    };
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAllAnimations);
+  } else {
+    initAllAnimations();
+  }
 }
 
 // Enhanced Navigation System with Mobile-Friendly Dropdowns
@@ -444,7 +613,13 @@ function enhanceNavigation() {
     return;
   }
 
-  console.log('Setting up enhanced navigation...');
+  console.log('Setting up enhanced navigation system...');
+
+  // Disable old navigation scripts to prevent conflicts
+  const oldScripts = document.querySelectorAll('script[src*="nav-highlight.js"], script[src*="hero-anim.js"]');
+  oldScripts.forEach(script => {
+    script.remove();
+  });
 
   // Scroll-based header styling with enhanced effects
   let lastScrollY = window.scrollY;
@@ -662,7 +837,7 @@ function runEnhancements() {
     enhanceAccessibility();
     enhanceSEO();
     initMobileModal(); // Add mobile modal enhancements
-    optimizeAnimations(); // Add animation optimizations
+    createUnifiedAnimationSystem(); // Add animation optimizations
     optimizeReviewsSection(); // Add reviews optimizations
 
     console.log('✅ UX enhancements loaded successfully');
@@ -683,8 +858,7 @@ window.ShuklaEnhancements = {
   enhanceAccessibility,
   enhanceSEO,
   initMobileModal,
-  optimizeAnimations,
-  optimizeReviewsSection
+  createUnifiedAnimationSystem
 };
 
 // Initialize all enhancements when DOM is loaded
@@ -692,8 +866,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Initializing enhanced navigation system...');
   enhanceNavigation();
   initMobileModal();
-  optimizeAnimations();
-  optimizeReviewsSection();
+  createUnifiedAnimationSystem(); // Use new unified system
   enhanceSEO();
   enhanceAccessibility();
   enhancePerformance();
