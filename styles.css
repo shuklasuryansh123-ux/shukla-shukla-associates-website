@@ -137,6 +137,15 @@ body {
   list-style: none;
 }
 
+/* Mobile Navigation - Hidden by default */
+.mobile-nav {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+}
+
 .desktop-nav .nav-link {
   text-decoration: none;
   color: var(--text);
@@ -249,11 +258,13 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
+  display: none;
 }
 
 .mobile-menu-overlay.show {
   opacity: 1;
   visibility: visible;
+  display: block;
 }
 
 .mobile-menu {
@@ -425,16 +436,16 @@ body {
 /* Responsive Design */
 @media (max-width: 900px) {
   .desktop-nav {
-    display: none;
+    display: none !important;
   }
 
   .mobile-nav {
-    display: flex;
+    display: flex !important;
     align-items: center;
   }
 
   .menu-toggle {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -547,27 +558,13 @@ section h2 {
   transform: translateY(0);
 }
 
-/* Section-based animation timing */
-section .reveal:nth-child(1) { transition-delay: 0.1s; }
-section .reveal:nth-child(2) { transition-delay: 0.2s; }
-section .reveal:nth-child(3) { transition-delay: 0.3s; }
-section .reveal:nth-child(4) { transition-delay: 0.4s; }
-section .reveal:nth-child(5) { transition-delay: 0.5s; }
-section .reveal:nth-child(6) { transition-delay: 0.6s; }
-
-section .service-card:nth-child(1) { transition-delay: 0.1s; }
-section .service-card:nth-child(2) { transition-delay: 0.2s; }
-section .service-card:nth-child(3) { transition-delay: 0.3s; }
-section .service-card:nth-child(4) { transition-delay: 0.4s; }
-section .service-card:nth-child(5) { transition-delay: 0.5s; }
-section .service-card:nth-child(6) { transition-delay: 0.6s; }
-
-section .review-card:nth-child(1) { transition-delay: 0.1s; }
-section .review-card:nth-child(2) { transition-delay: 0.2s; }
-section .review-card:nth-child(3) { transition-delay: 0.3s; }
-section .review-card:nth-child(4) { transition-delay: 0.4s; }
-section .review-card:nth-child(5) { transition-delay: 0.5s; }
-section .review-card:nth-child(6) { transition-delay: 0.6s; }
+/* All animations happen instantly - no delays */
+section .reveal,
+section .fadeup,
+section .service-card,
+section .review-card {
+  transition-delay: 0s !important;
+}
 
 /* ===== SERVICE CARDS ===== */
 .service-card {

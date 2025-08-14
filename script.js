@@ -222,7 +222,7 @@ class UnifiedAnimationSystem {
           const section = entry.target;
           const animatedElements = section.querySelectorAll('.reveal, .fadeup, .service-card, .review-card');
 
-          // Add active class to all elements in the section simultaneously
+          // Add active class to all elements in the section simultaneously - NO DELAYS
           animatedElements.forEach(element => {
             element.classList.add('active');
           });
@@ -232,8 +232,8 @@ class UnifiedAnimationSystem {
         }
       });
     }, {
-      threshold: 0.5, // Changed from 0.7 to 0.5 (50% visibility)
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.3, // Even earlier trigger - 30% visibility
+      rootMargin: '0px 0px -100px 0px'
     });
 
     // Observe all sections that contain animated elements
