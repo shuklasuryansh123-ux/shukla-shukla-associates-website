@@ -323,23 +323,12 @@ body {
   top: -9999px !important;
 }
 
-/* Hide any element that might be creating a sidebar effect */
-body>*:not(.main-site-nav):not(#loader):not(main):not(footer) {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-}
-
 /* Ensure no sidebar elements are visible */
 body {
   overflow-x: hidden !important;
 }
 
-/* Force all elements to be properly positioned */
-* {
-  position: relative !important;
-}
-
+/* Proper positioning for main elements */
 .main-site-nav {
   position: fixed !important;
   top: 0 !important;
@@ -369,11 +358,6 @@ footer {
   position: relative !important;
   width: 100% !important;
   left: 0 !important;
-}
-
-/* Hide any element that might be creating a sidebar */
-body>*:not(.main-site-nav):not(#loader):not(main):not(footer) {
-  display: none !important;
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -415,6 +399,9 @@ main {
   position: relative;
   z-index: 2;
   color: var(--white);
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .hero-title {
@@ -462,11 +449,12 @@ main {
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.8s ease 0.4s;
+  visibility: visible !important;
 }
 
 .hero-highlights.active {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .hero-highlights li {
@@ -477,6 +465,7 @@ main {
   font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--white) !important;
 }
 
 /* Hero Quote */
@@ -487,11 +476,14 @@ main {
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.8s ease 0.6s;
+  display: block !important;
+  visibility: visible !important;
+  color: var(--white) !important;
 }
 
 .hero-quote.active {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .hero-quote span {
