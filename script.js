@@ -1,5 +1,6 @@
-// ===== COMPLETELY REWRITTEN NAVIGATION SYSTEM =====
+// ===== COMPLETELY REWRITTEN WEBSITE SYSTEM =====
 
+// ===== RESPONSIVE NAVIGATION SYSTEM =====
 class ResponsiveNavigation {
   constructor() {
     this.init();
@@ -12,7 +13,6 @@ class ResponsiveNavigation {
   }
 
   setupDesktopNavigation() {
-    // Desktop dropdown functionality
     const desktopDropdowns = document.querySelectorAll('.desktop-nav .dropdown');
 
     desktopDropdowns.forEach(dropdown => {
@@ -99,68 +99,50 @@ class ResponsiveNavigation {
 
       if (!trigger || !menu) return;
 
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Close other dropdowns
-        document.querySelectorAll('.mobile-dropdown-menu').forEach(otherMenu => {
-          if (otherMenu !== menu) {
-            otherMenu.style.display = 'none';
-          }
-        });
-
-        // Remove active class from other triggers
-        document.querySelectorAll('.mobile-dropdown-trigger').forEach(otherTrigger => {
-          if (otherTrigger !== trigger) {
-            otherTrigger.classList.remove('active');
+      trigger.addEventListener('click', () => {
+        // Close other mobile dropdowns
+        mobileDropdowns.forEach(otherDropdown => {
+          if (otherDropdown !== dropdown) {
+            const otherMenu = otherDropdown.querySelector('.mobile-dropdown-menu');
+            const otherTrigger = otherDropdown.querySelector('.mobile-dropdown-trigger');
+            if (otherMenu && otherTrigger) {
+              otherMenu.style.display = 'none';
+              otherTrigger.classList.remove('active');
+            }
           }
         });
 
         // Toggle current dropdown
-        if (menu.style.display === 'block') {
-          menu.style.display = 'none';
-          trigger.classList.remove('active');
-        } else {
-          menu.style.display = 'block';
-          trigger.classList.add('active');
-        }
+        const isOpen = menu.style.display === 'block';
+        menu.style.display = isOpen ? 'none' : 'block';
+        trigger.classList.toggle('active', !isOpen);
       });
     });
 
-    // Close mobile menu when clicking on links
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        this.closeMobileMenu();
-      });
+    // Close mobile dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.mobile-dropdown')) {
+        mobileDropdowns.forEach(dropdown => {
+          const menu = dropdown.querySelector('.mobile-dropdown-menu');
+          const trigger = dropdown.querySelector('.mobile-dropdown-trigger');
+          if (menu && trigger) {
+            menu.style.display = 'none';
+            trigger.classList.remove('active');
+          }
+        });
+      }
     });
   }
 
   setupResponsiveHandling() {
     // Handle window resize
-    let resizeTimeout;
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        this.handleResize();
-      }, 250);
+      if (window.innerWidth > 900) {
+        this.closeMobileMenu();
+      }
     });
-
-    // Initial check
-    this.handleResize();
   }
 
-  handleResize() {
-    const isMobile = window.innerWidth <= 900;
-
-    if (isMobile) {
-      this.closeAllDesktopDropdowns();
-    } else {
-      this.closeMobileMenu();
-    }
-  }
-
-  // Desktop dropdown methods
   openDesktopDropdown(dropdown) {
     dropdown.classList.add('open');
   }
@@ -171,15 +153,13 @@ class ResponsiveNavigation {
 
   closeAllDesktopDropdowns() {
     document.querySelectorAll('.desktop-nav .dropdown.open').forEach(dropdown => {
-      dropdown.classList.remove('open');
+      this.closeDesktopDropdown(dropdown);
     });
   }
 
-  // Mobile menu methods
   toggleMobileMenu() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const menuToggle = document.querySelector('.menu-toggle');
 
     if (!mobileMenu) return;
 
@@ -195,286 +175,136 @@ class ResponsiveNavigation {
   openMobileMenu() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const menuToggle = document.querySelector('.menu-toggle');
 
     if (mobileMenu) {
       mobileMenu.classList.add('active');
-      document.body.classList.add('menu-open');
+      document.body.style.overflow = 'hidden';
     }
 
     if (mobileMenuOverlay) {
       mobileMenuOverlay.classList.add('show');
-    }
-
-    if (menuToggle) {
-      menuToggle.setAttribute('aria-expanded', 'true');
     }
   }
 
   closeMobileMenu() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const menuToggle = document.querySelector('.menu-toggle');
 
     if (mobileMenu) {
       mobileMenu.classList.remove('active');
-      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
     }
 
     if (mobileMenuOverlay) {
       mobileMenuOverlay.classList.remove('show');
     }
-
-    if (menuToggle) {
-      menuToggle.setAttribute('aria-expanded', 'false');
-    }
-
-    // Close all mobile dropdowns
-    document.querySelectorAll('.mobile-dropdown-menu').forEach(menu => {
-      menu.style.display = 'none';
-    });
-
-    document.querySelectorAll('.mobile-dropdown-trigger').forEach(trigger => {
-      trigger.classList.remove('active');
-    });
   }
 }
 
-// ===== SIMPLIFIED ANIMATION SYSTEM =====
-
-class SimpleAnimationSystem {
+// ===== UNIFIED ANIMATION SYSTEM =====
+class UnifiedAnimationSystem {
   constructor() {
     this.init();
   }
 
   init() {
-    this.setupRevealAnimations();
-    this.setupLoaderAnimation();
-    this.setupThemeToggle();
+    this.setupSectionAnimations();
+    this.setupHeroAnimations();
+    this.setupLoader();
   }
 
-  setupRevealAnimations() {
-    // Simple reveal animation using Intersection Observer
-    const revealObserver = new IntersectionObserver((entries) => {
+  setupSectionAnimations() {
+    // Create Intersection Observer for section-based animations
+    const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          revealObserver.unobserve(entry.target);
+          // When a section becomes visible, animate ALL elements within it at once
+          const section = entry.target;
+          const animatedElements = section.querySelectorAll('.reveal, .fadeup, .service-card, .review-card');
+
+          // Add active class to all elements in the section simultaneously
+          animatedElements.forEach(element => {
+            element.classList.add('active');
+          });
+
+          // Unobserve the section after animation
+          sectionObserver.unobserve(section);
         }
       });
     }, {
-      threshold: 0.1,
+      threshold: 0.5, // Changed from 0.7 to 0.5 (50% visibility)
       rootMargin: '0px 0px -50px 0px'
     });
 
-    // Observe all reveal elements
-    document.querySelectorAll('.reveal, .fadeup, .service-card, .review-card').forEach(el => {
-      revealObserver.observe(el);
+    // Observe all sections that contain animated elements
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+      if (section.querySelector('.reveal, .fadeup, .service-card, .review-card')) {
+        sectionObserver.observe(section);
+      }
     });
   }
 
-  setupLoaderAnimation() {
-    const loader = document.getElementById('loader');
-    if (!loader) return;
+  setupHeroAnimations() {
+    // Hero section animations
+    const heroTitle = document.querySelector('.hero-title .fadeup');
+    const heroSubtext = document.querySelector('.hero-subtext');
+    const heroButton = document.querySelector('.hero-section .btn-primary');
 
-    // Simple loader animation
-    setTimeout(() => {
-      loader.style.opacity = '0';
-      setTimeout(() => {
-        loader.style.display = 'none';
-        this.revealContent();
-      }, 500);
-    }, 1500);
+    if (heroTitle) {
+      setTimeout(() => heroTitle.classList.add('active'), 100);
+    }
+    if (heroSubtext) {
+      setTimeout(() => heroSubtext.classList.add('active'), 300);
+    }
+    if (heroButton) {
+      setTimeout(() => heroButton.classList.add('active'), 500);
+    }
   }
 
-  revealContent() {
-    const header = document.querySelector('.main-site-nav');
+  setupLoader() {
+    const loader = document.getElementById('loader');
     const main = document.querySelector('main');
+    const header = document.querySelector('.main-site-nav');
     const footer = document.querySelector('.footer');
 
-    if (header) header.style.opacity = '1';
-    if (main) main.style.opacity = '1';
-    if (footer) footer.style.opacity = '1';
-  }
-
-  setupThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
-
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-      themeToggle.setAttribute('aria-pressed', savedTheme === 'dark');
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      themeToggle.setAttribute('aria-pressed', isDark);
-    });
-  }
-}
-
-// ===== CONTENT LOADING =====
-
-function loadContentFromServer() {
-  console.log('Loading content from server...');
-  fetch('/api/content')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Content loaded successfully:', data);
-      updateContent(data);
-    })
-    .catch(error => {
-      console.error('Error loading content:', error);
-    });
-}
-
-function updateContent(data) {
-  // Update About section
-  if (data.aboutContent) {
-    const aboutSection = document.querySelector('#about .about-bloc');
-    if (aboutSection) {
-      const paragraphs = data.aboutContent.split('\n\n');
-      aboutSection.innerHTML = '<h2>About the Firm</h2>';
-
-      paragraphs.forEach(paragraph => {
-        if (paragraph.trim() !== '') {
-          const p = document.createElement('p');
-          p.textContent = paragraph;
-          aboutSection.appendChild(p);
-        }
+    if (loader) {
+      // Hide loader after page loads
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          setTimeout(() => {
+            loader.style.display = 'none';
+            // Show main content
+            if (main) main.style.opacity = '1';
+            if (header) header.style.opacity = '1';
+            if (footer) footer.style.opacity = '1';
+          }, 500);
+        }, 1000);
       });
-
-      // Add list items
-      const listItems = [
-        data.aboutList1 || 'Decades of courtroom success & legislative experience',
-        data.aboutList2 || 'Uncompromising confidentiality & personalized advocacy',
-        data.aboutList3 || 'Clients across India, from start-ups to families'
-      ];
-
-      const ul = document.createElement('ul');
-      ul.className = 'about-list';
-      listItems.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        ul.appendChild(li);
-      });
-      aboutSection.appendChild(ul);
-    }
-  }
-
-  // Update Founders section
-  if (data.suryanshBio || data.divyanshBio) {
-    const foundersSection = document.querySelector('.founders-section');
-    if (foundersSection) {
-      foundersSection.innerHTML = '<div class="container"><h2>Founders</h2></div>';
-      const container = foundersSection.querySelector('.container');
-
-      if (data.suryanshBio) {
-        const founderDiv = document.createElement('div');
-        founderDiv.className = 'founder';
-        founderDiv.innerHTML = `
-          <div class="founder-photo">
-            <img src="${data.suryanshPhoto || ''}" alt="Advocate Suryansh Shukla" />
-          </div>
-          <div class="founder-info">
-            <h3>Advocate Suryansh Shukla</h3>
-            <p class="founder-bio">${data.suryanshBio}</p>
-          </div>
-        `;
-        container.appendChild(founderDiv);
-      }
-
-      if (data.divyanshBio) {
-        const founderDiv = document.createElement('div');
-        founderDiv.className = 'founder';
-        founderDiv.innerHTML = `
-          <div class="founder-photo">
-            <img src="${data.divyanshPhoto || ''}" alt="Advocate Divyansh Shukla" />
-          </div>
-          <div class="founder-info">
-            <h3>Advocate Divyansh Shukla</h3>
-            <p class="founder-bio">${data.divyanshBio}</p>
-          </div>
-        `;
-        container.appendChild(founderDiv);
-      }
-    }
-  }
-
-  // Update logo
-  if (data.aboutLogo) {
-    const logoElement = document.querySelector('#about .about-visual img');
-    if (logoElement) {
-      logoElement.src = data.aboutLogo;
     }
   }
 }
 
-// ===== CONTACT FORM =====
-
+// ===== CONTACT FORM SYSTEM =====
 function setupContactForm() {
   const contactForm = document.getElementById('contactForm');
   if (!contactForm) return;
 
-  contactForm.addEventListener('submit', function (e) {
+  contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name');
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    const message = document.getElementById('message');
+    const formData = new FormData(contactForm);
     const formStatus = document.getElementById('formStatus');
 
-    // Reset error messages
-    document.querySelectorAll('.error-message').forEach(error => {
-      error.textContent = '';
-    });
+    // Basic validation
+    const name = formData.get('name') || document.getElementById('name')?.value;
+    const email = formData.get('email') || document.getElementById('email')?.value;
+    const phone = formData.get('phone') || document.getElementById('phone')?.value;
+    const message = formData.get('message') || document.getElementById('message')?.value;
 
-    let isValid = true;
-
-    // Validate name
-    if (!name.value.trim()) {
-      document.getElementById('name-error').textContent = 'Name is required';
-      isValid = false;
-    }
-
-    // Validate email
-    if (!email.value.trim()) {
-      document.getElementById('email-error').textContent = 'Email is required';
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-      document.getElementById('email-error').textContent = 'Please enter a valid email address';
-      isValid = false;
-    }
-
-    // Validate phone
-    if (!phone.value.trim()) {
-      document.getElementById('phone-error').textContent = 'Phone number is required';
-      isValid = false;
-    } else {
-      const cleanPhone = phone.value.replace(/\D/g, '');
-      if (!/^\d{10,15}$/.test(cleanPhone)) {
-        document.getElementById('phone-error').textContent = 'Please enter a valid phone number';
-        isValid = false;
-      }
-    }
-
-    // Validate message
-    if (!message.value.trim()) {
-      document.getElementById('message-error').textContent = 'Message is required';
-      isValid = false;
-    }
-
-    if (!isValid) {
-      formStatus.textContent = "Please fill in all required fields correctly.";
+    if (!name || !email || !phone || !message) {
+      formStatus.textContent = "Please fill in all fields.";
       formStatus.className = "error";
       return;
     }
@@ -489,10 +319,10 @@ function setupContactForm() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: name.value,
-        email: email.value,
-        phone: phone.value,
-        message: message.value
+        name: name,
+        email: email,
+        phone: phone,
+        message: message
       })
     })
       .then(response => response.json())
@@ -502,7 +332,7 @@ function setupContactForm() {
           formStatus.className = "success";
           contactForm.reset();
         } else {
-          formStatus.textContent = "Error: " + data.message;
+          formStatus.textContent = "Error: " + (data.message || "Failed to send message");
           formStatus.className = "error";
         }
       })
@@ -514,8 +344,7 @@ function setupContactForm() {
   });
 }
 
-// ===== FAQ TOGGLES =====
-
+// ===== FAQ SYSTEM =====
 function setupFAQ() {
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -526,7 +355,6 @@ function setupFAQ() {
 }
 
 // ===== SMOOTH SCROLLING =====
-
 function setupSmoothScrolling() {
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', function (e) {
@@ -542,24 +370,36 @@ function setupSmoothScrolling() {
   });
 }
 
+// ===== THEME TOGGLE =====
+function setupThemeToggle() {
+  const themeToggle = document.getElementById('themeToggle');
+  if (!themeToggle) return;
+
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    themeToggle.setAttribute('aria-pressed', savedTheme === 'dark');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    themeToggle.setAttribute('aria-pressed', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+}
+
 // ===== INITIALIZATION =====
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize navigation
+  console.log('🚀 Initializing Shukla & Shukla Associates website...');
+
+  // Initialize all systems
   new ResponsiveNavigation();
-
-  // Initialize animations
-  new SimpleAnimationSystem();
-
-  // Load content from server
-  loadContentFromServer();
-
-  // Setup contact form
+  new UnifiedAnimationSystem();
   setupContactForm();
-
-  // Setup FAQ toggles
   setupFAQ();
-
-  // Setup smooth scrolling
   setupSmoothScrolling();
+  setupThemeToggle();
+
+  console.log('✅ Website initialized successfully!');
 });

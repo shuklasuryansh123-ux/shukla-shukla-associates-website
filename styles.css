@@ -529,28 +529,45 @@ section h2 {
   color: var(--text);
 }
 
-/* ===== REVEAL ANIMATIONS ===== */
-.reveal {
+/* ===== UNIFIED REVEAL ANIMATIONS ===== */
+.reveal,
+.fadeup,
+.service-card,
+.review-card {
   opacity: 0;
   transform: translateY(40px);
   transition: all 0.8s ease;
 }
 
-.reveal.active {
+.reveal.active,
+.fadeup.active,
+.service-card.active,
+.review-card.active {
   opacity: 1;
   transform: translateY(0);
 }
 
-.fadeup {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: all 1.0s ease;
-}
+/* Section-based animation timing */
+section .reveal:nth-child(1) { transition-delay: 0.1s; }
+section .reveal:nth-child(2) { transition-delay: 0.2s; }
+section .reveal:nth-child(3) { transition-delay: 0.3s; }
+section .reveal:nth-child(4) { transition-delay: 0.4s; }
+section .reveal:nth-child(5) { transition-delay: 0.5s; }
+section .reveal:nth-child(6) { transition-delay: 0.6s; }
 
-.fadeup.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+section .service-card:nth-child(1) { transition-delay: 0.1s; }
+section .service-card:nth-child(2) { transition-delay: 0.2s; }
+section .service-card:nth-child(3) { transition-delay: 0.3s; }
+section .service-card:nth-child(4) { transition-delay: 0.4s; }
+section .service-card:nth-child(5) { transition-delay: 0.5s; }
+section .service-card:nth-child(6) { transition-delay: 0.6s; }
+
+section .review-card:nth-child(1) { transition-delay: 0.1s; }
+section .review-card:nth-child(2) { transition-delay: 0.2s; }
+section .review-card:nth-child(3) { transition-delay: 0.3s; }
+section .review-card:nth-child(4) { transition-delay: 0.4s; }
+section .review-card:nth-child(5) { transition-delay: 0.5s; }
+section .review-card:nth-child(6) { transition-delay: 0.6s; }
 
 /* ===== SERVICE CARDS ===== */
 .service-card {
@@ -559,14 +576,6 @@ section h2 {
   padding: 2rem;
   box-shadow: 0 4px 20px var(--shadow);
   transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
-}
-
-.service-card.active {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .service-card:hover {
@@ -581,14 +590,6 @@ section h2 {
   padding: 2rem;
   box-shadow: 0 4px 20px var(--shadow);
   transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
-}
-
-.review-card.active {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .review-card:hover {
