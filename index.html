@@ -93,12 +93,9 @@
   <header class="main-site-nav" id="top" data-header>
     <div class="nav-bar">
       <div class="logo-brand"><a href="#top" aria-label="Home">Shukla<span>&</span>Shukla</a></div>
-      <nav class="nav-container" aria-label="Main menu">
-        <button class="menu-toggle" aria-label="Navigation menu" aria-expanded="false">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-container desktop-nav" aria-label="Main menu">
         <ul class="nav-list">
           <li><a href="#home" class="nav-link" data-nav-link>Home</a></li>
           <li class="dropdown">
@@ -124,18 +121,25 @@
         </ul>
       </nav>
 
+      <!-- Mobile Navigation Toggle -->
+      <nav class="nav-container mobile-nav" aria-label="Mobile menu">
+        <button class="menu-toggle" aria-label="Navigation menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
     </div>
-    <div class="mobile-menu-overlay"></div>
   </header>
 
-  <!-- Mobile Modal -->
-  <div class="mobile-modal-overlay"></div>
-  <div class="mobile-modal">
-    <div class="mobile-modal-header">
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay"></div>
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
       <div class="logo-brand"><a href="#top" aria-label="Home">Shukla<span>&</span>Shukla</a></div>
-      <button class="mobile-modal-close" aria-label="Close menu">×</button>
+      <button class="mobile-menu-close" aria-label="Close menu">×</button>
     </div>
-    <div class="mobile-modal-content">
+    <div class="mobile-menu-content">
       <ul class="mobile-nav-list">
         <li class="mobile-nav-item">
           <a href="#home" class="mobile-nav-link">Home</a>
