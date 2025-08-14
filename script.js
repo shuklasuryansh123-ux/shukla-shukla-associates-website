@@ -23,7 +23,6 @@ class ResponsiveNavigation {
 
       let hoverTimeout;
 
-      // Desktop hover events
       dropdown.addEventListener('mouseenter', () => {
         clearTimeout(hoverTimeout);
         this.closeAllDesktopDropdowns();
@@ -36,7 +35,6 @@ class ResponsiveNavigation {
         }, 150);
       });
 
-      // Prevent submenu from closing when hovering over it
       submenu.addEventListener('mouseenter', () => {
         clearTimeout(hoverTimeout);
       });
@@ -48,14 +46,12 @@ class ResponsiveNavigation {
       });
     });
 
-    // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.desktop-nav .dropdown')) {
         this.closeAllDesktopDropdowns();
       }
     });
 
-    // Close dropdowns on escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeAllDesktopDropdowns();
@@ -71,26 +67,22 @@ class ResponsiveNavigation {
 
     if (!menuToggle || !mobileMenu) return;
 
-    // Toggle mobile menu
     menuToggle.addEventListener('click', () => {
       this.toggleMobileMenu();
     });
 
-    // Close mobile menu
     if (mobileMenuClose) {
       mobileMenuClose.addEventListener('click', () => {
         this.closeMobileMenu();
       });
     }
 
-    // Close on overlay click
     if (mobileMenuOverlay) {
       mobileMenuOverlay.addEventListener('click', () => {
         this.closeMobileMenu();
       });
     }
 
-    // Mobile dropdown functionality
     const mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
 
     mobileDropdowns.forEach(dropdown => {
@@ -100,7 +92,6 @@ class ResponsiveNavigation {
       if (!trigger || !menu) return;
 
       trigger.addEventListener('click', () => {
-        // Close other mobile dropdowns
         mobileDropdowns.forEach(otherDropdown => {
           if (otherDropdown !== dropdown) {
             const otherMenu = otherDropdown.querySelector('.mobile-dropdown-menu');
@@ -112,14 +103,12 @@ class ResponsiveNavigation {
           }
         });
 
-        // Toggle current dropdown
         const isOpen = menu.style.display === 'block';
         menu.style.display = isOpen ? 'none' : 'block';
         trigger.classList.toggle('active', !isOpen);
       });
     });
 
-    // Close mobile dropdowns when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.mobile-dropdown')) {
         mobileDropdowns.forEach(dropdown => {
@@ -135,7 +124,6 @@ class ResponsiveNavigation {
   }
 
   setupResponsiveHandling() {
-    // Handle window resize
     window.addEventListener('resize', () => {
       if (window.innerWidth > 900) {
         this.closeMobileMenu();
@@ -214,29 +202,24 @@ class UnifiedAnimationSystem {
   }
 
   setupSectionAnimations() {
-    // Create Intersection Observer for section-based animations
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // When a section becomes visible, animate ALL elements within it at once
           const section = entry.target;
           const animatedElements = section.querySelectorAll('.reveal, .fadeup, .service-card, .review-card');
 
-          // Add active class to all elements in the section simultaneously - NO DELAYS
           animatedElements.forEach(element => {
             element.classList.add('active');
           });
 
-          // Unobserve the section after animation
           sectionObserver.unobserve(section);
         }
       });
     }, {
-      threshold: 0.3, // Even earlier trigger - 30% visibility
+      threshold: 0.3,
       rootMargin: '0px 0px -100px 0px'
     });
 
-    // Observe all sections that contain animated elements
     const sections = document.querySelectorAll('section');
     sections.forEach(section => {
       if (section.querySelector('.reveal, .fadeup, .service-card, .review-card')) {
@@ -246,7 +229,6 @@ class UnifiedAnimationSystem {
   }
 
   setupHeroAnimations() {
-    // Hero section animations
     const heroTitle = document.querySelector('.hero-title .fadeup');
     const heroSubtext = document.querySelector('.hero-subtext');
     const heroButton = document.querySelector('.hero-section .btn-primary');
@@ -269,13 +251,11 @@ class UnifiedAnimationSystem {
     const footer = document.querySelector('.footer');
 
     if (loader) {
-      // Hide loader after page loads
       window.addEventListener('load', () => {
         setTimeout(() => {
           loader.style.opacity = '0';
           setTimeout(() => {
             loader.style.display = 'none';
-            // Show main content
             if (main) main.style.opacity = '1';
             if (header) header.style.opacity = '1';
             if (footer) footer.style.opacity = '1';
@@ -297,7 +277,6 @@ function setupContactForm() {
     const formData = new FormData(contactForm);
     const formStatus = document.getElementById('formStatus');
 
-    // Basic validation
     const name = formData.get('name') || document.getElementById('name')?.value;
     const email = formData.get('email') || document.getElementById('email')?.value;
     const phone = formData.get('phone') || document.getElementById('phone')?.value;
@@ -309,7 +288,6 @@ function setupContactForm() {
       return;
     }
 
-    // Submit form
     formStatus.textContent = "Sending...";
     formStatus.className = "sending";
 
@@ -375,7 +353,6 @@ function setupThemeToggle() {
   const themeToggle = document.getElementById('themeToggle');
   if (!themeToggle) return;
 
-  // Check for saved theme preference
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
@@ -389,17 +366,112 @@ function setupThemeToggle() {
   });
 }
 
+// ===== CONTENT LOADING =====
+function loadContentFromServer() {
+  fetch('/api/content')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      updateContent(data);
+    })
+    .catch(error => {
+      console.error('Error loading content:', error);
+    });
+}
+
+function updateContent(data) {
+  // Update About section
+  if (data.aboutContent) {
+    const aboutSection = document.querySelector('#about .about-bloc');
+    if (aboutSection) {
+      const paragraphs = data.aboutContent.split('\n\n');
+      aboutSection.innerHTML = '<h2>About the Firm</h2>';
+
+      paragraphs.forEach(paragraph => {
+        if (paragraph.trim() !== '') {
+          const p = document.createElement('p');
+          p.textContent = paragraph;
+          aboutSection.appendChild(p);
+        }
+      });
+
+      // Add list items
+      const listItems = [
+        data.aboutList1 || 'Decades of courtroom success & legislative experience',
+        data.aboutList2 || 'Uncompromising confidentiality & personalized advocacy',
+        data.aboutList3 || 'Clients across India, from start-ups to families'
+      ];
+
+      const ul = document.createElement('ul');
+      ul.className = 'about-list';
+      listItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+      aboutSection.appendChild(ul);
+    }
+  }
+
+  // Update Founders section
+  if (data.suryanshBio || data.divyanshBio) {
+    const foundersSection = document.querySelector('.founders-section');
+    if (foundersSection) {
+      foundersSection.innerHTML = '<div class="container"><h2>Founders</h2></div>';
+      const container = foundersSection.querySelector('.container');
+
+      if (data.suryanshBio) {
+        const founderDiv = document.createElement('div');
+        founderDiv.className = 'founder';
+        founderDiv.innerHTML = `
+          <div class="founder-photo">
+            <img src="${data.suryanshPhoto || ''}" alt="Advocate Suryansh Shukla" />
+          </div>
+          <div class="founder-info">
+            <h3>Advocate Suryansh Shukla</h3>
+            <p class="founder-bio">${data.suryanshBio}</p>
+          </div>
+        `;
+        container.appendChild(founderDiv);
+      }
+
+      if (data.divyanshBio) {
+        const founderDiv = document.createElement('div');
+        founderDiv.className = 'founder';
+        founderDiv.innerHTML = `
+          <div class="founder-photo">
+            <img src="${data.divyanshPhoto || ''}" alt="Advocate Divyansh Shukla" />
+          </div>
+          <div class="founder-info">
+            <h3>Advocate Divyansh Shukla</h3>
+            <p class="founder-bio">${data.divyanshBio}</p>
+          </div>
+        `;
+        container.appendChild(founderDiv);
+      }
+    }
+  }
+
+  // Update logo
+  if (data.aboutLogo) {
+    const logoElement = document.querySelector('#about .about-visual img');
+    if (logoElement) {
+      logoElement.src = data.aboutLogo;
+    }
+  }
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🚀 Initializing Shukla & Shukla Associates website...');
-
-  // Initialize all systems
   new ResponsiveNavigation();
   new UnifiedAnimationSystem();
+  loadContentFromServer();
   setupContactForm();
   setupFAQ();
   setupSmoothScrolling();
   setupThemeToggle();
-
-  console.log('✅ Website initialized successfully!');
 });

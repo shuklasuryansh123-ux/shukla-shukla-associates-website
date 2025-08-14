@@ -122,7 +122,7 @@ body {
   color: var(--accent);
 }
 
-/* Desktop Navigation */
+/* Desktop Navigation - Always visible on desktop */
 .desktop-nav {
   display: flex;
   align-items: center;
@@ -135,15 +135,6 @@ body {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-/* Mobile Navigation - Hidden by default */
-.mobile-nav {
-  display: none;
-}
-
-.menu-toggle {
-  display: none;
 }
 
 .desktop-nav .nav-link {
@@ -222,7 +213,7 @@ body {
   color: var(--accent);
 }
 
-/* Mobile Navigation */
+/* Mobile Navigation - Hidden by default */
 .mobile-nav {
   display: none;
 }
