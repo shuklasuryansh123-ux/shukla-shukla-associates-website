@@ -513,16 +513,35 @@ class MainSiteNavigation {
 
       if (!trigger || !submenu) return;
 
-      // Desktop hover events
+      let hoverTimeout;
+
+      // Desktop hover events with improved timing
       dropdown.addEventListener('mouseenter', () => {
+        clearTimeout(hoverTimeout);
         if (window.innerWidth > 900) {
+          this.closeAllDropdowns();
           this.openDropdown(dropdown);
         }
       });
 
       dropdown.addEventListener('mouseleave', () => {
         if (window.innerWidth > 900) {
-          this.closeDropdown(dropdown);
+          hoverTimeout = setTimeout(() => {
+            this.closeDropdown(dropdown);
+          }, 150); // Small delay to prevent accidental closing
+        }
+      });
+
+      // Prevent submenu from closing when hovering over it
+      submenu.addEventListener('mouseenter', () => {
+        clearTimeout(hoverTimeout);
+      });
+
+      submenu.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 900) {
+          hoverTimeout = setTimeout(() => {
+            this.closeDropdown(dropdown);
+          }, 150);
         }
       });
 
@@ -552,6 +571,13 @@ class MainSiteNavigation {
         dropdowns.forEach(dropdown => this.closeDropdown(dropdown));
       }
     });
+
+    // Close dropdowns on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(dropdown => this.closeDropdown(dropdown));
+      }
+    });
   }
 
   openDropdown(dropdown) {
@@ -560,6 +586,12 @@ class MainSiteNavigation {
 
   closeDropdown(dropdown) {
     dropdown.classList.remove('open');
+  }
+
+  closeAllDropdowns() {
+    this.nav.querySelectorAll('.dropdown.open').forEach(dropdown => {
+      dropdown.classList.remove('open');
+    });
   }
 
   toggleDropdown(dropdown) {
@@ -829,31 +861,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Section reveals (enhanced)
+  // Section reveals (enhanced) - Fixed to trigger earlier
   if (!prefersReduced) {
     gsap.utils.toArray(".reveal").forEach(el => {
       gsap.fromTo(el, { opacity: 0, y: 30, filter: "blur(6px)" }, {
         opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9,
         ease: "power2.out",
-        scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
+        scrollTrigger: { trigger: el, start: "top 70%", toggleActions: "play none none none" }
       });
     });
   }
 
-  // Stagger in service and review cards (enhanced)
+  // Stagger in service and review cards (enhanced) - Fixed to trigger earlier
   if (!prefersReduced) {
     gsap.utils.toArray(".service-card").forEach((card, i) => {
       gsap.fromTo(card, { opacity: 0, y: 24, scale: 0.96, filter: "blur(4px)" }, {
         opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.8, delay: i * 0.03,
         ease: "power3.out",
-        scrollTrigger: { trigger: card, start: "top 90%", toggleActions: "play none none none" }
+        scrollTrigger: { trigger: card, start: "top 75%", toggleActions: "play none none none" }
       });
     });
     gsap.utils.toArray(".review-card").forEach((card, i) => {
       gsap.fromTo(card, { opacity: 0, y: 20, scale: 0.98, filter: "blur(4px)" }, {
         opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.85, delay: i * 0.02,
         ease: "power3.out",
-        scrollTrigger: { trigger: card, start: "top 92%", toggleActions: "play none none none" }
+        scrollTrigger: { trigger: card, start: "top 80%", toggleActions: "play none none none" }
       });
     });
   }
@@ -907,6 +939,25 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-expanded', String(!expanded));
       // The visibility of faq-answer is now controlled by CSS based on aria-expanded
     });
+  });
+
+  // Enhanced reveal animation observer for better performance
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        // Unobserve after animation to improve performance
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1, // Trigger when 10% of element is visible
+    rootMargin: '0px 0px -50px 0px' // Trigger 50px before element enters viewport
+  });
+
+  // Observe all reveal elements
+  document.querySelectorAll('.reveal, .fadeup, .service-card, .review-card').forEach(el => {
+    revealObserver.observe(el);
   });
 
   // Testimonials Slider
@@ -1108,6 +1159,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Navigation system is now handled by MainSiteNavigation class above
 
+  // Enhanced mobile dropdown functionality
+  document.querySelectorAll('.mobile-dropdown-trigger').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const dropdown = trigger.closest('.mobile-dropdown');
+      const menu = dropdown.querySelector('.mobile-dropdown-menu');
+
+      // Close other dropdowns
+      document.querySelectorAll('.mobile-dropdown-menu').forEach(otherMenu => {
+        if (otherMenu !== menu) {
+          otherMenu.style.display = 'none';
+        }
+      });
+
+      // Remove active class from other triggers
+      document.querySelectorAll('.mobile-dropdown-trigger').forEach(otherTrigger => {
+        if (otherTrigger !== trigger) {
+          otherTrigger.classList.remove('active');
+        }
+      });
+
+      // Toggle current dropdown
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+        trigger.classList.remove('active');
+      } else {
+        menu.style.display = 'block';
+        trigger.classList.add('active');
+      }
+    });
+  });
+
   // Close dropdowns when clicking outside
   document.addEventListener('click', (e) => {
     const clickedElement = e.target;
@@ -1119,6 +1204,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close all dropdowns and mobile menu
     dropdowns.forEach(dropdown => dropdown.classList.remove('open'));
+
+    // Close mobile dropdowns
+    document.querySelectorAll('.mobile-dropdown-menu').forEach(menu => {
+      menu.style.display = 'none';
+    });
+
+    // Remove active classes from mobile dropdown triggers
+    document.querySelectorAll('.mobile-dropdown-trigger').forEach(trigger => {
+      trigger.classList.remove('active');
+    });
 
     if (navList) {
       navList.classList.remove('show');

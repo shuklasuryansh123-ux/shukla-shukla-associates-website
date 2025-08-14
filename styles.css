@@ -1320,11 +1320,11 @@ main,
   }
 }
 
-/* Enhanced, slower animations for better client retention */
+/* Enhanced, faster animations for better user experience */
 .reveal {
   opacity: 0;
-  transform: translateY(60px);
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reveal.active {
@@ -1334,8 +1334,8 @@ main,
 
 .fadeup {
   opacity: 0;
-  transform: translateY(80px);
-  transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(60px);
+  transition: all 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .fadeup.active {
@@ -2888,10 +2888,11 @@ ol li {
   min-width: 240px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1001;
   padding: 0.75rem 0;
   backdrop-filter: blur(20px);
+  pointer-events: none;
 }
 
 .main-site-nav .dropdown .submenu::before {
@@ -2912,6 +2913,7 @@ ol li {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
 .main-site-nav .dropdown .submenu li {
@@ -3255,6 +3257,89 @@ body.menu-open {
   background: #2d2d2d;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced Mobile Dropdown Styles */
+.mobile-dropdown {
+  position: relative;
+  margin: 0.5rem 0;
+}
+
+.mobile-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  color: var(--slate);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  cursor: pointer;
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.mobile-dropdown-trigger::after {
+  content: '▼';
+  font-size: 0.8rem;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--accent);
+}
+
+.mobile-dropdown-trigger.active::after {
+  transform: rotate(180deg);
+}
+
+.mobile-dropdown-menu {
+  display: none;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.mobile-dropdown-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobile-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-dropdown-link {
+  display: block;
+  padding: 1rem 2rem;
+  color: var(--slate);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.mobile-dropdown-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(135deg, var(--accent), #3b82f6);
+  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-dropdown-link:hover {
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--accent);
+  padding-left: 2.5rem;
+}
+
+.mobile-dropdown-link:hover::before {
+  height: 100%;
 }
 
 /* Mobile Modal System - Completely Separate from Desktop */
