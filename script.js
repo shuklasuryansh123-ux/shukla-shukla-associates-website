@@ -232,6 +232,8 @@ class UnifiedAnimationSystem {
     const heroTitle = document.querySelector('.hero-title .fadeup');
     const heroSubtext = document.querySelector('.hero-subtext');
     const heroButton = document.querySelector('.hero-section .btn-primary');
+    const heroHighlights = document.querySelector('.hero-highlights');
+    const heroQuote = document.querySelector('.hero-quote');
 
     if (heroTitle) {
       setTimeout(() => heroTitle.classList.add('active'), 100);
@@ -241,6 +243,12 @@ class UnifiedAnimationSystem {
     }
     if (heroButton) {
       setTimeout(() => heroButton.classList.add('active'), 500);
+    }
+    if (heroHighlights) {
+      setTimeout(() => heroHighlights.classList.add('active'), 700);
+    }
+    if (heroQuote) {
+      setTimeout(() => heroQuote.classList.add('active'), 900);
     }
   }
 
@@ -465,11 +473,137 @@ function updateContent(data) {
   }
 }
 
+// ===== REVIEWS SYSTEM =====
+function loadReviews() {
+  const reviewsData = [
+    {
+      name: "Rajesh Kumar",
+      rating: 5,
+      text: "Exceptional legal expertise. Shukla & Shukla Associates handled my corporate case with utmost professionalism and achieved excellent results."
+    },
+    {
+      name: "Priya Sharma",
+      rating: 5,
+      text: "The team's dedication to client success is remarkable. They provided clear guidance throughout my family law proceedings."
+    },
+    {
+      name: "Amit Patel",
+      rating: 5,
+      text: "Outstanding criminal defense representation. Their strategic approach and courtroom skills are truly impressive."
+    },
+    {
+      name: "Meera Singh",
+      rating: 5,
+      text: "Professional, responsive, and results-driven. I highly recommend their real estate law services."
+    },
+    {
+      name: "Vikram Malhotra",
+      rating: 5,
+      text: "The firm's expertise in labor law helped resolve my employment dispute efficiently and fairly."
+    },
+    {
+      name: "Anjali Desai",
+      rating: 5,
+      text: "Comprehensive legal solutions with personalized attention. Their trademark and IPR services are top-notch."
+    }
+  ];
+
+  const leftTrack = document.querySelector('.reviews-track-left');
+  const rightTrack = document.querySelector('.reviews-track-right');
+
+  if (leftTrack) {
+    reviewsData.forEach(review => {
+      const reviewCard = createReviewCard(review);
+      leftTrack.appendChild(reviewCard.cloneNode(true));
+    });
+  }
+
+  if (rightTrack) {
+    reviewsData.forEach(review => {
+      const reviewCard = createReviewCard(review);
+      rightTrack.appendChild(reviewCard.cloneNode(true));
+    });
+  }
+}
+
+function createReviewCard(review) {
+  const card = document.createElement('div');
+  card.className = 'review-card';
+  card.innerHTML = `
+    <div style="margin-bottom: 1rem;">
+      ${'⭐'.repeat(review.rating)}
+    </div>
+    <p style="margin-bottom: 1rem; font-style: italic;">"${review.text}"</p>
+    <strong>${review.name}</strong>
+  `;
+  return card;
+}
+
+// ===== BLOG SYSTEM =====
+function loadBlogPosts() {
+  const blogSlider = document.querySelector('.blog-slider');
+  if (!blogSlider) return;
+
+  const blogPosts = [
+    {
+      title: "Understanding Corporate Law in India",
+      excerpt: "A comprehensive guide to corporate legal frameworks and compliance requirements for businesses operating in India.",
+      date: "2024-01-15"
+    },
+    {
+      title: "Family Law: Recent Developments",
+      excerpt: "Key updates in family law legislation and their implications for divorce, custody, and inheritance cases.",
+      date: "2024-01-10"
+    },
+    {
+      title: "Real Estate Law: Protecting Your Investment",
+      excerpt: "Essential legal considerations for property transactions and how to safeguard your real estate investments.",
+      date: "2024-01-05"
+    }
+  ];
+
+  blogPosts.forEach(post => {
+    const blogCard = document.createElement('div');
+    blogCard.className = 'service-card';
+    blogCard.innerHTML = `
+      <h3>${post.title}</h3>
+      <p>${post.excerpt}</p>
+      <small style="color: var(--slate);">${new Date(post.date).toLocaleDateString()}</small>
+    `;
+    blogSlider.appendChild(blogCard);
+  });
+}
+
+// ===== GALLERY SYSTEM =====
+function loadGalleryImages() {
+  const galleryStrip = document.querySelector('.gallery-strip');
+  if (!galleryStrip) return;
+
+  const galleryImages = [
+    { src: '/api/content/gallery1', alt: 'Courtroom proceedings' },
+    { src: '/api/content/gallery2', alt: 'Legal consultation' },
+    { src: '/api/content/gallery3', alt: 'Team meeting' },
+    { src: '/api/content/gallery4', alt: 'Award ceremony' }
+  ];
+
+  galleryImages.forEach(image => {
+    const imgContainer = document.createElement('div');
+    imgContainer.style.cssText = 'aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--surface); display: flex; align-items: center; justify-content: center;';
+    imgContainer.innerHTML = `
+      <div style="width: 100%; height: 100%; background: linear-gradient(135deg, var(--accent), var(--primary)); opacity: 0.1;"></div>
+    `;
+    galleryStrip.appendChild(imgContainer);
+  });
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
   new ResponsiveNavigation();
   new UnifiedAnimationSystem();
   loadContentFromServer();
+  loadReviews();
+  loadBlogPosts();
+  loadGalleryImages();
   setupContactForm();
   setupFAQ();
   setupSmoothScrolling();
