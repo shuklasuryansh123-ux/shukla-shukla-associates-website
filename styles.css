@@ -97,6 +97,18 @@ body {
   opacity: 0;
 }
 
+@media (max-width: 900px) {
+  .main-site-nav {
+    display: none !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .main-site-nav {
+    display: block !important;
+  }
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;
@@ -252,6 +264,12 @@ body {
   display: none;
 }
 
+@media (max-width: 900px) {
+  .mobile-menu-overlay {
+    display: block;
+  }
+}
+
 .mobile-menu-overlay.show {
   opacity: 1;
   visibility: visible;
@@ -271,6 +289,18 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .mobile-menu {
+    display: flex;
+  }
+}
+
+@media (min-width: 901px) {
+  .mobile-menu {
+    display: none !important;
+  }
 }
 
 .mobile-menu.active {
@@ -778,6 +808,38 @@ section .review-card {
 .footer-social i {
   font-size: 1.4rem;
   line-height: 1;
+  /* Fallback: show emoji if Boxicons fails to load */
+  font-family: 'Boxicons', 'Arial', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+
+.footer-social .bxl-whatsapp:before {
+  content: '\1F4F1';
+  /* 📱 */
+  font-family: inherit;
+}
+
+.footer-social .bxl-instagram:before {
+  content: '\1F4F7';
+  /* 📷 */
+  font-family: inherit;
+}
+
+.footer-social .bxl-linkedin:before {
+  content: '\1F465';
+  /* 👥 */
+  font-family: inherit;
+}
+
+.footer-social .bxl-google:before {
+  content: '\1F310';
+  /* 🌐 */
+  font-family: inherit;
+}
+
+.footer-social .bxl-gmail:before {
+  content: '\2709';
+  /* ✉️ */
+  font-family: inherit;
 }
 
 .footer-bottom {
