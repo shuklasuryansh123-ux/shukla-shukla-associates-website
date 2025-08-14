@@ -1,147 +1,91 @@
-// ===== COMPLETELY REWRITTEN WEBSITE SYSTEM =====
-
-// ===== RESPONSIVE NAVIGATION SYSTEM =====
-class ResponsiveNavigation {
+// ===== MAIN APPLICATION =====
+class App {
   constructor() {
     this.init();
   }
 
   init() {
-    this.setupDesktopNavigation();
-    this.setupMobileNavigation();
-    this.setupResponsiveHandling();
+    this.setupLoader();
+    this.setupNavigation();
+    this.setupScrollAnimations();
+    this.setupFAQ();
+    this.setupContactForm();
+    this.loadContent();
   }
 
-  setupDesktopNavigation() {
-    const desktopDropdowns = document.querySelectorAll('.desktop-nav .dropdown');
+  setupNavigation() {
+    const navLinks = document.querySelectorAll('[data-nav-link]');
 
-    desktopDropdowns.forEach(dropdown => {
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Handle dropdown menus
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
       const trigger = dropdown.querySelector('.nav-trigger');
       const submenu = dropdown.querySelector('.submenu');
 
-      if (!trigger || !submenu) return;
-
-      let hoverTimeout;
-
-      dropdown.addEventListener('mouseenter', () => {
-        clearTimeout(hoverTimeout);
-        this.closeAllDesktopDropdowns();
-        this.openDesktopDropdown(dropdown);
-      });
-
-      dropdown.addEventListener('mouseleave', () => {
-        hoverTimeout = setTimeout(() => {
-          this.closeDesktopDropdown(dropdown);
-        }, 150);
-      });
-
-      submenu.addEventListener('mouseenter', () => {
-        clearTimeout(hoverTimeout);
-      });
-
-      submenu.addEventListener('mouseleave', () => {
-        hoverTimeout = setTimeout(() => {
-          this.closeDesktopDropdown(dropdown);
-        }, 150);
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.desktop-nav .dropdown')) {
-        this.closeAllDesktopDropdowns();
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.closeAllDesktopDropdowns();
+      if (trigger && submenu) {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          dropdown.classList.toggle('open');
+        });
       }
     });
   }
 
-  setupMobileNavigation() {
-    // Mobile navigation is completely disabled - only desktop navigation is used
-    // This ensures consistent layout across all devices
-    return;
-  }
+  setupScrollAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-  setupResponsiveHandling() {
-    // No responsive handling needed since we use desktop navigation on all devices
-    return;
-  }
-
-  openDesktopDropdown(dropdown) {
-    dropdown.classList.add('open');
-  }
-
-  closeDesktopDropdown(dropdown) {
-    dropdown.classList.remove('open');
-  }
-
-  closeAllDesktopDropdowns() {
-    document.querySelectorAll('.desktop-nav .dropdown.open').forEach(dropdown => {
-      this.closeDesktopDropdown(dropdown);
-    });
-  }
-}
-
-// ===== UNIFIED ANIMATION SYSTEM =====
-class UnifiedAnimationSystem {
-  constructor() {
-    this.init();
-  }
-
-  init() {
-    this.setupSectionAnimations();
-    this.setupHeroAnimations();
-    this.setupLoader();
-  }
-
-  setupSectionAnimations() {
-    const sectionObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const section = entry.target;
-          const animatedElements = section.querySelectorAll('.reveal, .fadeup, .service-card, .review-card');
-
-          animatedElements.forEach(element => {
-            element.classList.add('active');
-          });
-
-          sectionObserver.unobserve(section);
+          entry.target.classList.add('active');
         }
       });
-    }, {
-      threshold: 0.3,
-      rootMargin: '0px 0px -100px 0px'
-    });
+    }, observerOptions);
 
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-      if (section.querySelector('.reveal, .fadeup, .service-card, .review-card')) {
-        sectionObserver.observe(section);
-      }
-    });
+    // Observe all elements with reveal or fadeup classes
+    const animatedElements = document.querySelectorAll('.reveal, .fadeup');
+    animatedElements.forEach(el => observer.observe(el));
   }
 
-  setupHeroAnimations() {
-    const heroTitle = document.querySelector('.hero-title .fadeup');
-    const heroSubtext = document.querySelector('.hero-subtext');
-    const heroButton = document.querySelector('.hero-section .btn-primary');
-    const heroQuote = document.querySelector('.hero-quote');
+  setupFAQ() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
 
-    if (heroTitle) {
-      setTimeout(() => heroTitle.classList.add('active'), 100);
-    }
-    if (heroSubtext) {
-      setTimeout(() => heroSubtext.classList.add('active'), 300);
-    }
-    if (heroButton) {
-      setTimeout(() => heroButton.classList.add('active'), 500);
-    }
-    if (heroQuote) {
-      setTimeout(() => heroQuote.classList.add('active'), 700);
-    }
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+        // Close all other answers
+        faqQuestions.forEach(q => {
+          q.setAttribute('aria-expanded', 'false');
+          q.nextElementSibling.classList.remove('active');
+        });
+
+        // Toggle current answer
+        if (!isExpanded) {
+          question.setAttribute('aria-expanded', 'true');
+          answer.classList.add('active');
+        }
+      });
+    });
   }
 
   setupLoader() {
@@ -161,6 +105,129 @@ class UnifiedAnimationSystem {
             if (footer) footer.style.opacity = '1';
           }, 500);
         }, 1000);
+      });
+    }
+  }
+
+  async loadContent() {
+    try {
+      // Load firm logo
+      const firmLogoResponse = await fetch('/api/content/firmLogo');
+      if (firmLogoResponse.ok) {
+        const firmLogoImage = document.getElementById('firmLogoImage');
+        if (firmLogoImage) {
+          firmLogoImage.src = '/api/content/firmLogo';
+        }
+      }
+
+      // Load founder photos
+      const suryanshPhotoResponse = await fetch('/api/content/suryanshPhoto');
+      if (suryanshPhotoResponse.ok) {
+        const suryanshPhotoImage = document.getElementById('suryanshPhotoImage');
+        if (suryanshPhotoImage) {
+          suryanshPhotoImage.src = '/api/content/suryanshPhoto';
+        }
+      }
+
+      const divyanshPhotoResponse = await fetch('/api/content/divyanshPhoto');
+      if (divyanshPhotoResponse.ok) {
+        const divyanshPhotoImage = document.getElementById('divyanshPhotoImage');
+        if (divyanshPhotoImage) {
+          divyanshPhotoImage.src = '/api/content/divyanshPhoto';
+        }
+      }
+
+      // Load reviews
+      const reviewsResponse = await fetch('/api/reviews');
+      if (reviewsResponse.ok) {
+        const reviews = await reviewsResponse.json();
+        this.populateReviews(reviews);
+      }
+
+      // Load blog posts
+      const blogResponse = await fetch('/api/blogs');
+      if (blogResponse.ok) {
+        const blogs = await blogResponse.json();
+        this.populateBlogs(blogs);
+      }
+
+      // Load gallery images
+      const galleryResponse = await fetch('/api/gallery');
+      if (galleryResponse.ok) {
+        const gallery = await galleryResponse.json();
+        this.populateGallery(gallery);
+      }
+
+    } catch (error) {
+      console.error('Error loading content:', error);
+    }
+  }
+
+  populateReviews(reviews) {
+    const leftTrack = document.querySelector('.reviews-track-left');
+    const rightTrack = document.querySelector('.reviews-track-right');
+
+    if (leftTrack && rightTrack) {
+      // Clear existing content
+      leftTrack.innerHTML = '';
+      rightTrack.innerHTML = '';
+
+      // Add reviews to both tracks for seamless scrolling
+      reviews.forEach(review => {
+        const reviewCard = this.createReviewCard(review);
+        leftTrack.appendChild(reviewCard.cloneNode(true));
+        rightTrack.appendChild(reviewCard.cloneNode(true));
+      });
+    }
+  }
+
+  createReviewCard(review) {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <h4>${review.name}</h4>
+      <p>${review.comment}</p>
+    `;
+    return card;
+  }
+
+  populateBlogs(blogs) {
+    const blogSlider = document.querySelector('.blog-slider');
+    if (blogSlider) {
+      blogSlider.innerHTML = '';
+
+      blogs.slice(0, 3).forEach(blog => {
+        const blogCard = this.createBlogCard(blog);
+        blogSlider.appendChild(blogCard);
+      });
+    }
+  }
+
+  createBlogCard(blog) {
+    const card = document.createElement('div');
+    card.className = 'blog-card';
+    card.innerHTML = `
+      <h3>${blog.title}</h3>
+      <p>${blog.excerpt}</p>
+      <a href="/blogs.html#${blog.id}" class="btn-primary">Read More</a>
+    `;
+    return card;
+  }
+
+  populateGallery(gallery) {
+    const galleryStrip = document.querySelector('.gallery-strip');
+    if (galleryStrip) {
+      galleryStrip.innerHTML = '';
+
+      gallery.slice(0, 6).forEach(image => {
+        const imageElement = document.createElement('img');
+        imageElement.src = `/api/gallery/${image.id}`;
+        imageElement.alt = image.caption || 'Gallery image';
+        imageElement.style.width = '100%';
+        imageElement.style.height = '200px';
+        imageElement.style.objectFit = 'cover';
+        imageElement.style.borderRadius = '4px';
+        galleryStrip.appendChild(imageElement);
       });
     }
   }
@@ -222,282 +289,8 @@ function setupContactForm() {
   });
 }
 
-// ===== FAQ SYSTEM =====
-function setupFAQ() {
-  document.querySelectorAll('.faq-question').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-    });
-  });
-}
-
-// ===== SMOOTH SCROLLING =====
-function setupSmoothScrolling() {
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (href.length > 1 && document.querySelector(href)) {
-        e.preventDefault();
-        document.querySelector(href).scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-}
-
-// ===== THEME TOGGLE =====
-function setupThemeToggle() {
-  const themeToggle = document.getElementById('themeToggle');
-  if (!themeToggle) return;
-
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    themeToggle.setAttribute('aria-pressed', savedTheme === 'dark');
-  }
-
-  themeToggle.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.toggle('dark');
-    themeToggle.setAttribute('aria-pressed', isDark);
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
-}
-
-// ===== CONTENT LOADING =====
-function loadContentFromServer() {
-  fetch('/api/content')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      updateContent(data);
-    })
-    .catch(error => {
-      console.error('Error loading content:', error);
-    });
-}
-
-function updateContent(data) {
-  // Update About section
-  if (data.aboutContent) {
-    const aboutSection = document.querySelector('#about .about-bloc');
-    if (aboutSection) {
-      const paragraphs = data.aboutContent.split('\n\n');
-      aboutSection.innerHTML = '<h2>About the Firm</h2>';
-
-      paragraphs.forEach(paragraph => {
-        if (paragraph.trim() !== '') {
-          const p = document.createElement('p');
-          p.textContent = paragraph;
-          aboutSection.appendChild(p);
-        }
-      });
-
-      // Add list items
-      const listItems = [
-        data.aboutList1 || 'Decades of courtroom success & legislative experience',
-        data.aboutList2 || 'Uncompromising confidentiality & personalized advocacy',
-        data.aboutList3 || 'Clients across India, from start-ups to families'
-      ];
-
-      const ul = document.createElement('ul');
-      ul.className = 'about-list';
-      listItems.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        ul.appendChild(li);
-      });
-      aboutSection.appendChild(ul);
-    }
-  }
-
-  // Update Founders section
-  if (data.suryanshBio || data.divyanshBio) {
-    const foundersSection = document.querySelector('.founders-section');
-    if (foundersSection) {
-      foundersSection.innerHTML = '<div class="container"><h2>Founders</h2></div>';
-      const container = foundersSection.querySelector('.container');
-
-      if (data.suryanshBio) {
-        const founderDiv = document.createElement('div');
-        founderDiv.className = 'founder';
-        founderDiv.innerHTML = `
-          <div class="founder-photo">
-            <img src="${data.suryanshPhoto || ''}" alt="Advocate Suryansh Shukla" />
-          </div>
-          <div class="founder-info">
-            <h3>Advocate Suryansh Shukla</h3>
-            <p class="founder-bio">${data.suryanshBio}</p>
-          </div>
-        `;
-        container.appendChild(founderDiv);
-      }
-
-      if (data.divyanshBio) {
-        const founderDiv = document.createElement('div');
-        founderDiv.className = 'founder';
-        founderDiv.innerHTML = `
-          <div class="founder-photo">
-            <img src="${data.divyanshPhoto || ''}" alt="Advocate Divyansh Shukla" />
-          </div>
-          <div class="founder-info">
-            <h3>Advocate Divyansh Shukla</h3>
-            <p class="founder-bio">${data.divyanshBio}</p>
-          </div>
-        `;
-        container.appendChild(founderDiv);
-      }
-    }
-  }
-
-  // Update logo
-  if (data.aboutLogo) {
-    const logoElement = document.querySelector('#about .about-visual img');
-    if (logoElement) {
-      logoElement.src = data.aboutLogo;
-    }
-  }
-}
-
-// ===== REVIEWS SYSTEM =====
-function loadReviews() {
-  const reviewsData = [
-    {
-      name: "Rajesh Kumar",
-      rating: 5,
-      text: "Exceptional legal expertise. Shukla & Shukla Associates handled my corporate case with utmost professionalism and achieved excellent results."
-    },
-    {
-      name: "Priya Sharma",
-      rating: 5,
-      text: "The team's dedication to client success is remarkable. They provided clear guidance throughout my family law proceedings."
-    },
-    {
-      name: "Amit Patel",
-      rating: 5,
-      text: "Outstanding criminal defense representation. Their strategic approach and courtroom skills are truly impressive."
-    },
-    {
-      name: "Meera Singh",
-      rating: 5,
-      text: "Professional, responsive, and results-driven. I highly recommend their real estate law services."
-    },
-    {
-      name: "Vikram Malhotra",
-      rating: 5,
-      text: "The firm's expertise in labor law helped resolve my employment dispute efficiently and fairly."
-    },
-    {
-      name: "Anjali Desai",
-      rating: 5,
-      text: "Comprehensive legal solutions with personalized attention. Their trademark and IPR services are top-notch."
-    }
-  ];
-
-  const leftTrack = document.querySelector('.reviews-track-left');
-  const rightTrack = document.querySelector('.reviews-track-right');
-
-  if (leftTrack) {
-    reviewsData.forEach(review => {
-      const reviewCard = createReviewCard(review);
-      leftTrack.appendChild(reviewCard.cloneNode(true));
-    });
-  }
-
-  if (rightTrack) {
-    reviewsData.forEach(review => {
-      const reviewCard = createReviewCard(review);
-      rightTrack.appendChild(reviewCard.cloneNode(true));
-    });
-  }
-}
-
-function createReviewCard(review) {
-  const card = document.createElement('div');
-  card.className = 'review-card';
-  card.innerHTML = `
-    <div style="margin-bottom: 1rem;">
-      ${'⭐'.repeat(review.rating)}
-    </div>
-    <p style="margin-bottom: 1rem; font-style: italic;">"${review.text}"</p>
-    <strong>${review.name}</strong>
-  `;
-  return card;
-}
-
-// ===== BLOG SYSTEM =====
-function loadBlogPosts() {
-  const blogSlider = document.querySelector('.blog-slider');
-  if (!blogSlider) return;
-
-  const blogPosts = [
-    {
-      title: "Understanding Corporate Law in India",
-      excerpt: "A comprehensive guide to corporate legal frameworks and compliance requirements for businesses operating in India.",
-      date: "2024-01-15"
-    },
-    {
-      title: "Family Law: Recent Developments",
-      excerpt: "Key updates in family law legislation and their implications for divorce, custody, and inheritance cases.",
-      date: "2024-01-10"
-    },
-    {
-      title: "Real Estate Law: Protecting Your Investment",
-      excerpt: "Essential legal considerations for property transactions and how to safeguard your real estate investments.",
-      date: "2024-01-05"
-    }
-  ];
-
-  blogPosts.forEach(post => {
-    const blogCard = document.createElement('div');
-    blogCard.className = 'service-card';
-    blogCard.innerHTML = `
-      <h3>${post.title}</h3>
-      <p>${post.excerpt}</p>
-      <small style="color: var(--slate);">${new Date(post.date).toLocaleDateString()}</small>
-    `;
-    blogSlider.appendChild(blogCard);
-  });
-}
-
-// ===== GALLERY SYSTEM =====
-function loadGalleryImages() {
-  const galleryStrip = document.querySelector('.gallery-strip');
-  if (!galleryStrip) return;
-
-  const galleryImages = [
-    { src: '/api/content/gallery1', alt: 'Courtroom proceedings' },
-    { src: '/api/content/gallery2', alt: 'Legal consultation' },
-    { src: '/api/content/gallery3', alt: 'Team meeting' },
-    { src: '/api/content/gallery4', alt: 'Award ceremony' }
-  ];
-
-  galleryImages.forEach(image => {
-    const imgContainer = document.createElement('div');
-    imgContainer.style.cssText = 'aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--surface); display: flex; align-items: center; justify-content: center;';
-    imgContainer.innerHTML = `
-      <div style="width: 100%; height: 100%; background: linear-gradient(135deg, var(--accent), var(--primary)); opacity: 0.1;"></div>
-    `;
-    galleryStrip.appendChild(imgContainer);
-  });
-}
-
-// ===== INITIALIZATION =====
+// ===== INITIALIZE APP =====
 document.addEventListener('DOMContentLoaded', () => {
-  new ResponsiveNavigation();
-  new UnifiedAnimationSystem();
-  loadContentFromServer();
-  loadReviews();
-  loadBlogPosts();
-  loadGalleryImages();
+  new App();
   setupContactForm();
-  setupFAQ();
-  setupSmoothScrolling();
-  setupThemeToggle();
 });
