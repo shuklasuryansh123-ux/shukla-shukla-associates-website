@@ -128,7 +128,6 @@ class UnifiedAnimationSystem {
     const heroTitle = document.querySelector('.hero-title .fadeup');
     const heroSubtext = document.querySelector('.hero-subtext');
     const heroButton = document.querySelector('.hero-section .btn-primary');
-    const heroHighlights = document.querySelector('.hero-highlights');
     const heroQuote = document.querySelector('.hero-quote');
 
     if (heroTitle) {
@@ -140,11 +139,8 @@ class UnifiedAnimationSystem {
     if (heroButton) {
       setTimeout(() => heroButton.classList.add('active'), 500);
     }
-    if (heroHighlights) {
-      setTimeout(() => heroHighlights.classList.add('active'), 700);
-    }
     if (heroQuote) {
-      setTimeout(() => heroQuote.classList.add('active'), 900);
+      setTimeout(() => heroQuote.classList.add('active'), 700);
     }
   }
 

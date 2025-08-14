@@ -15,7 +15,6 @@
 .hero-content,
 .hero-title,
 .hero-subtext,
-.hero-highlights,
 .hero-quote,
 .reveal,
 .fadeup,
@@ -491,36 +490,7 @@ main {
   transform: translateY(0);
 }
 
-/* Hero Highlights */
-.hero-highlights {
-  list-style: none;
-  margin: 2rem 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease 0.4s;
-  visibility: visible !important;
-}
 
-.hero-highlights.active {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
-.hero-highlights li {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--white) !important;
-}
 
 /* Hero Quote */
 .hero-quote {
@@ -1264,19 +1234,7 @@ section .review-card {
     font-size: 1rem;
   }
 
-  .hero-highlights {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
 
-  .hero-highlights li {
-    width: auto;
-    max-width: none;
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
-  }
 
   section {
     padding: 4rem 0;
